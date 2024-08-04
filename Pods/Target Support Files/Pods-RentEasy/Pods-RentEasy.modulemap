@@ -1,0 +1,6 @@
+framework module Pods_RentEasy {
+  umbrella header "Pods-RentEasy-umbrella.h"
+
+  export *
+  module * { export * }
+}

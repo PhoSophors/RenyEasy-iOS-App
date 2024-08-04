@@ -1,0 +1,530 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187A86A02C5E3A2E00F70783 /* AppDelegate.swift */; };
+		187A86A32C5E3A2E00F70783 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187A86A22C5E3A2E00F70783 /* SceneDelegate.swift */; };
+		187A86AA2C5E3A2F00F70783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 187A86A92C5E3A2F00F70783 /* Assets.xcassets */; };
+		187A86AD2C5E3A2F00F70783 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 187A86AC2C5E3A2F00F70783 /* Base */; };
+		1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECCF2C5F3FFC003861CA /* MainViewController.swift */; };
+		1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECD52C5F4285003861CA /* HomeViewController.swift */; };
+		1883ECD82C5F429D003861CA /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECD72C5F429D003861CA /* FavoriteViewController.swift */; };
+		1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECD92C5F42DC003861CA /* SearchViewController.swift */; };
+		1883ECDC2C5F43AD003861CA /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECDB2C5F43AD003861CA /* PostViewController.swift */; };
+		1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECDD2C5F458F003861CA /* ProfileViewController.swift */; };
+		18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */; };
+		9D7A9A03C34309A70BBDA80F /* Pods_RentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08284246E98B35D864311D00 /* Pods-RentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.release.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.release.xcconfig"; sourceTree = "<group>"; };
+		187A869D2C5E3A2E00F70783 /* RentEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RentEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		187A86A02C5E3A2E00F70783 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		187A86A22C5E3A2E00F70783 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		187A86A92C5E3A2F00F70783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		187A86AC2C5E3A2F00F70783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		187A86AE2C5E3A2F00F70783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1883ECCF2C5F3FFC003861CA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		1883ECD52C5F4285003861CA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1883ECD72C5F429D003861CA /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		1883ECD92C5F42DC003861CA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		1883ECDB2C5F43AD003861CA /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		1883ECDD2C5F458F003861CA /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessageViewController.swift; sourceTree = "<group>"; };
+		44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5094FD38A93697830F6FC64 /* Pods-RentEasy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.debug.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		187A869A2C5E3A2E00F70783 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D7A9A03C34309A70BBDA80F /* Pods_RentEasy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		187A86942C5E3A2E00F70783 = {
+			isa = PBXGroup;
+			children = (
+				187A869F2C5E3A2E00F70783 /* RentEasy */,
+				187A869E2C5E3A2E00F70783 /* Products */,
+				B95C1F86AD8D1431E2BA0568 /* Pods */,
+				DCDFCAA93A3421DC8B4264C2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		187A869E2C5E3A2E00F70783 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				187A869D2C5E3A2E00F70783 /* RentEasy.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		187A869F2C5E3A2E00F70783 /* RentEasy */ = {
+			isa = PBXGroup;
+			children = (
+				18886E152C5E475A00182182 /* Networking */,
+				18886E132C5E473C00182182 /* Extentions */,
+				18886E112C5E416100182182 /* ViewModel */,
+				18886E102C5E415900182182 /* Virew */,
+				18886E0F2C5E415200182182 /* Controllers */,
+				18886E0E2C5E414D00182182 /* Models */,
+				18886E0D2C5E413F00182182 /* Classes */,
+				18886E0C2C5E411F00182182 /* Recources */,
+				187A86A02C5E3A2E00F70783 /* AppDelegate.swift */,
+				187A86A22C5E3A2E00F70783 /* SceneDelegate.swift */,
+				187A86AE2C5E3A2F00F70783 /* Info.plist */,
+			);
+			path = RentEasy;
+			sourceTree = "<group>";
+		};
+		18886E0C2C5E411F00182182 /* Recources */ = {
+			isa = PBXGroup;
+			children = (
+				187A86A92C5E3A2F00F70783 /* Assets.xcassets */,
+			);
+			path = Recources;
+			sourceTree = "<group>";
+		};
+		18886E0D2C5E413F00182182 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		18886E0E2C5E414D00182182 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		18886E0F2C5E415200182182 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				18E34D8A2C5F6BC900158FFC /* MainMessageController */,
+				18886E122C5E417100182182 /* MainViewController */,
+				1883ECD52C5F4285003861CA /* HomeViewController.swift */,
+				1883ECD72C5F429D003861CA /* FavoriteViewController.swift */,
+				1883ECD92C5F42DC003861CA /* SearchViewController.swift */,
+				1883ECDB2C5F43AD003861CA /* PostViewController.swift */,
+				1883ECDD2C5F458F003861CA /* ProfileViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		18886E102C5E415900182182 /* Virew */ = {
+			isa = PBXGroup;
+			children = (
+				187A86AB2C5E3A2F00F70783 /* LaunchScreen.storyboard */,
+			);
+			path = Virew;
+			sourceTree = "<group>";
+		};
+		18886E112C5E416100182182 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		18886E122C5E417100182182 /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1883ECCF2C5F3FFC003861CA /* MainViewController.swift */,
+			);
+			path = MainViewController;
+			sourceTree = "<group>";
+		};
+		18886E132C5E473C00182182 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
+		18886E152C5E475A00182182 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		18E34D8A2C5F6BC900158FFC /* MainMessageController */ = {
+			isa = PBXGroup;
+			children = (
+				18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */,
+			);
+			path = MainMessageController;
+			sourceTree = "<group>";
+		};
+		B95C1F86AD8D1431E2BA0568 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F5094FD38A93697830F6FC64 /* Pods-RentEasy.debug.xcconfig */,
+				08284246E98B35D864311D00 /* Pods-RentEasy.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DCDFCAA93A3421DC8B4264C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		187A869C2C5E3A2E00F70783 /* RentEasy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 187A86B12C5E3A2F00F70783 /* Build configuration list for PBXNativeTarget "RentEasy" */;
+			buildPhases = (
+				35D8C29302CE1CE4BAB3E43A /* [CP] Check Pods Manifest.lock */,
+				187A86992C5E3A2E00F70783 /* Sources */,
+				187A869A2C5E3A2E00F70783 /* Frameworks */,
+				187A869B2C5E3A2E00F70783 /* Resources */,
+				7C0DA26F6FD7C4ED4956F9DE /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RentEasy;
+			productName = RentEasy;
+			productReference = 187A869D2C5E3A2E00F70783 /* RentEasy.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		187A86952C5E3A2E00F70783 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					187A869C2C5E3A2E00F70783 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = 187A86982C5E3A2E00F70783 /* Build configuration list for PBXProject "RentEasy" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 187A86942C5E3A2E00F70783;
+			productRefGroup = 187A869E2C5E3A2E00F70783 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				187A869C2C5E3A2E00F70783 /* RentEasy */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		187A869B2C5E3A2E00F70783 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				187A86AA2C5E3A2F00F70783 /* Assets.xcassets in Resources */,
+				187A86AD2C5E3A2F00F70783 /* Base in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		35D8C29302CE1CE4BAB3E43A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RentEasy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C0DA26F6FD7C4ED4956F9DE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RentEasy/Pods-RentEasy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RentEasy/Pods-RentEasy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RentEasy/Pods-RentEasy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		187A86992C5E3A2E00F70783 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
+				1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */,
+				1883ECDC2C5F43AD003861CA /* PostViewController.swift in Sources */,
+				18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */,
+				187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */,
+				187A86A32C5E3A2E00F70783 /* SceneDelegate.swift in Sources */,
+				1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */,
+				1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */,
+				1883ECD82C5F429D003861CA /* FavoriteViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		187A86AB2C5E3A2F00F70783 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				187A86AC2C5E3A2F00F70783 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		187A86AF2C5E3A2F00F70783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		187A86B02C5E3A2F00F70783 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		187A86B22C5E3A2F00F70783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5094FD38A93697830F6FC64 /* Pods-RentEasy.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RentEasy/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RentEasy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		187A86B32C5E3A2F00F70783 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 08284246E98B35D864311D00 /* Pods-RentEasy.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RentEasy/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RentEasy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		187A86982C5E3A2E00F70783 /* Build configuration list for PBXProject "RentEasy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				187A86AF2C5E3A2F00F70783 /* Debug */,
+				187A86B02C5E3A2F00F70783 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		187A86B12C5E3A2F00F70783 /* Build configuration list for PBXNativeTarget "RentEasy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				187A86B22C5E3A2F00F70783 /* Debug */,
+				187A86B32C5E3A2F00F70783 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 187A86952C5E3A2E00F70783 /* Project object */;
+}
