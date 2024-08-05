@@ -9,7 +9,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
-        let navigationController = UINavigationController(rootViewController: MainViewController())
+        let initialViewController: UIViewController
+        
+        if AuthManager.isLoggedIn() {
+            initialViewController = MainViewController()
+        } else {
+            initialViewController = LoginViewController()
+        }
+        
+        let navigationController = UINavigationController(rootViewController: initialViewController)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
