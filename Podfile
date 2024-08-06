@@ -7,5 +7,7 @@ target 'RentEasy' do
 
   # Pods for RentEasy
  pod 'SnapKit'
+pod 'SDWebImage'
+
 
 end

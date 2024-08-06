@@ -12,10 +12,12 @@ class AuthManager {
     
     static func saveToken(_ token: String) {
         UserDefaults.standard.set(token, forKey: accessTokenKey)
+        print("save accesss token: \(token)")
     }
     
     static func getToken() -> String? {
         return UserDefaults.standard.string(forKey: accessTokenKey)
+        print("Get token: \(accessTokenKey)")
     }
     
     static func isLoggedIn() -> Bool {

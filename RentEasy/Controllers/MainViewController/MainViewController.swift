@@ -1,19 +1,18 @@
 import UIKit
 import SnapKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
         setupTabBar()
-        setupNavigationBar()
     }
 
     private func setupTabBar() {
-        // Create tab bar controller
         let tabBarController = UITabBarController()
+        tabBarController.delegate = self
         tabBarController.tabBar.barTintColor = .red
         tabBarController.tabBar.unselectedItemTintColor = .black
         tabBarController.tabBar.backgroundColor = .white
@@ -24,38 +23,39 @@ class MainViewController: UIViewController {
         let homeVC = HomeViewController()
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         let homeNavVC = UINavigationController(rootViewController: homeVC)
+        homeNavVC.setNavigationBarHidden(true, animated: false) // Hide navigation bar in this navigation controller
         
         let searchVC = SearchViewController()
         searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), selectedImage: UIImage(systemName: "magnifyingglass.fill"))
         let searchNavVC = UINavigationController(rootViewController: searchVC)
+        searchNavVC.setNavigationBarHidden(true, animated: false) // Hide navigation bar in this navigation controller
         
         let postVC = PostViewController()
         postVC.tabBarItem = UITabBarItem(title: "Create", image: UIImage(systemName: "plus.app"), selectedImage: UIImage(systemName: "plus.app.fill"))
         let postNavVC = UINavigationController(rootViewController: postVC)
+        postNavVC.setNavigationBarHidden(true, animated: false) // Hide navigation bar in this navigation controller
         
         let favVC = FavoriteViewController()
         favVC.tabBarItem = UITabBarItem(title: "Likes", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
         let favNavVC = UINavigationController(rootViewController: favVC)
-
+        favNavVC.setNavigationBarHidden(true, animated: false) // Hide navigation bar in this navigation controller
+        
         let profileVC = ProfileViewController()
         profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.circle"), selectedImage: UIImage(systemName: "person.circle.fill"))
         let profileNavVC = UINavigationController(rootViewController: profileVC)
-        
-        // Assign view controllers to the tab bar controller
+        profileNavVC.setNavigationBarHidden(true, animated: false) // Hide navigation bar in this navigation controller
+
         tabBarController.viewControllers = [homeNavVC, searchNavVC, postNavVC, favNavVC, profileNavVC]
         
-        // Set tab bar controller as the child of MainViewController
         addChild(tabBarController)
         view.addSubview(tabBarController.view)
         tabBarController.didMove(toParent: self)
         
-        // Constraints for tabBarController's view using SnapKit
         tabBarController.view.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
         
-        // Customize selected tab appearance
         if #available(iOS 15.0, *) {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
@@ -76,34 +76,22 @@ class MainViewController: UIViewController {
         }
     }
 
-    private func setupNavigationBar() {
-        // Message button
-        let messageButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.message.fill"), style: .plain, target: self, action: #selector(messageButtonTapped))
-        messageButton.tintColor = .black
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
-        // User button
-        let userButton = UIBarButtonItem(image: UIImage(systemName: "person.circle.fill"), style: .plain, target: self, action: #selector(userButtonTapped))
-        userButton.tintColor = .black
+        if viewController.tabBarItem.title == "Likes" {
+            let favVC = FavoriteViewController()
+            favVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(favVC, animated: true)
+            return false
+        }
         
-        // Set left and right bar buttons
-        navigationItem.leftBarButtonItem = userButton
-        navigationItem.rightBarButtonItem = messageButton
-    }
-    @objc private func messageButtonTapped() {
-        let messageVC = MainMessageViewController()
+        if viewController.tabBarItem.title == "Profile" {
+            let profileVC = ProfileViewController()
+            profileVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(profileVC, animated: true)
+            return false
+        }
         
-        // Set the modal presentation style
-        messageVC.modalPresentationStyle = .pageSheet
-        
-        // Present the view controller
-        present(messageVC, animated: true, completion: {
-            print("Message button tapped")
-        })
-    }
-
-
-    @objc private func userButtonTapped() {
-        // Handle user button tap
-        print("User button tapped")
+        return true
     }
 }

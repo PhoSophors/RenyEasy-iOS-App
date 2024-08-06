@@ -13,6 +13,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemPink
+        
     }
 
 }

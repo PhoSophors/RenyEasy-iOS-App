@@ -28,6 +28,15 @@ class NetworkConstants {
            return "\(NetworkConstants.shared.serverAddress)/auths/register-verify"
        }
         
+        // MARK: User
+        public static var getUserInfo: String {
+            return "\(NetworkConstants.shared.serverAddress)/auths/profile"
+        }
+        public static var updateUserInfo: String {
+            return "\(NetworkConstants.shared.serverAddress)/auth/update-profile"
+        }
+        
+        
       
    }
 }

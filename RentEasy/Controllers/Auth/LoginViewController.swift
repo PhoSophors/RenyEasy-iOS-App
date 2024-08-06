@@ -53,6 +53,8 @@ class LoginViewController: UIViewController {
                             errorMessage = message
                         case .invalidCredentials(let message):
                             errorMessage = message
+                        case .unauthorized:
+                            errorMessage = "Unauthorized access. Please check your credentials and try again."
                         }
                         self.showAlert(title: "Error", message: errorMessage)
                     }
