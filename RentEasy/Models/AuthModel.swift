@@ -22,6 +22,5 @@ struct UserInfo: Codable {
     let email: String
     let bio: String
     let location: String
-    let createdAt: Date  // Change to Date type
+    let createdAt: Date
 }
-

@@ -55,6 +55,10 @@ class LoginViewController: UIViewController {
                             errorMessage = message
                         case .unauthorized:
                             errorMessage = "Unauthorized access. Please check your credentials and try again."
+                        case .forbidden:
+                            errorMessage = "Access forbidden. You don't have permission to access this resource."
+                        case .notFound:
+                            errorMessage = "Resource not found. Please check the URL or try again later."
                         }
                         self.showAlert(title: "Error", message: errorMessage)
                     }
@@ -70,9 +74,15 @@ class LoginViewController: UIViewController {
         // Save accessToken to User Defaults
         AuthManager.saveToken(token)
         
-        // navigate to main controller
+        // Create and configure the main view controller
         let mainVC = MainViewController()
-        self.navigationController?.pushViewController(mainVC, animated: true)
+        let navigationController = UINavigationController(rootViewController: mainVC)
+        
+        // Get the app's main window and set the new root view controller
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController = navigationController
+            window.makeKeyAndVisible()
+        }
     }
     
     // MARK: Login valication

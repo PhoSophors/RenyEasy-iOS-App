@@ -17,12 +17,12 @@ class ProfileViewController: UIViewController, ProfileViewDelegate {
         profileView.delegate = self
         
         // Hide the default back button
-        self.navigationItem.hidesBackButton = true
+//        self.navigationItem.hidesBackButton = true
         
         // Set up custom back button
-        let backButtonImage = UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate)
-        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(backButtonTapped))
-        self.navigationItem.leftBarButtonItem = backButton
+//        let backButtonImage = UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate)
+//        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(backButtonTapped))
+//        self.navigationItem.leftBarButtonItem = backButton
         
         // Set up settings button on the right
         let settingsImage = UIImage(systemName: "gearshape.fill")?.withRenderingMode(.alwaysTemplate)
@@ -71,7 +71,7 @@ class ProfileViewController: UIViewController, ProfileViewDelegate {
     
     // MARK: - ProfileViewDelegate
     func didTapUpdateProfile() {
-        let updateProfileVC = UpdateViewController()
+        let updateProfileVC = UpdateProfileViewController()
         navigationController?.pushViewController(updateProfileVC, animated: true)
     }
     

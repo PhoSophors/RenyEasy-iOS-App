@@ -21,8 +21,27 @@ class ProfileView: UIView {
     private let bioLabel = UILabel()
     private let locationLabel = UILabel()
     private let followersLabel = UILabel()
-    private let updateProfile = UIButton(type: .system)
-    private let shareProfile = UIButton(type: .system)
+    private let updateProfileButton = UIButton(type: .system)
+    private let shareProfileButton = UIButton(type: .system)
+    
+    private let photoIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "photo")
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .gray
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private let addCoverLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Add Your Cover"
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.isHidden = true
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,10 +54,20 @@ class ProfileView: UIView {
     }
     
     private func setupView() {
-        // Set background color
         backgroundColor = .white
         
-        // Add and configure the scroll view
+        setupScrollView()
+        setupCoverImageView()
+        setupProfileImageView()
+        setupNameLabel()
+        setupBioLabel()
+        setupLocationLabel()
+        setupFollowersLabel()
+        setupUpdateProfileButton()
+        setupShareProfileButton()
+    }
+    
+    private func setupScrollView() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         
@@ -50,8 +79,9 @@ class ProfileView: UIView {
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
         }
-        
-        // Configure and add UI elements
+    }
+    
+    private func setupCoverImageView() {
         coverImageView.contentMode = .scaleAspectFill
         coverImageView.clipsToBounds = true
         contentView.addSubview(coverImageView)
@@ -62,11 +92,27 @@ class ProfileView: UIView {
             make.height.equalTo(200)
         }
         
+        coverImageView.addSubview(photoIconImageView)
+        coverImageView.addSubview(addCoverLabel)
+        
+        photoIconImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(30)
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(50)
+        }
+        
+        addCoverLabel.snp.makeConstraints { make in
+            make.top.equalTo(photoIconImageView.snp.bottom).offset(8)
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    private func setupProfileImageView() {
         profileImageView.layer.cornerRadius = 75
         profileImageView.backgroundColor = .white
         profileImageView.clipsToBounds = true
         profileImageView.layer.borderWidth = 3
-        profileImageView.layer.borderColor = UIColor.systemIndigo.cgColor
+        profileImageView.layer.borderColor = UIColor.gray.cgColor
         contentView.addSubview(profileImageView)
         
         profileImageView.snp.makeConstraints { make in
@@ -74,7 +120,9 @@ class ProfileView: UIView {
             make.left.equalToSuperview().offset(20)
             make.width.height.equalTo(150)
         }
-        
+    }
+    
+    private func setupNameLabel() {
         nameLabel.textAlignment = .left
         nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         contentView.addSubview(nameLabel)
@@ -83,7 +131,9 @@ class ProfileView: UIView {
             make.top.equalTo(profileImageView.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(20)
         }
-        
+    }
+    
+    private func setupBioLabel() {
         bioLabel.textAlignment = .left
         bioLabel.numberOfLines = 3
         bioLabel.lineBreakMode = .byTruncatingTail
@@ -97,7 +147,9 @@ class ProfileView: UIView {
             make.trailing.equalToSuperview().offset(-20)
             make.width.equalToSuperview().multipliedBy(0.7)
         }
-        
+    }
+    
+    private func setupLocationLabel() {
         locationLabel.textAlignment = .left
         locationLabel.numberOfLines = 2
         locationLabel.lineBreakMode = .byTruncatingTail
@@ -110,7 +162,9 @@ class ProfileView: UIView {
             make.width.equalToSuperview().multipliedBy(0.7)
             make.right.equalToSuperview().offset(-20)
         }
+    }
 
+    private func setupFollowersLabel() {
         followersLabel.textAlignment = .left
         followersLabel.font = UIFont.systemFont(ofSize: 14)
         followersLabel.textColor = .blue
@@ -121,70 +175,96 @@ class ProfileView: UIView {
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
         }
+    }
+    
+    private func setupUpdateProfileButton() {
+        configureButton(updateProfileButton, title: " Edit profile", imageName: "pencil")
+        contentView.addSubview(updateProfileButton)
         
-        updateProfile.setTitle("Edit profile", for: .normal)
-        updateProfile.backgroundColor = .systemIndigo
-        updateProfile.tintColor = .white
-        updateProfile.layer.cornerRadius = 8
-        contentView.addSubview(updateProfile)
-        
-        updateProfile.snp.makeConstraints { make in
+        updateProfileButton.snp.makeConstraints { make in
             make.top.equalTo(followersLabel.snp.bottom).offset(20)
             make.left.equalToSuperview().offset(20)
             make.height.equalTo(40)
         }
         
-        updateProfile.addTarget(self, action: #selector(updateProfileTapped), for: .touchUpInside)
+        updateProfileButton.addTarget(self, action: #selector(updateProfileTapped), for: .touchUpInside)
+    }
+    
+    private func setupShareProfileButton() {
+        configureButton(shareProfileButton, title: " Share profile", imageName: "square.and.arrow.up")
+        contentView.addSubview(shareProfileButton)
         
-        shareProfile.setTitle("Share profile", for: .normal)
-        shareProfile.backgroundColor = .systemIndigo
-        shareProfile.tintColor = .white
-        shareProfile.layer.cornerRadius = 8
-        contentView.addSubview(shareProfile)
-        
-        shareProfile.snp.makeConstraints { make in
+        shareProfileButton.snp.makeConstraints { make in
             make.top.equalTo(followersLabel.snp.bottom).offset(20)
-            make.left.equalTo(updateProfile.snp.right).offset(10)
+            make.left.equalTo(updateProfileButton.snp.right).offset(10)
             make.right.equalToSuperview().offset(-20)
-            make.width.equalTo(updateProfile.snp.width)
+            make.width.equalTo(updateProfileButton.snp.width)
             make.height.equalTo(40)
             make.bottom.equalToSuperview().offset(-20)
         }
         
-        shareProfile.addTarget(self, action: #selector(shareProfileTapped), for: .touchUpInside)
+        shareProfileButton.addTarget(self, action: #selector(shareProfileTapped), for: .touchUpInside)
     }
     
-    // MARK: Update Profile with User Info
+    private func configureButton(_ button: UIButton, title: String, imageName: String) {
+        button.setTitle(title, for: .normal)
+        button.setImage(UIImage(systemName: imageName), for: .normal)
+        button.backgroundColor = .systemIndigo
+        button.tintColor = .white
+        button.layer.cornerRadius = 8
+        button.contentHorizontalAlignment = .left
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+    }
+    
+    // MARK: - Update Profile with User Info
     func updateProfile(with userInfo: UserInfo) {
-        print("User info: \(userInfo)")
-        if let profileUrl = URL(string: userInfo.profilePhoto) {
-            profileImageView.sd_setImage(with: profileUrl, placeholderImage: UIImage(systemName: "person.crop.circle.fill"))
-        } else {
-            profileImageView.image = UIImage(systemName: "person.crop.circle.fill")
-        }
-        
-        // Update cover image or background color
-       if let coverUrl = URL(string: userInfo.coverPhoto) {
-           coverImageView.sd_setImage(with: coverUrl) { [weak self] image, error, _, _ in
-               if image == nil || error != nil {
-                   // If image is nil or there was an error, set background color
-                   self?.coverImageView.backgroundColor = .systemGray6
-               } else {
-                   // If the image was successfully loaded, ensure the background color is clear
-                   self?.coverImageView.backgroundColor = .clear
-               }
-           }
-       } else {
-           coverImageView.backgroundColor = .systemGray6
-       }
+        updateProfileImage(with: userInfo.profilePhoto)
+        updateCoverImage(with: userInfo.coverPhoto)
         
         nameLabel.text = userInfo.username
         bioLabel.text = userInfo.bio
         locationLabel.text = userInfo.location
         followersLabel.text = "Followers: 322 . Posts: 20"
     }
-
-    // MARK: Navigation to update profile
+    
+    private func updateProfileImage(with urlString: String) {
+        if let profileUrl = URL(string: urlString) {
+            profileImageView.sd_setImage(with: profileUrl, placeholderImage: UIImage(systemName: "person.crop.circle.fill"))
+        } else {
+            profileImageView.image = UIImage(systemName: "person.crop.circle.fill")
+        }
+        
+        profileImageView.tintColor = .gray
+    }
+    
+    private func updateCoverImage(with urlString: String) {
+        if let coverUrl = URL(string: urlString) {
+            coverImageView.sd_setImage(with: coverUrl) { [weak self] image, error, _, _ in
+                if image == nil || error != nil {
+                    self?.showPlaceholderOnCoverImageView()
+                } else {
+                    self?.hidePlaceholderOnCoverImageView()
+                }
+            }
+        } else {
+            showPlaceholderOnCoverImageView()
+        }
+    }
+    
+    private func showPlaceholderOnCoverImageView() {
+        coverImageView.backgroundColor = .systemGray6
+        photoIconImageView.isHidden = false
+        addCoverLabel.isHidden = false
+    }
+    
+    private func hidePlaceholderOnCoverImageView() {
+        coverImageView.backgroundColor = .clear
+        photoIconImageView.isHidden = photoIconImageView.isHidden == true
+        addCoverLabel.isHidden = true
+    }
+    
+    // MARK: - Button Actions
     @objc private func updateProfileTapped() {
         delegate?.didTapUpdateProfile()
     }

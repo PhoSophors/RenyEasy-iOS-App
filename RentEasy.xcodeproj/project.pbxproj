@@ -28,9 +28,11 @@
 		1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECDD2C5F458F003861CA /* ProfileViewController.swift */; };
 		188461862C6216E200F7737B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188461852C6216E200F7737B /* SettingViewController.swift */; };
 		188461882C621AE000F7737B /* ShareProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188461872C621AE000F7737B /* ShareProfileViewController.swift */; };
+		1884618A2C62269600F7737B /* SettingViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 188461892C62269600F7737B /* SettingViewController.storyboard */; };
+		1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1884618C2C6230C100F7737B /* UpdateProfileView.swift */; };
+		188461932C6237F900F7737B /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188461902C6237F900F7737B /* UpdateProfileViewController.swift */; };
 		18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */; };
 		18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC351B2C61E6C8000E95AA /* ProfileView.swift */; };
-		18FC351F2C61F730000E95AA /* UpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC351E2C61F730000E95AA /* UpdateViewController.swift */; };
 		9D7A9A03C34309A70BBDA80F /* Pods_RentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,9 +61,11 @@
 		1883ECDD2C5F458F003861CA /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		188461852C6216E200F7737B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		188461872C621AE000F7737B /* ShareProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareProfileViewController.swift; sourceTree = "<group>"; };
+		188461892C62269600F7737B /* SettingViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingViewController.storyboard; sourceTree = "<group>"; };
+		1884618C2C6230C100F7737B /* UpdateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileView.swift; sourceTree = "<group>"; };
+		188461902C6237F900F7737B /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
 		18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessageViewController.swift; sourceTree = "<group>"; };
 		18FC351B2C61E6C8000E95AA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		18FC351E2C61F730000E95AA /* UpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewController.swift; sourceTree = "<group>"; };
 		44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5094FD38A93697830F6FC64 /* Pods-RentEasy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.debug.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,6 +127,15 @@
 			path = RentEasy;
 			sourceTree = "<group>";
 		};
+		1884618B2C62269D00F7737B /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				188461852C6216E200F7737B /* SettingViewController.swift */,
+				188461892C62269600F7737B /* SettingViewController.storyboard */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
 		18886E0C2C5E411F00182182 /* Recources */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +162,7 @@
 		18886E0F2C5E415200182182 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1884618B2C62269D00F7737B /* Setting */,
 				18FC351D2C61F702000E95AA /* ProfileViewController */,
 				18E34D8D2C5F71C800158FFC /* Auth */,
 				18E34D8A2C5F6BC900158FFC /* MainMessageController */,
@@ -157,7 +171,6 @@
 				1883ECD72C5F429D003861CA /* FavoriteViewController.swift */,
 				1883ECD92C5F42DC003861CA /* SearchViewController.swift */,
 				1883ECDB2C5F43AD003861CA /* PostViewController.swift */,
-				188461852C6216E200F7737B /* SettingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -167,6 +180,7 @@
 			children = (
 				187A86AB2C5E3A2F00F70783 /* LaunchScreen.storyboard */,
 				18FC351B2C61E6C8000E95AA /* ProfileView.swift */,
+				1884618C2C6230C100F7737B /* UpdateProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -226,8 +240,8 @@
 			isa = PBXGroup;
 			children = (
 				1883ECDD2C5F458F003861CA /* ProfileViewController.swift */,
-				18FC351E2C61F730000E95AA /* UpdateViewController.swift */,
 				188461872C621AE000F7737B /* ShareProfileViewController.swift */,
+				188461902C6237F900F7737B /* UpdateProfileViewController.swift */,
 			);
 			path = ProfileViewController;
 			sourceTree = "<group>";
@@ -311,6 +325,7 @@
 			files = (
 				187A86AA2C5E3A2F00F70783 /* Assets.xcassets in Resources */,
 				187A86AD2C5E3A2F00F70783 /* Base in Resources */,
+				1884618A2C62269600F7737B /* SettingViewController.storyboard in Resources */,
 				1878D46D2C5F9245006B1FF9 /* LoginViewController.xib in Resources */,
 				188092782C5FA3BA00A72B80 /* RegisterViewController.xib in Resources */,
 			);
@@ -370,6 +385,8 @@
 				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
 				188092772C5FA3BA00A72B80 /* RegisterViewController.swift in Sources */,
 				182643B02C607BC20061D422 /* APICaller.swift in Sources */,
+				188461932C6237F900F7737B /* UpdateProfileViewController.swift in Sources */,
+				1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */,
 				1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */,
 				1883ECDC2C5F43AD003861CA /* PostViewController.swift in Sources */,
 				18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */,
@@ -377,7 +394,6 @@
 				1880927A2C5FA55F00A72B80 /* UIView+Extensions.swift in Sources */,
 				18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */,
 				18031BC92C612C1000B21678 /* AuthManager.swift in Sources */,
-				18FC351F2C61F730000E95AA /* UpdateViewController.swift in Sources */,
 				187A86A32C5E3A2E00F70783 /* SceneDelegate.swift in Sources */,
 				1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */,
 				1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */,
