@@ -7,13 +7,34 @@
 
 import Foundation
 
-// MARK: Login Model
+// MARK: - Login Model
 struct LoginModel: Codable {
     let email: String
     let password: String
 }
 
-// MARK: User repsone
+// MARK: - Register
+struct RegisterModel: Codable {
+    let username: String
+    let email: String
+    let password: String
+    let confirmPassword: String
+}
+
+// MARK: Verify Register OTP
+struct VerifyRegisterOTP: Codable {
+    let email: String
+    let otp: String
+}
+
+// MARK: Verify Register OTP Response
+struct VerifyRegisterOTPResponse: Codable {
+    let message: String
+    let token: String
+}
+
+
+// MARK: - User Response
 struct UserInfo: Codable {
     let _id: String
     let coverPhoto: String

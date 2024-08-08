@@ -35,8 +35,6 @@ class NetworkConstants {
         public static var updateUserInfo: String {
             return "\(NetworkConstants.shared.serverAddress)/auth/update-profile"
         }
-        
-        
       
    }
 }

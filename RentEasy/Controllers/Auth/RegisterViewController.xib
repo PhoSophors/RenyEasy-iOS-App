@@ -121,6 +121,9 @@
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" title="Register"/>
+                                            <connections>
+                                                <action selector="registerButtonTapped:" destination="-1" eventType="touchUpInside" id="Dxa-IU-PJt"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Have an account? Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSp-wh-bqC">
                                             <rect key="frame" x="20" y="611" width="353" height="21"/>
@@ -173,7 +176,7 @@
                             </constraints>
                         </scrollView>
                     </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.70216783940397354" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="yJM-qX-dY9" firstAttribute="top" secondItem="Q7x-qo-no0" secondAttribute="top" id="6aM-b2-MSY"/>
                         <constraint firstItem="yJM-qX-dY9" firstAttribute="leading" secondItem="Q7x-qo-no0" secondAttribute="leading" id="8kg-PU-YM7"/>

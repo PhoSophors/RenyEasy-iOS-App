@@ -20,7 +20,7 @@ class SettingViewController: UIViewController {
         
         self.title = "Setting"
         
-//        setupLogoutButton()
+        setupLogoutButton()
     }
     
     private func setupLogoutButton() {

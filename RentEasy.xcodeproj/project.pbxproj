@@ -31,6 +31,9 @@
 		1884618A2C62269600F7737B /* SettingViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 188461892C62269600F7737B /* SettingViewController.storyboard */; };
 		1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1884618C2C6230C100F7737B /* UpdateProfileView.swift */; };
 		188461932C6237F900F7737B /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188461902C6237F900F7737B /* UpdateProfileViewController.swift */; };
+		18C3D1472C64BB5400FA2A0E /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */; };
+		18C3D1482C64BB5400FA2A0E /* OTPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */; };
+		18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C980DA2C64D04E001AA8A7 /* Helper.swift */; };
 		18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */; };
 		18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC351B2C61E6C8000E95AA /* ProfileView.swift */; };
 		9D7A9A03C34309A70BBDA80F /* Pods_RentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */; };
@@ -64,6 +67,9 @@
 		188461892C62269600F7737B /* SettingViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingViewController.storyboard; sourceTree = "<group>"; };
 		1884618C2C6230C100F7737B /* UpdateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileView.swift; sourceTree = "<group>"; };
 		188461902C6237F900F7737B /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
+		18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
+		18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPViewController.xib; sourceTree = "<group>"; };
+		18C980DA2C64D04E001AA8A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessageViewController.swift; sourceTree = "<group>"; };
 		18FC351B2C61E6C8000E95AA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				18031BC82C612C1000B21678 /* AuthManager.swift */,
+				18C980DA2C64D04E001AA8A7 /* Helper.swift */,
 			);
 			path = utilize;
 			sourceTree = "<group>";
@@ -232,6 +239,8 @@
 				1878D46B2C5F9245006B1FF9 /* LoginViewController.xib */,
 				188092752C5FA3BA00A72B80 /* RegisterViewController.swift */,
 				188092762C5FA3BA00A72B80 /* RegisterViewController.xib */,
+				18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */,
+				18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -323,6 +332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18C3D1482C64BB5400FA2A0E /* OTPViewController.xib in Resources */,
 				187A86AA2C5E3A2F00F70783 /* Assets.xcassets in Resources */,
 				187A86AD2C5E3A2F00F70783 /* Base in Resources */,
 				1884618A2C62269600F7737B /* SettingViewController.storyboard in Resources */,
@@ -398,7 +408,9 @@
 				1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */,
 				1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */,
 				1878D46C2C5F9245006B1FF9 /* LoginViewController.swift in Sources */,
+				18C3D1472C64BB5400FA2A0E /* OTPViewController.swift in Sources */,
 				188461862C6216E200F7737B /* SettingViewController.swift in Sources */,
+				18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */,
 				1883ECD82C5F429D003861CA /* FavoriteViewController.swift in Sources */,
 				182643B42C607C5A0061D422 /* AuthModel.swift in Sources */,
 			);
