@@ -146,7 +146,70 @@ public class APICaller {
             completion(.failure(.canNotParseData))
         }
     }
+    
+    // MARK: - Request New Password
+    static func requestNewPassword(email: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        let requestNewPasswordModel = RequestNewPasswordModel(email: email)
+        
+        do {
+            let jsonData = try JSONEncoder().encode(requestNewPasswordModel)
+            makeRequest(urlString: NetworkConstants.Endpoints.forgotPassword, method: "POST", body: jsonData) { result in
+                switch result {
+                case .success:
+                    completion(.success("Password reset request successful"))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } catch {
+            completion(.failure(.canNotParseData))
+        }
+    }
+        
+    // MARK: - Verify Reset Password OTP
+    static func verifyResetPasswordOTP(email: String, otp: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        let verifyNewPasswordOTPModel = VerifyNewPasswordOTPModel(email: email, otp: otp)
+        
+        do {
+            let jsonData = try JSONEncoder().encode(verifyNewPasswordOTPModel)
+            makeRequest(urlString: NetworkConstants.Endpoints.verifyResetPasswordOTP, method: "POST", body: jsonData) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let response = try JSONDecoder().decode(VerifyNewPasswordOTPResponse.self, from: data)
+                        completion(.success(response.message))
+                    } catch {
+                        completion(.failure(.canNotParseData))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } catch {
+            completion(.failure(.canNotParseData))
+        }
+    }
+    
+    // MARK: - Set New Password
+    static func setNewPassword(email: String, newPassword: String, confirmPassword: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        let newPasswordModel = NewPasswordModel(email: email, password: newPassword, confirmPassword: confirmPassword)
+        
+        do {
+            let jsonData = try JSONEncoder().encode(newPasswordModel)
+            makeRequest(urlString: NetworkConstants.Endpoints.setNewPassword, method: "POST", body: jsonData) { result in
+                switch result {
+                case .success:
+                    completion(.success("Password has been successfully reset"))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } catch {
+            completion(.failure(.canNotParseData))
+        }
+    }
 
+    
     // MARK: - Get user info
     static func getUserInfo(completion: @escaping (Result<UserInfo, NetworkError>) -> Void) {
         makeRequest(urlString: NetworkConstants.Endpoints.getUserInfo, method: "GET") { result in

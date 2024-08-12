@@ -8,9 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		18031BC92C612C1000B21678 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18031BC82C612C1000B21678 /* AuthManager.swift */; };
+		181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181680DC2C6507240066B751 /* ForgotPasswordViewController.swift */; };
 		182643B02C607BC20061D422 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643AF2C607BC20061D422 /* APICaller.swift */; };
 		182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B12C607BDB0061D422 /* NetworkConstants.swift */; };
 		182643B42C607C5A0061D422 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B32C607C5A0061D422 /* AuthModel.swift */; };
+		18560C7F2C65FE98008791AB /* ForgotPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */; };
+		18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */; };
+		18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560C822C660C73008791AB /* SetNewPasswordViewController.swift */; };
 		1878D46C2C5F9245006B1FF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1878D46A2C5F9245006B1FF9 /* LoginViewController.swift */; };
 		1878D46D2C5F9245006B1FF9 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1878D46B2C5F9245006B1FF9 /* LoginViewController.xib */; };
 		187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187A86A02C5E3A2E00F70783 /* AppDelegate.swift */; };
@@ -42,9 +46,13 @@
 /* Begin PBXFileReference section */
 		08284246E98B35D864311D00 /* Pods-RentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.release.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.release.xcconfig"; sourceTree = "<group>"; };
 		18031BC82C612C1000B21678 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		181680DC2C6507240066B751 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		182643AF2C607BC20061D422 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		182643B12C607BDB0061D422 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		182643B32C607C5A0061D422 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
+		18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ForgotPassword.storyboard; sourceTree = "<group>"; };
+		18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyForgotPasswordOTPViewController.swift; sourceTree = "<group>"; };
+		18560C822C660C73008791AB /* SetNewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNewPasswordViewController.swift; sourceTree = "<group>"; };
 		1878D46A2C5F9245006B1FF9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1878D46B2C5F9245006B1FF9 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		187A869D2C5E3A2E00F70783 /* RentEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RentEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +103,17 @@
 				18C980DA2C64D04E001AA8A7 /* Helper.swift */,
 			);
 			path = utilize;
+			sourceTree = "<group>";
+		};
+		181680DB2C6507000066B751 /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				181680DC2C6507240066B751 /* ForgotPasswordViewController.swift */,
+				18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */,
+				18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */,
+				18560C822C660C73008791AB /* SetNewPasswordViewController.swift */,
+			);
+			path = ForgotPassword;
 			sourceTree = "<group>";
 		};
 		187A86942C5E3A2E00F70783 = {
@@ -235,6 +254,7 @@
 		18E34D8D2C5F71C800158FFC /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				181680DB2C6507000066B751 /* ForgotPassword */,
 				1878D46A2C5F9245006B1FF9 /* LoginViewController.swift */,
 				1878D46B2C5F9245006B1FF9 /* LoginViewController.xib */,
 				188092752C5FA3BA00A72B80 /* RegisterViewController.swift */,
@@ -337,6 +357,7 @@
 				187A86AD2C5E3A2F00F70783 /* Base in Resources */,
 				1884618A2C62269600F7737B /* SettingViewController.storyboard in Resources */,
 				1878D46D2C5F9245006B1FF9 /* LoginViewController.xib in Resources */,
+				18560C7F2C65FE98008791AB /* ForgotPassword.storyboard in Resources */,
 				188092782C5FA3BA00A72B80 /* RegisterViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,9 +416,12 @@
 				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
 				188092772C5FA3BA00A72B80 /* RegisterViewController.swift in Sources */,
 				182643B02C607BC20061D422 /* APICaller.swift in Sources */,
+				18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */,
 				188461932C6237F900F7737B /* UpdateProfileViewController.swift in Sources */,
 				1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */,
 				1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */,
+				18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */,
+				181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */,
 				1883ECDC2C5F43AD003861CA /* PostViewController.swift in Sources */,
 				18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */,
 				187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */,

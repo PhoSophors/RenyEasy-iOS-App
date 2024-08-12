@@ -8,7 +8,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var registerLabel: UILabel!
-    
+    @IBOutlet weak var forgotPasswordLabel: UILabel!
     private var isPasswordVisible = false
     
     override func viewDidLoad() {
@@ -26,6 +26,10 @@ class LoginViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(navigateToRegister))
         registerLabel.isUserInteractionEnabled = true
         registerLabel.addGestureRecognizer(tapGesture)
+        
+        let tabOnForgotPasswrod = UITapGestureRecognizer(target: self, action: #selector(navigaionToForgotPassword))
+        forgotPasswordLabel.isUserInteractionEnabled = true
+        forgotPasswordLabel.addGestureRecognizer(tabOnForgotPasswrod)
         
         addEyeIconToPasswordTextField()
     }
@@ -67,7 +71,6 @@ class LoginViewController: UIViewController {
         }
     }
 
-    
     func handleLoginSuccess(token: String) {
         print("Login successful, token: \(token)")
         
@@ -122,6 +125,27 @@ class LoginViewController: UIViewController {
         let registerVC = RegisterViewController(nibName: "RegisterViewController", bundle: nil)
         registerVC.modalPresentationStyle = .fullScreen // or .overFullScreen for a different effect
         self.present(registerVC, animated: true, completion: nil)
+    }
+    
+    // MARK: Navigation label to forgot password screen
+//    @objc func navigaionToForgotPassword() {
+//        let forgotPasswordVC = ForgotPasswordViewController()
+////        forgotPasswordVC.modalPresentationStyle = .fullScreen
+//        self.present(forgotPasswordVC, animated: true, completion: nil)
+//        
+//        print("Forgot password label tapped..!")
+//    }
+
+    @objc func navigaionToForgotPassword() {
+        let storyboard = UIStoryboard(name: "ForgotPassword", bundle: nil)
+        if let forgotPasswordVC = storyboard.instantiateViewController(withIdentifier: "ForgotPasswordViewController") as? ForgotPasswordViewController {
+//            forgotPasswordVC.modalPresentationStyle = .fullScreen
+            self.present(forgotPasswordVC, animated: true, completion: nil)
+            
+            print("Forgot password label tapped..!")
+        } else {
+            print("ForgotPasswordViewController not found in storyboard")
+        }
     }
     
     // MARK: Hidden text for password

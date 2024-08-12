@@ -33,6 +33,28 @@ struct VerifyRegisterOTPResponse: Codable {
     let token: String
 }
 
+// MARK: - Forgot password
+struct RequestNewPasswordModel: Codable {
+    let email: String
+}
+
+// MARK: Verify Reset Password OTP
+struct VerifyNewPasswordOTPModel: Codable {
+    let email: String
+    let otp: String
+}
+
+// MARK: Verify New Password OTP Response
+struct VerifyNewPasswordOTPResponse: Decodable {
+    let message: String
+}
+
+// MARK: Reset New Password
+struct NewPasswordModel: Codable {
+    var email: String
+    var password: String
+    var confirmPassword: String
+}
 
 // MARK: - User Response
 struct UserInfo: Codable {

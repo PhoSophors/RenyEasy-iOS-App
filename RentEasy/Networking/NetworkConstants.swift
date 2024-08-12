@@ -17,7 +17,7 @@ class NetworkConstants {
     }
     
     class Endpoints {
-        // MARK: Auth Endpoint
+        // MARK: - Auth Endpoint
        public static var login: String {
            return "\(NetworkConstants.shared.serverAddress)/auths/login"
        }
@@ -27,6 +27,16 @@ class NetworkConstants {
        public static var registerVerifyOTP: String {
            return "\(NetworkConstants.shared.serverAddress)/auths/register-verify"
        }
+        public static var forgotPassword: String {
+            return "\(NetworkConstants.shared.serverAddress)/auths/request-reset-password"
+        }
+        public static var verifyResetPasswordOTP: String {
+            return "\(NetworkConstants.shared.serverAddress)/auths/verify-reset-password-otp"
+        }
+        public static var setNewPassword: String {
+            return "\(NetworkConstants.shared.serverAddress)/auths/set-new-password"
+        }
+        
         
         // MARK: User
         public static var getUserInfo: String {

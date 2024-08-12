@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="backgroundView" destination="ofE-zg-RpH" id="PC6-tZ-XpI"/>
                 <outlet property="emailTextField" destination="nJd-L7-1eS" id="qvD-m2-h46"/>
+                <outlet property="forgotPasswordLabel" destination="5Bl-uc-rqS" id="hot-Tr-vEo"/>
                 <outlet property="loginBtn" destination="tWV-79-Jkz" id="0ng-Wf-Fkf"/>
                 <outlet property="passwordTextField" destination="Un3-4X-ocr" id="dsJ-Hc-yBK"/>
                 <outlet property="registerLabel" destination="tGH-Oh-z94" id="15b-93-UfG"/>

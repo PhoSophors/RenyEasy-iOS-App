@@ -53,7 +53,7 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         button.backgroundColor = .systemIndigo
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
+        button.addTarget(ProfileUpdateView.self, action: #selector(didTapSaveButton), for: .touchUpInside)
         return button
     }()
     
