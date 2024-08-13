@@ -66,4 +66,11 @@ struct UserInfo: Codable {
     let bio: String
     let location: String
     let createdAt: Date
+    
+    // Update
+    let roles: String
+    let posts: [String]
+    let favorites: [String]
+    let messages: [String]
+    let messagedUsers: [String]
 }

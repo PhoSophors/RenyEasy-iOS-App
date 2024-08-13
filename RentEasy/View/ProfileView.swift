@@ -225,7 +225,7 @@ class ProfileView: UIView {
         nameLabel.text = userInfo.username
         bioLabel.text = userInfo.bio
         locationLabel.text = userInfo.location
-        followersLabel.text = "Followers: 322 . Posts: 20"
+        followersLabel.text = "Followers: 322 • Posts: 2"
     }
     
     private func updateProfileImage(with urlString: String) {

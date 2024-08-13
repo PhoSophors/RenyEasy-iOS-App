@@ -22,7 +22,6 @@ struct UpdateProfile: Codable {
 public class APICaller {
     
     // MARK: - Helper Methods
-    
     private static func makeRequest(urlString: String, method: String, body: Data? = nil, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url = URL(string: urlString) else {
             completion(.failure(.urlError))
@@ -39,23 +38,31 @@ public class APICaller {
         
         request.httpBody = body
         
+        print("Making request to: \(urlString)")
+        print("Method: \(method)")
+        print("Headers: \(request.allHTTPHeaderFields ?? [:])")
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
+                print("Network request failed with error: \(error.localizedDescription)")
                 completion(.failure(.canNotParseData))
-                print("Error: \(error.localizedDescription)")
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
+                print("Invalid response received")
                 completion(.failure(.canNotParseData))
                 return
             }
+            
+            print("HTTP Status Code: \(httpResponse.statusCode)")
             
             switch httpResponse.statusCode {
             case 200...299:
                 if let data = data {
                     completion(.success(data))
                 } else {
+                    print("No data received")
                     completion(.failure(.canNotParseData))
                 }
             case 400:
@@ -69,6 +76,7 @@ public class APICaller {
             default:
                 let errorMessage = "Error with status code: \(httpResponse.statusCode)"
                 let serverMessage = (data != nil) ? String(data: data!, encoding: .utf8) ?? "No additional info" : "No additional info"
+                print("Error: \(errorMessage) - \(serverMessage)")
                 completion(.failure(.serverError("\(errorMessage): \(serverMessage)")))
             }
         }
@@ -209,6 +217,11 @@ public class APICaller {
         }
     }
 
+    /**
+     *
+     * User data
+     * ============================================================================================
+     */
     
     // MARK: - Get user info
     static func getUserInfo(completion: @escaping (Result<UserInfo, NetworkError>) -> Void) {
@@ -250,4 +263,57 @@ public class APICaller {
             completion(.failure(.canNotParseData))
         }
     }
+    
+    /**
+     *
+     * Favorites data
+     * ============================================================================================
+     */
+    // MARK: - Fetch User Favorites
+    static func fetchUserFavorites(completion: @escaping (Result<[Favorite], NetworkError>) -> Void) {
+        makeRequest(urlString: NetworkConstants.Endpoints.fetchUserFavorites, method: "GET") { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let response = try JSONDecoder().decode(FavoriteResponse.self, from: data)
+                    completion(.success(response.data.favorites))
+                } catch {
+                    completion(.failure(.canNotParseData))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    // MARK: - Remove favorite
+    static func removeFavorites(favoriteId: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        // Update the URL to include the favoriteId
+        let urlString = "\(NetworkConstants.Endpoints.removeFavorites)/\(favoriteId)"
+        print("Request URL: \(urlString)") // Log the request URL for debugging
+        
+        makeRequest(urlString: urlString, method: "POST") { result in
+            switch result {
+            case .success(let data):
+                do {
+                    if let responseDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let message = responseDict["message"] as? String {
+                        print("Success response: \(message)") // Log the success message
+                        completion(.success(message))
+                    } else {
+                        let errorMsg = "Response data could not be parsed or message not found"
+                        print("Error: \(errorMsg)") // Log the error message
+                        completion(.failure(.canNotParseData))
+                    }
+                } catch {
+                    print("Error: JSONSerialization failed with error: \(error.localizedDescription)")
+                    completion(.failure(.canNotParseData))
+                }
+            case .failure(let error):
+                print("Network request failed with error: \(error.localizedDescription)") 
+                completion(.failure(error))
+            }
+        }
+    }
+    
 }

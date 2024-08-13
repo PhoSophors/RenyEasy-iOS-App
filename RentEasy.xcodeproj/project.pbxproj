@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		18031BC92C612C1000B21678 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18031BC82C612C1000B21678 /* AuthManager.swift */; };
 		181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181680DC2C6507240066B751 /* ForgotPasswordViewController.swift */; };
+		181D2DB22C6B3B8800916C18 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181D2DB12C6B3B8800916C18 /* FavoriteViewModel.swift */; };
 		182643B02C607BC20061D422 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643AF2C607BC20061D422 /* APICaller.swift */; };
 		182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B12C607BDB0061D422 /* NetworkConstants.swift */; };
 		182643B42C607C5A0061D422 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B32C607C5A0061D422 /* AuthModel.swift */; };
@@ -28,6 +29,8 @@
 		1881F8482C6B14FD0008E86B /* ProfileUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F8472C6B14FD0008E86B /* ProfileUpdateViewController.swift */; };
 		1881F84B2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F84A2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift */; };
 		1881F84D2C6B2BFF0008E86B /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F84C2C6B2BFF0008E86B /* FavoriteModel.swift */; };
+		1881F84F2C6B320F0008E86B /* HomeColeectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F84E2C6B320F0008E86B /* HomeColeectionViewCell.swift */; };
+		1881F8512C6B336E0008E86B /* HomeCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F8502C6B336D0008E86B /* HomeCategoryCollectionViewCell.swift */; };
 		1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECCF2C5F3FFC003861CA /* MainViewController.swift */; };
 		1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECD52C5F4285003861CA /* HomeViewController.swift */; };
 		1883ECD82C5F429D003861CA /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECD72C5F429D003861CA /* FavoriteViewController.swift */; };
@@ -49,6 +52,7 @@
 		08284246E98B35D864311D00 /* Pods-RentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.release.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.release.xcconfig"; sourceTree = "<group>"; };
 		18031BC82C612C1000B21678 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		181680DC2C6507240066B751 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		181D2DB12C6B3B8800916C18 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
 		182643AF2C607BC20061D422 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		182643B12C607BDB0061D422 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		182643B32C607C5A0061D422 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 		1881F8472C6B14FD0008E86B /* ProfileUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUpdateViewController.swift; sourceTree = "<group>"; };
 		1881F84A2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		1881F84C2C6B2BFF0008E86B /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
+		1881F84E2C6B320F0008E86B /* HomeColeectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeColeectionViewCell.swift; sourceTree = "<group>"; };
+		1881F8502C6B336D0008E86B /* HomeCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		1883ECCF2C5F3FFC003861CA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		1883ECD52C5F4285003861CA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1883ECD72C5F429D003861CA /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				1881F8452C6B0DBB0008E86B /* ProfileViewModel.swift */,
+				181D2DB12C6B3B8800916C18 /* FavoriteViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -168,6 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				1881F84A2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift */,
+				1881F84E2C6B320F0008E86B /* HomeColeectionViewCell.swift */,
+				1881F8502C6B336D0008E86B /* HomeCategoryCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -426,9 +435,11 @@
 				18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */,
 				1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */,
 				1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */,
+				1881F84F2C6B320F0008E86B /* HomeColeectionViewCell.swift in Sources */,
 				18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */,
 				181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */,
 				1883ECDC2C5F43AD003861CA /* PostViewController.swift in Sources */,
+				1881F8512C6B336E0008E86B /* HomeCategoryCollectionViewCell.swift in Sources */,
 				1881F8482C6B14FD0008E86B /* ProfileUpdateViewController.swift in Sources */,
 				18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */,
 				187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */,
@@ -444,6 +455,7 @@
 				188461862C6216E200F7737B /* SettingViewController.swift in Sources */,
 				18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */,
 				1883ECD82C5F429D003861CA /* FavoriteViewController.swift in Sources */,
+				181D2DB22C6B3B8800916C18 /* FavoriteViewModel.swift in Sources */,
 				182643B42C607C5A0061D422 /* AuthModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

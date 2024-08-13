@@ -22,7 +22,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "FavoriteCollectionViewCell"
     
-    private let imageView: UIImageView = {
+    let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 5
@@ -30,41 +30,41 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .bold)
         label.numberOfLines = 1
         return label
     }()
     
-    private let locationLabel: UILabel = {
+    let locationLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 11, weight: .regular)
         label.numberOfLines = 1
         return label
     }()
     
-    private let bedroomsAndbathroomsLabel: UILabel = {
+    let bedroomsAndbathroomsLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
         return label
     }()
     
-    private let propertyTypeLabel: UILabel = {
+    let propertyTypeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
         return label
     }()
     
-    private let priceLabel: UILabel = {
+    let priceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .bold)
         return label
     }()
     
-    private let heartIcon: UIButton = {
+    let heartIcon: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         return button
     }()
     
@@ -116,12 +116,14 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         moreIcon.frame = CGRect(x: contentView.frame.size.width - iconSize - rightPadding, y: contentView.frame.size.height - iconSize - 10, width: iconSize, height: iconSize)
     }
     
-    public func configure(with model: Property) {
-        imageView.image = UIImage(named: model.imageName)
-        titleLabel.text = model.title
-        locationLabel.text = model.location
-        bedroomsAndbathroomsLabel.text = "Bedrooms: \(model.bedrooms) • Bathrooms: \(model.bathrooms)"
-        propertyTypeLabel.text = model.propertyType
-        priceLabel.text = "\(model.price)"
+    public func configure(with favorite: Favorite) {
+        if let firstImageURL = favorite.post.images.first {
+            imageView.loadImage(from: firstImageURL)
+        }
+        titleLabel.text = favorite.post.title
+        locationLabel.text = favorite.post.location
+        bedroomsAndbathroomsLabel.text = "Bedrooms: \(favorite.post.bedrooms) • Bathrooms: \(favorite.post.bathrooms)"
+        propertyTypeLabel.text = favorite.post.propertyType
+        priceLabel.text = "$\(favorite.post.price)"
     }
 }

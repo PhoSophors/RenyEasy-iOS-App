@@ -46,5 +46,12 @@ class NetworkConstants {
             return "\(NetworkConstants.shared.serverAddress)/auth/update-profile"
         }
       
+        // MARK: - Favorites
+        public static var fetchUserFavorites: String {
+            return "\(NetworkConstants.shared.serverAddress)/favorites/get-favorites"
+        }
+        public static var removeFavorites: String {
+            return "\(NetworkConstants.shared.serverAddress)/favorites/remove-favorite"
+        }
    }
 }
