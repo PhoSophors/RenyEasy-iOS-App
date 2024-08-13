@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UpdateProfileViewController: UIViewController {
+class ProfileUpdateViewController: UIViewController {
     
     private let profileUpdateView = ProfileUpdateView()
     

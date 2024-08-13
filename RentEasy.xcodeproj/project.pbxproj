@@ -24,6 +24,10 @@
 		188092772C5FA3BA00A72B80 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188092752C5FA3BA00A72B80 /* RegisterViewController.swift */; };
 		188092782C5FA3BA00A72B80 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188092762C5FA3BA00A72B80 /* RegisterViewController.xib */; };
 		1880927A2C5FA55F00A72B80 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188092792C5FA55F00A72B80 /* UIView+Extensions.swift */; };
+		1881F8462C6B0DBB0008E86B /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F8452C6B0DBB0008E86B /* ProfileViewModel.swift */; };
+		1881F8482C6B14FD0008E86B /* ProfileUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F8472C6B14FD0008E86B /* ProfileUpdateViewController.swift */; };
+		1881F84B2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F84A2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift */; };
+		1881F84D2C6B2BFF0008E86B /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1881F84C2C6B2BFF0008E86B /* FavoriteModel.swift */; };
 		1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECCF2C5F3FFC003861CA /* MainViewController.swift */; };
 		1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECD52C5F4285003861CA /* HomeViewController.swift */; };
 		1883ECD82C5F429D003861CA /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECD72C5F429D003861CA /* FavoriteViewController.swift */; };
@@ -32,9 +36,7 @@
 		1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1883ECDD2C5F458F003861CA /* ProfileViewController.swift */; };
 		188461862C6216E200F7737B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188461852C6216E200F7737B /* SettingViewController.swift */; };
 		188461882C621AE000F7737B /* ShareProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188461872C621AE000F7737B /* ShareProfileViewController.swift */; };
-		1884618A2C62269600F7737B /* SettingViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 188461892C62269600F7737B /* SettingViewController.storyboard */; };
 		1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1884618C2C6230C100F7737B /* UpdateProfileView.swift */; };
-		188461932C6237F900F7737B /* UpdateProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188461902C6237F900F7737B /* UpdateProfileViewController.swift */; };
 		18C3D1472C64BB5400FA2A0E /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */; };
 		18C3D1482C64BB5400FA2A0E /* OTPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */; };
 		18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C980DA2C64D04E001AA8A7 /* Helper.swift */; };
@@ -64,6 +66,10 @@
 		188092752C5FA3BA00A72B80 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		188092762C5FA3BA00A72B80 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		188092792C5FA55F00A72B80 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		1881F8452C6B0DBB0008E86B /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		1881F8472C6B14FD0008E86B /* ProfileUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUpdateViewController.swift; sourceTree = "<group>"; };
+		1881F84A2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
+		1881F84C2C6B2BFF0008E86B /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
 		1883ECCF2C5F3FFC003861CA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		1883ECD52C5F4285003861CA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1883ECD72C5F429D003861CA /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
@@ -72,9 +78,7 @@
 		1883ECDD2C5F458F003861CA /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		188461852C6216E200F7737B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		188461872C621AE000F7737B /* ShareProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareProfileViewController.swift; sourceTree = "<group>"; };
-		188461892C62269600F7737B /* SettingViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingViewController.storyboard; sourceTree = "<group>"; };
 		1884618C2C6230C100F7737B /* UpdateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileView.swift; sourceTree = "<group>"; };
-		188461902C6237F900F7737B /* UpdateProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileViewController.swift; sourceTree = "<group>"; };
 		18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPViewController.xib; sourceTree = "<group>"; };
 		18C980DA2C64D04E001AA8A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -137,14 +141,13 @@
 		187A869F2C5E3A2E00F70783 /* RentEasy */ = {
 			isa = PBXGroup;
 			children = (
+				1881F8442C6B0DAC0008E86B /* ViewModels */,
 				18031BC72C612BF900B21678 /* utilize */,
 				18886E152C5E475A00182182 /* Networking */,
 				18886E132C5E473C00182182 /* Extentions */,
-				18886E112C5E416100182182 /* ViewModel */,
 				18886E102C5E415900182182 /* View */,
 				18886E0F2C5E415200182182 /* Controllers */,
 				18886E0E2C5E414D00182182 /* Models */,
-				18886E0D2C5E413F00182182 /* Classes */,
 				18886E0C2C5E411F00182182 /* Recources */,
 				187A86A02C5E3A2E00F70783 /* AppDelegate.swift */,
 				187A86A22C5E3A2E00F70783 /* SceneDelegate.swift */,
@@ -153,11 +156,26 @@
 			path = RentEasy;
 			sourceTree = "<group>";
 		};
+		1881F8442C6B0DAC0008E86B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1881F8452C6B0DBB0008E86B /* ProfileViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		1881F8492C6B20DC0008E86B /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				1881F84A2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
 		1884618B2C62269D00F7737B /* Setting */ = {
 			isa = PBXGroup;
 			children = (
 				188461852C6216E200F7737B /* SettingViewController.swift */,
-				188461892C62269600F7737B /* SettingViewController.storyboard */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -170,17 +188,11 @@
 			path = Recources;
 			sourceTree = "<group>";
 		};
-		18886E0D2C5E413F00182182 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 		18886E0E2C5E414D00182182 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				182643B32C607C5A0061D422 /* AuthModel.swift */,
+				1881F84C2C6B2BFF0008E86B /* FavoriteModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -204,18 +216,12 @@
 		18886E102C5E415900182182 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1881F8492C6B20DC0008E86B /* CollectionViewCell */,
 				187A86AB2C5E3A2F00F70783 /* LaunchScreen.storyboard */,
 				18FC351B2C61E6C8000E95AA /* ProfileView.swift */,
 				1884618C2C6230C100F7737B /* UpdateProfileView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		18886E112C5E416100182182 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		18886E122C5E417100182182 /* MainViewController */ = {
@@ -270,7 +276,7 @@
 			children = (
 				1883ECDD2C5F458F003861CA /* ProfileViewController.swift */,
 				188461872C621AE000F7737B /* ShareProfileViewController.swift */,
-				188461902C6237F900F7737B /* UpdateProfileViewController.swift */,
+				1881F8472C6B14FD0008E86B /* ProfileUpdateViewController.swift */,
 			);
 			path = ProfileViewController;
 			sourceTree = "<group>";
@@ -355,7 +361,6 @@
 				18C3D1482C64BB5400FA2A0E /* OTPViewController.xib in Resources */,
 				187A86AA2C5E3A2F00F70783 /* Assets.xcassets in Resources */,
 				187A86AD2C5E3A2F00F70783 /* Base in Resources */,
-				1884618A2C62269600F7737B /* SettingViewController.storyboard in Resources */,
 				1878D46D2C5F9245006B1FF9 /* LoginViewController.xib in Resources */,
 				18560C7F2C65FE98008791AB /* ForgotPassword.storyboard in Resources */,
 				188092782C5FA3BA00A72B80 /* RegisterViewController.xib in Resources */,
@@ -414,18 +419,21 @@
 				188461882C621AE000F7737B /* ShareProfileViewController.swift in Sources */,
 				182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */,
 				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
+				1881F8462C6B0DBB0008E86B /* ProfileViewModel.swift in Sources */,
+				1881F84B2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift in Sources */,
 				188092772C5FA3BA00A72B80 /* RegisterViewController.swift in Sources */,
 				182643B02C607BC20061D422 /* APICaller.swift in Sources */,
 				18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */,
-				188461932C6237F900F7737B /* UpdateProfileViewController.swift in Sources */,
 				1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */,
 				1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */,
 				18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */,
 				181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */,
 				1883ECDC2C5F43AD003861CA /* PostViewController.swift in Sources */,
+				1881F8482C6B14FD0008E86B /* ProfileUpdateViewController.swift in Sources */,
 				18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */,
 				187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */,
 				1880927A2C5FA55F00A72B80 /* UIView+Extensions.swift in Sources */,
+				1881F84D2C6B2BFF0008E86B /* FavoriteModel.swift in Sources */,
 				18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */,
 				18031BC92C612C1000B21678 /* AuthManager.swift in Sources */,
 				187A86A32C5E3A2E00F70783 /* SceneDelegate.swift in Sources */,

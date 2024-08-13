@@ -6,8 +6,8 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         
         self.tabBar.backgroundColor = .white
-        self.tabBar.unselectedItemTintColor = .gray  // Set unselected icon color to gray
-        self.tabBar.tintColor = .black  // Set selected icon color to black
+        self.tabBar.unselectedItemTintColor = .gray
+        self.tabBar.tintColor = .black
         self.delegate = self
         setupViewControllers()
     }
@@ -61,17 +61,25 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if viewController is FavoriteViewController || viewController is ProfileViewController {
-            let newVC: UIViewController
-            if viewController is FavoriteViewController {
-                newVC = FavoriteViewController()
-            } else {
-                newVC = ProfileViewController()
-            }
-            newVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(newVC, animated: true)
-            return false
-        }
-        return true
-    }
+//        if viewController is FavoriteViewController || viewController is ProfileViewController {
+//            let newVC: UIViewController
+//            if viewController is FavoriteViewController {
+//                newVC = FavoriteViewController()
+//            } else {
+//                newVC = ProfileViewController()
+//            }
+//            newVC.hidesBottomBarWhenPushed = true
+//            navigationController?.pushViewController(newVC, animated: true)
+//            return false
+//        }
+        
+        if viewController is ProfileViewController {
+               let newVC = ProfileViewController()
+               newVC.hidesBottomBarWhenPushed = true
+               navigationController?.pushViewController(newVC, animated: true)
+               return false
+           }
+           return true
+       }
+    
 }

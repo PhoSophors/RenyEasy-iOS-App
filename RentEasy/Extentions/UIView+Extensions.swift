@@ -14,3 +14,14 @@ extension UIView {
     }
 }
 
+// Image Loading Extension
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: url) else { return }
+            DispatchQueue.main.async {
+                self.image = UIImage(data: data)
+            }
+        }
+    }
+}
