@@ -79,7 +79,7 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         setupBioTextField()
         locationLabelView()
         setupLocationView()
-        setupSaveButton() // Ensure this is called
+        setupSaveButton()
     }
     
     // Scroll view =========================

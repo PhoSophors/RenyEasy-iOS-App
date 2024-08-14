@@ -9,18 +9,22 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         self.tabBar.unselectedItemTintColor = .gray
         self.tabBar.tintColor = .black
         self.delegate = self
+        
+        // Add border to tab bar
+        self.tabBar.layer.borderColor = UIColor.gray.cgColor
+        self.tabBar.layer.borderWidth = 0.2
+        self.tabBar.layer.masksToBounds = true
+            
         setupViewControllers()
     }
 
     private func setupViewControllers() {
-        // Create instances of each view controller
         let homeVC = HomeViewController()
         let searchVC = SearchViewController()
         let createVC = PostViewController()
         let favoriteVC = FavoriteViewController()
         let profileVC = ProfileViewController()
         
-        // Set titles and images for each tab, including selected images
         homeVC.tabBarItem = UITabBarItem(
             title: "Home",
             image: UIImage(systemName: "house")?.withRenderingMode(.alwaysTemplate),
@@ -56,30 +60,16 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         )
         profileVC.tabBarItem.tag = 4
         
-        // Add view controllers to the tab bar
         self.viewControllers = [homeVC, searchVC, createVC, favoriteVC, profileVC]
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-//        if viewController is FavoriteViewController || viewController is ProfileViewController {
-//            let newVC: UIViewController
-//            if viewController is FavoriteViewController {
-//                newVC = FavoriteViewController()
-//            } else {
-//                newVC = ProfileViewController()
-//            }
-//            newVC.hidesBottomBarWhenPushed = true
-//            navigationController?.pushViewController(newVC, animated: true)
-//            return false
-//        }
-        
         if viewController is ProfileViewController {
-               let newVC = ProfileViewController()
-               newVC.hidesBottomBarWhenPushed = true
-               navigationController?.pushViewController(newVC, animated: true)
-               return false
-           }
-           return true
-       }
-    
+            let newVC = ProfileViewController()
+            newVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(newVC, animated: true)
+            return false
+        }
+        return true
+    }
 }

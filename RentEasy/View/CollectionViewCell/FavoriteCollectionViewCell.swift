@@ -25,7 +25,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 5
+        imageView.layer.cornerRadius = 7.5
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -65,23 +65,21 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     let heartIcon: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        button.tintColor = .systemIndigo
         return button
     }()
     
     private let moreIcon: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        button.tintColor = .systemIndigo
         return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 10
-        contentView.layer.shadowColor = UIColor.black.cgColor
-        contentView.layer.shadowOpacity = 0.1
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        contentView.layer.shadowRadius = 5
+        contentView.backgroundColor = .systemGray6
+        contentView.layer.cornerRadius = 15
         
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)

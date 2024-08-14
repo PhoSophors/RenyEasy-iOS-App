@@ -18,7 +18,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .white
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
