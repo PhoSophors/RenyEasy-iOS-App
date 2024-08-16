@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18031BC92C612C1000B21678 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18031BC82C612C1000B21678 /* AuthManager.swift */; };
+		1814DCAB2C6FA8FD00B1389B /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1814DCAA2C6FA8FD00B1389B /* PostView.swift */; };
 		181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181680DC2C6507240066B751 /* ForgotPasswordViewController.swift */; };
 		181D2DB22C6B3B8800916C18 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181D2DB12C6B3B8800916C18 /* FavoriteViewModel.swift */; };
 		181D2DB42C6B4C2000916C18 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181D2DB32C6B4C2000916C18 /* HomeView.swift */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		08284246E98B35D864311D00 /* Pods-RentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.release.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.release.xcconfig"; sourceTree = "<group>"; };
 		18031BC82C612C1000B21678 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		1814DCAA2C6FA8FD00B1389B /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		181680DC2C6507240066B751 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		181D2DB12C6B3B8800916C18 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
 		181D2DB32C6B4C2000916C18 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				18FC351B2C61E6C8000E95AA /* ProfileView.swift */,
 				1884618C2C6230C100F7737B /* UpdateProfileView.swift */,
 				181D2DB32C6B4C2000916C18 /* HomeView.swift */,
+				1814DCAA2C6FA8FD00B1389B /* PostView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */,
 				1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */,
 				1878D46C2C5F9245006B1FF9 /* LoginViewController.swift in Sources */,
+				1814DCAB2C6FA8FD00B1389B /* PostView.swift in Sources */,
 				18C3D1472C64BB5400FA2A0E /* OTPViewController.swift in Sources */,
 				181D2DB42C6B4C2000916C18 /* HomeView.swift in Sources */,
 				188461862C6216E200F7737B /* SettingViewController.swift in Sources */,
