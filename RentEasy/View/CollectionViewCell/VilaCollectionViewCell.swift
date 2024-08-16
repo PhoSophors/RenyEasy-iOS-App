@@ -5,24 +5,31 @@ class VilaCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "VilaCollectionViewCell"
     
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        view.layer.cornerRadius = 15
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
     private let villaImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 15
         imageView.layer.masksToBounds = true
         return imageView
     }()
     
-    private let distanceLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.textAlignment = .center
-        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        label.layer.cornerRadius = 5
-        label.layer.masksToBounds = true
-        return label
+    private let heartButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        button.tintColor = .white
+        button.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        return button
     }()
     
     private let titleLabel: UILabel = {
@@ -32,18 +39,18 @@ class VilaCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let addressLabel: UILabel = {
+    private let locationLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
-    private let gradientView: UIView = {
+    private let gradientLabelView: UIView = {
         let view = UIView()
         let gradient = CAGradientLayer()
         gradient.colors = [UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.7).cgColor]
-        gradient.locations = [0.6, 1.0]
+        gradient.locations = [0.0, 1.0]
         gradient.startPoint = CGPoint(x: 0.5, y: 0.0)
         gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
         view.layer.insertSublayer(gradient, at: 0)
@@ -52,47 +59,58 @@ class VilaCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(villaImageView)
-        contentView.addSubview(gradientView)
-        contentView.addSubview(distanceLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(addressLabel)
+        contentView.addSubview(containerView)
+        containerView.addSubview(villaImageView)
+        containerView.addSubview(heartButton)
+        containerView.addSubview(gradientLabelView)
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(locationLabel)
+        
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(0)
+        }
         
         villaImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        gradientView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.4)
-        }
-        
-        distanceLabel.snp.makeConstraints { make in
+        heartButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.leading.equalToSuperview().offset(10)
-            make.width.equalTo(60)
-            make.height.equalTo(25)
+            make.width.height.equalTo(30)
+        }
+        
+        gradientLabelView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(60)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
-            make.bottom.equalTo(addressLabel.snp.top).offset(-5)
+            make.bottom.equalTo(locationLabel.snp.top).offset(-5)
         }
         
-        addressLabel.snp.makeConstraints { make in
+        locationLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
             make.bottom.equalToSuperview().offset(-10)
         }
+        
+        // Adjust gradient layer frame after layout
+        gradientLabelView.layer.sublayers?.first?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 60)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with image: UIImage?, distance: String, title: String, address: String) {
-        villaImageView.image = image
-        distanceLabel.text = distance
+    func configure(with imageUrl: String?, title: String, location: String) {
         titleLabel.text = title
-        addressLabel.text = address
+        locationLabel.text = location
+        
+        if let imageUrl = imageUrl {
+            villaImageView.loadImage(from: imageUrl)
+        } else {
+            villaImageView.image = UIImage(named: "placeholder") // Provide a placeholder image if needed
+        }
     }
 }

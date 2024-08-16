@@ -5,9 +5,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     private let heroCollectionView = HeroCollectionView()
     private let categoryCollectionViewCell = HomeCategoryCollectionViewCell()
+    private let allRentCollectionViewCell = AllRentCollectionViewCell()
     private var vilaCollectionView: UICollectionView!
+    private var allRentCollectionView: UICollectionView!
     private let scrollView = UIScrollView()
     private let contentView = UIView()
+
+    private var vilaPosts: [AllPostByProperty.PostData.Post] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,6 +21,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setupCategoryCollectionView()
         vilaLabelView()
         setupVilaCollectionView()
+        allRentLabelView()
+        setupAllRentCollectionView()
+        
+        fetchPosts()
 
         let settingsImage = UIImage(systemName: "gearshape.fill")?.withRenderingMode(.alwaysTemplate)
         let settingsButton = UIBarButtonItem(image: settingsImage, style: .plain, target: self, action: #selector(settingsButtonTapped))
@@ -58,8 +66,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             make.height.equalTo(50)
         }
     }
-    
-    
+
     private func vilaLabelView() -> UIStackView {
         let label = UILabel()
         label.text = "Vila"
@@ -88,7 +95,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return stackView
     }
 
-
     private func setupVilaCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -107,35 +113,127 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let labelView = vilaLabelView() // Get the stackView instance
 
         vilaCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(labelView.snp.bottom).offset(16) // Use labelView instance here
+            make.top.equalTo(labelView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(10)
             make.height.equalTo(270)
+        }
+    }
+
+    private func allRentLabelView() -> UIStackView {
+        let label = UILabel()
+        label.text = "All"
+        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.textColor = .gray
+        
+        let seeMoreLabel = UILabel()
+        seeMoreLabel.text = "See more"
+        seeMoreLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        seeMoreLabel.textColor = .gray
+        
+        let stackView = UIStackView(arrangedSubviews: [label, seeMoreLabel])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 5
+        
+        contentView.addSubview(stackView)
+        
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(vilaCollectionView.snp.bottom).offset(16)
+            make.leading.equalTo(contentView).offset(16)
+            make.trailing.equalTo(contentView).offset(-16)
+            make.height.equalTo(30)
+        }
+        
+        return stackView
+    }
+    
+    private func setupAllRentCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let padding: CGFloat = 10
+        let itemWidth = (view.frame.width - 3 * padding) / 2
+        layout.itemSize = CGSize(width: itemWidth, height: 250)
+        layout.minimumLineSpacing = padding
+        layout.minimumInteritemSpacing = padding  
+        layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+
+        allRentCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        allRentCollectionView.delegate = self
+        allRentCollectionView.dataSource = self
+        allRentCollectionView.backgroundColor = .white
+        allRentCollectionView.showsVerticalScrollIndicator = false
+        allRentCollectionView.register(AllRentCollectionViewCell.self, forCellWithReuseIdentifier: AllRentCollectionViewCell.identifier)
+
+        contentView.addSubview(allRentCollectionView)
+        let labelView = allRentLabelView()
+
+        allRentCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(labelView.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.height.equalTo(500)
             make.bottom.equalTo(contentView.snp.bottom)
         }
     }
-
-
-
     
-    // MARK: - UICollectionViewDataSource
+    private func fetchPosts() {
+        APICaller.fetchAllPostByProperty(propertytype: "villa") { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let allPostByProperty):
+                    self?.vilaPosts = allPostByProperty.data.posts
+                    self?.vilaCollectionView.reloadData()
+                case .failure(let error):
+                    print("Failed to fetch vila posts: \(error)")
+                }
+            }
+        }
+        
+//        APICaller.fetchAllPostByProperty(propertytype: "all") { [weak self] result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let allPostByProperty):
+//                    self?.allRentPosts = allPostByProperty.data.posts
+//                    self?.allRentCollectionView.reloadData()
+//                case .failure(let error):
+//                    print("Failed to fetch all rent posts: \(error)")
+//                }
+//            }
+//        }
+    }
+
+    // MARK: - UICollectionViewDataSource for Vila
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        if collectionView == vilaCollectionView {
+                return vilaPosts.count
+            } else {
+                return 10
+            }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == vilaCollectionView {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VilaCollectionViewCell.identifier, for: indexPath) as? VilaCollectionViewCell else {
-            return UICollectionViewCell()
+               return UICollectionViewCell()
+           }
+           
+           let post = vilaPosts[indexPath.item]
+           let imageUrl = post.images.first 
+           
+           cell.configure(with: imageUrl, title: post.title, location: post.location)
+           
+           return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllRentCollectionViewCell.identifier, for: indexPath) as? AllRentCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            // Example data, replace with your data source
+            let image = UIImage(named: "test2")
+            let distance = "3 Km"
+            let title = "Modern Apartment"
+            let address = "5678 Avenue, City"
+            cell.configure(with: image, distance: distance, title: title, address: address)
+            return cell
         }
-        
-        // Example data, replace with your data source
-        let image = UIImage(named: "test1")
-        let distance = "5 Km"
-        let title = "Beautiful Villa"
-        let address = "1234 Street Name, City"
-
-        cell.configure(with: image, distance: distance, title: title, address: address)
-        
-        return cell
     }
 
     // MARK: - Actions

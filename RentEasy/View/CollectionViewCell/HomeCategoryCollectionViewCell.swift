@@ -4,7 +4,7 @@ import SnapKit
 class HomeCategoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "HomeCategoryCollectionViewCell"
     
-    private let categories = ["House", "Apartment", "Hotel", "Villa", "Condo", "Townhouse"]
+    private let categories = ["House", "Apartment", "Hotel", "Villa", "Condo", "Townhouse", "Room"]
     
     private let categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

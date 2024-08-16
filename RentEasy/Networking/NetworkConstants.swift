@@ -53,5 +53,11 @@ class NetworkConstants {
         public static var removeFavorites: String {
             return "\(NetworkConstants.shared.serverAddress)/favorites/remove-favorite"
         }
+        
+        // MARK: - Posts
+        public static var fetchPostByProperty: String {
+            return "\(NetworkConstants.shared.serverAddress)/posts/get-posts-by-property-type"
+        }
+        
    }
 }

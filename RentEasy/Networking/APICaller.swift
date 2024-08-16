@@ -8,6 +8,8 @@ enum NetworkError: Error {
     case unauthorized
     case forbidden
     case notFound
+//    case invalidURL
+//    case noData
 }
 
 struct UpdateProfile: Codable {
@@ -314,6 +316,45 @@ public class APICaller {
                 completion(.failure(error))
             }
         }
+    }
+    
+    /**
+     *
+     * Posts
+     * ============================================================================================
+     */
+    
+    // MARK: - fetch all post by property
+    static func fetchAllPostByProperty(propertytype: String, completion: @escaping (Result<AllPostByProperty, Error>) -> Void) {
+        // Construct the URL with query parameters
+        let urlString = "\(NetworkConstants.Endpoints.fetchPostByProperty)?propertytype=\(propertytype)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NetworkError.urlError))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NetworkError.canNotParseData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let allPostByProperty = try decoder.decode(AllPostByProperty.self, from: data)
+                completion(.success(allPostByProperty))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
     }
     
 }

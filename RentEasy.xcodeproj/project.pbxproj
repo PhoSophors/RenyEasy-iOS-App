@@ -14,6 +14,7 @@
 		182643B02C607BC20061D422 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643AF2C607BC20061D422 /* APICaller.swift */; };
 		182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B12C607BDB0061D422 /* NetworkConstants.swift */; };
 		182643B42C607C5A0061D422 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B32C607C5A0061D422 /* AuthModel.swift */; };
+		1850AB462C6F449200F31BB8 /* PostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850AB452C6F449200F31BB8 /* PostsModel.swift */; };
 		18560C7F2C65FE98008791AB /* ForgotPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */; };
 		18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */; };
 		18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560C822C660C73008791AB /* SetNewPasswordViewController.swift */; };
@@ -47,6 +48,7 @@
 		18C3D1482C64BB5400FA2A0E /* OTPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */; };
 		18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C980DA2C64D04E001AA8A7 /* Helper.swift */; };
 		18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */; };
+		18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */; };
 		18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC351B2C61E6C8000E95AA /* ProfileView.swift */; };
 		9D7A9A03C34309A70BBDA80F /* Pods_RentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */; };
 /* End PBXBuildFile section */
@@ -60,6 +62,7 @@
 		182643AF2C607BC20061D422 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		182643B12C607BDB0061D422 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		182643B32C607C5A0061D422 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
+		1850AB452C6F449200F31BB8 /* PostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsModel.swift; sourceTree = "<group>"; };
 		18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ForgotPassword.storyboard; sourceTree = "<group>"; };
 		18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyForgotPasswordOTPViewController.swift; sourceTree = "<group>"; };
 		18560C822C660C73008791AB /* SetNewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNewPasswordViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +98,7 @@
 		18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPViewController.xib; sourceTree = "<group>"; };
 		18C980DA2C64D04E001AA8A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessageViewController.swift; sourceTree = "<group>"; };
+		18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRentCollectionViewCell.swift; sourceTree = "<group>"; };
 		18FC351B2C61E6C8000E95AA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		44D723D6DD1D9CB768F7E11D /* Pods_RentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5094FD38A93697830F6FC64 /* Pods-RentEasy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.debug.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				1885CD322C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift */,
 				1885CD342C6C66B900C2FFA5 /* CategoryCell.swift */,
 				1885CD362C6C677C00C2FFA5 /* VilaCollectionViewCell.swift */,
+				18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -210,6 +215,7 @@
 			children = (
 				182643B32C607C5A0061D422 /* AuthModel.swift */,
 				1881F84C2C6B2BFF0008E86B /* FavoriteModel.swift */,
+				1850AB452C6F449200F31BB8 /* PostsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -437,6 +443,7 @@
 				188461882C621AE000F7737B /* ShareProfileViewController.swift in Sources */,
 				182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */,
 				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
+				18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */,
 				1881F8462C6B0DBB0008E86B /* ProfileViewModel.swift in Sources */,
 				1881F84B2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift in Sources */,
 				1885CD332C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift in Sources */,
@@ -466,6 +473,7 @@
 				188461862C6216E200F7737B /* SettingViewController.swift in Sources */,
 				18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */,
 				1885CD372C6C677C00C2FFA5 /* VilaCollectionViewCell.swift in Sources */,
+				1850AB462C6F449200F31BB8 /* PostsModel.swift in Sources */,
 				1883ECD82C5F429D003861CA /* FavoriteViewController.swift in Sources */,
 				181D2DB22C6B3B8800916C18 /* FavoriteViewModel.swift in Sources */,
 				182643B42C607C5A0061D422 /* AuthModel.swift in Sources */,
