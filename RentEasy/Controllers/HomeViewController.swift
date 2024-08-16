@@ -11,7 +11,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     private let scrollView = UIScrollView()
     private let contentView = UIView()
 
-    private var vilaPosts: [AllPostByProperty.PostData.Post] = []
+    private var vilaPosts: [AllPostsResponse.PostData.Post] = []
+    private var allPosts: [AllPostsResponse.PostData.Post] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +111,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         vilaCollectionView.register(VilaCollectionViewCell.self, forCellWithReuseIdentifier: VilaCollectionViewCell.identifier)
 
         contentView.addSubview(vilaCollectionView)
-        let labelView = vilaLabelView() // Get the stackView instance
+        let labelView = vilaLabelView()
 
         vilaCollectionView.snp.makeConstraints { make in
             make.top.equalTo(labelView.snp.bottom).offset(16)
@@ -133,7 +134,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let stackView = UIStackView(arrangedSubviews: [label, seeMoreLabel])
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.spacing = 5
+        stackView.spacing = 8
         
         contentView.addSubview(stackView)
         
@@ -149,14 +150,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     private func setupAllRentCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let padding: CGFloat = 10
-        let itemWidth = (view.frame.width - 3 * padding) / 2
-        layout.itemSize = CGSize(width: itemWidth, height: 250)
-        layout.minimumLineSpacing = padding
-        layout.minimumInteritemSpacing = padding  
-        layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: view.frame.width * 0.5, height: 250) // Adjust width to 60% of screen width
+        layout.minimumLineSpacing = 15
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
 
+        // Initialize collection view with the layout
         allRentCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         allRentCollectionView.delegate = self
         allRentCollectionView.dataSource = self
@@ -164,16 +163,20 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         allRentCollectionView.showsVerticalScrollIndicator = false
         allRentCollectionView.register(AllRentCollectionViewCell.self, forCellWithReuseIdentifier: AllRentCollectionViewCell.identifier)
 
+        // Add collection view to the view hierarchy
         contentView.addSubview(allRentCollectionView)
         let labelView = allRentLabelView()
 
+        // Apply constraints using SnapKit
         allRentCollectionView.snp.makeConstraints { make in
             make.top.equalTo(labelView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.height.equalTo(500)
-            make.bottom.equalTo(contentView.snp.bottom)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-10)
+            make.height.equalTo(250)
         }
     }
+
+
     
     private func fetchPosts() {
         APICaller.fetchAllPostByProperty(propertytype: "villa") { [weak self] result in
@@ -188,69 +191,62 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
         
-//        APICaller.fetchAllPostByProperty(propertytype: "all") { [weak self] result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let allPostByProperty):
-//                    self?.allRentPosts = allPostByProperty.data.posts
-//                    self?.allRentCollectionView.reloadData()
-//                case .failure(let error):
-//                    print("Failed to fetch all rent posts: \(error)")
-//                }
-//            }
-//        }
+        // Fetch all posts
+        APICaller.fetchAllPosts { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let allPostsResponse):
+                    self?.allPosts = allPostsResponse.data.posts
+                    self?.allRentCollectionView.reloadData()
+                case .failure(let error):
+                    print("Failed to fetch all posts: \(error)")
+                }
+            }
+        }
     }
 
     // MARK: - UICollectionViewDataSource for Vila
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == vilaCollectionView {
-                return vilaPosts.count
-            } else {
-                return 10
-            }
+            return vilaPosts.count
+        } else {
+            return allPosts.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == vilaCollectionView {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VilaCollectionViewCell.identifier, for: indexPath) as? VilaCollectionViewCell else {
-               return UICollectionViewCell()
-           }
-           
-           let post = vilaPosts[indexPath.item]
-           let imageUrl = post.images.first 
-           
-           cell.configure(with: imageUrl, title: post.title, location: post.location)
-           
-           return cell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VilaCollectionViewCell.identifier, for: indexPath) as? VilaCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+
+            let post = vilaPosts[indexPath.item]
+            let imageUrl = post.images.first
+
+            cell.configure(with: imageUrl, title: post.title, location: post.location, property: post.propertyType, price: post.price)
+
+            return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllRentCollectionViewCell.identifier, for: indexPath) as? AllRentCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            // Example data, replace with your data source
-            let image = UIImage(named: "test2")
-            let distance = "3 Km"
-            let title = "Modern Apartment"
-            let address = "5678 Avenue, City"
-            cell.configure(with: image, distance: distance, title: title, address: address)
+
+            let post = allPosts[indexPath.item]
+            let imageUrl = post.images.first
+
+            cell.configure(with: imageUrl, title: post.title, location: post.location, property: post.propertyType, price: post.price)
+
             return cell
         }
     }
 
-    // MARK: - Actions
-
+    // MARK: - UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedPost = allPosts[indexPath.item] // Adjust based on the selected collection view
+        // Handle item selection, e.g., navigate to a detail view
+    }
+    
     @objc private func settingsButtonTapped() {
-        // Navigate to settings
-    }
-
-    @objc private func chatButtonTapped() {
-        // Navigate to chat
-    }
-
-    @objc private func profileButtonTapped() {
-        // Navigate to user profile
-    }
-
-    @objc private func notificationButtonTapped() {
-        // Navigate to notifications
+        // Handle settings button tap
     }
 }

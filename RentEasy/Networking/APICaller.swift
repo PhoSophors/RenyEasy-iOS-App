@@ -325,7 +325,7 @@ public class APICaller {
      */
     
     // MARK: - fetch all post by property
-    static func fetchAllPostByProperty(propertytype: String, completion: @escaping (Result<AllPostByProperty, Error>) -> Void) {
+    static func fetchAllPostByProperty(propertytype: String, completion: @escaping (Result<AllPostsResponse, Error>) -> Void) {
         // Construct the URL with query parameters
         let urlString = "\(NetworkConstants.Endpoints.fetchPostByProperty)?propertytype=\(propertytype)"
         
@@ -347,7 +347,7 @@ public class APICaller {
             
             do {
                 let decoder = JSONDecoder()
-                let allPostByProperty = try decoder.decode(AllPostByProperty.self, from: data)
+                let allPostByProperty = try decoder.decode(AllPostsResponse.self, from: data)
                 completion(.success(allPostByProperty))
             } catch {
                 completion(.failure(error))
@@ -357,4 +357,25 @@ public class APICaller {
         task.resume()
     }
     
+
+    // MARK: - Fetch all posts
+    static func fetchAllPosts(completion: @escaping (Result<AllPostsResponse, Error>) -> Void) {
+        makeRequest(urlString: NetworkConstants.Endpoints.fetchAllPost, method: "GET") { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let response = try decoder.decode(AllPostsResponse.self, from: data)
+                    completion(.success(response))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+
 }

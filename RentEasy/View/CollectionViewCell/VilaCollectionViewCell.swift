@@ -46,6 +46,17 @@ class VilaCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let propertyLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        label.layer.cornerRadius = 5
+        label.layer.masksToBounds = true
+        return label
+    }()
+    
     private let gradientLabelView: UIView = {
         let view = UIView()
         let gradient = CAGradientLayer()
@@ -63,6 +74,7 @@ class VilaCollectionViewCell: UICollectionViewCell {
         containerView.addSubview(villaImageView)
         containerView.addSubview(heartButton)
         containerView.addSubview(gradientLabelView)
+        containerView.addSubview(propertyLabel)
         containerView.addSubview(titleLabel)
         containerView.addSubview(locationLabel)
         
@@ -76,7 +88,7 @@ class VilaCollectionViewCell: UICollectionViewCell {
         
         heartButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
-            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
             make.width.height.equalTo(30)
         }
         
@@ -103,9 +115,10 @@ class VilaCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with imageUrl: String?, title: String, location: String) {
+    func configure(with imageUrl: String?, title: String, location: String, property: String, price: Int) {
         titleLabel.text = title
-        locationLabel.text = location
+        locationLabel.text = "\(property) • $\(price) • \(location)"
+        propertyLabel.text = property
         
         if let imageUrl = imageUrl {
             villaImageView.loadImage(from: imageUrl)

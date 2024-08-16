@@ -58,6 +58,9 @@ class NetworkConstants {
         public static var fetchPostByProperty: String {
             return "\(NetworkConstants.shared.serverAddress)/posts/get-posts-by-property-type"
         }
+        public static var fetchAllPost: String {
+            return "\(NetworkConstants.shared.serverAddress)/posts/get-all-posts"
+        }
         
    }
 }

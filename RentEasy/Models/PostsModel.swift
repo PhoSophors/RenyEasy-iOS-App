@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AllPostByProperty: Codable {
+struct AllPostsResponse: Codable {
     let status: String
     let message: String
     let data: PostData
