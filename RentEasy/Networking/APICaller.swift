@@ -289,9 +289,9 @@ public class APICaller {
     }
     
     // MARK: - Remove favorite
-    static func removeFavorites(favoriteId: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
-        // Update the URL to include the favoriteId
-        let urlString = "\(NetworkConstants.Endpoints.removeFavorites)/\(favoriteId)"
+    static func removeFavorites(postId: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        // Update the URL to include the postId
+        let urlString = "\(NetworkConstants.Endpoints.removeFavorites)/\(postId)"
         print("Request URL: \(urlString)") // Log the request URL for debugging
         
         makeRequest(urlString: urlString, method: "POST") { result in
@@ -312,7 +312,7 @@ public class APICaller {
                     completion(.failure(.canNotParseData))
                 }
             case .failure(let error):
-                print("Network request failed with error: \(error.localizedDescription)") 
+                print("Network request failed with error: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }

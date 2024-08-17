@@ -13,7 +13,7 @@ class FavoriteViewModel {
     // Properties
     @Published var favorites: [Favorite] = []
     @Published var errorMessage: String?
-    
+
     // Fetch favorites
     func fetchFavorites() {
         APICaller.fetchUserFavorites { [weak self] result in
@@ -31,12 +31,19 @@ class FavoriteViewModel {
     }
     
     // Remove a specific favorite
-    func removeFavorite(_ favoriteId: String, completion: @escaping (Result<String, Error>) -> Void) {
-        APICaller.removeFavorites(favoriteId: favoriteId) { [weak self] result in
+    func removeFavorite(postId: String, completion: @escaping (Result<String, Error>) -> Void) {
+        APICaller.removeFavorites(postId: postId) { [weak self] result in
             DispatchQueue.main.async {
+                guard let strongSelf = self else { return }
+
                 switch result {
                 case .success(let message):
-                    self?.favorites.removeAll { $0.id == favoriteId }
+                    // Ensure thread-safety while modifying the favorites array
+                    if let index = strongSelf.favorites.firstIndex(where: { $0.post.id == postId }) {
+                        strongSelf.favorites.remove(at: index)
+                    } else {
+                        print("Error: Post ID \(postId) not found in favorites")
+                    }
                     completion(.success(message))
                 case .failure(let error):
                     print("Error removing favorite: \(error.localizedDescription)")

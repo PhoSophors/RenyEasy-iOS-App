@@ -39,7 +39,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     
     let locationLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 11, weight: .regular)
+        label.font = .systemFont(ofSize: 13, weight: .regular)
         label.numberOfLines = 1
         return label
     }()
@@ -119,9 +119,9 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             imageView.loadImage(from: firstImageURL)
         }
         titleLabel.text = favorite.post.title
-        locationLabel.text = favorite.post.location
-        bedroomsAndbathroomsLabel.text = "Bedrooms: \(favorite.post.bedrooms) • Bathrooms: \(favorite.post.bathrooms)"
-        propertyTypeLabel.text = favorite.post.propertyType
         priceLabel.text = "$\(favorite.post.price)"
+        locationLabel.text = "\(favorite.post.propertyType) • \(favorite.post.location) "
+        bedroomsAndbathroomsLabel.text = "Bedrooms: \(favorite.post.bedrooms) • Bathrooms: \(favorite.post.bathrooms)"
+        
     }
 }
