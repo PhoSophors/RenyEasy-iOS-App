@@ -34,7 +34,7 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         button.tintColor = .white
-        button.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        button.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
         return button

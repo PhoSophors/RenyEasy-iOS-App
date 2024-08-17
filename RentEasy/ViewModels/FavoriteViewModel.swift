@@ -13,7 +13,8 @@ class FavoriteViewModel {
     // Properties
     @Published var favorites: [Favorite] = []
     @Published var errorMessage: String?
-
+    private var favoritePostIds: Set<String> = Set()
+    
     // Fetch favorites
     func fetchFavorites() {
         APICaller.fetchUserFavorites { [weak self] result in
@@ -47,6 +48,28 @@ class FavoriteViewModel {
                     completion(.success(message))
                 case .failure(let error):
                     print("Error removing favorite: \(error.localizedDescription)")
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+    
+    // Check if a post is a favorite
+    func isFavorite(postId: String) -> Bool {
+        return favoritePostIds.contains(postId)
+    }
+    
+    // Add a specific favorite
+    func addFavorite(postId: String, completion: @escaping (Result<String, Error>) -> Void) {
+        APICaller.addFavorites(postId: postId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let message):
+                    self?.favoritePostIds.insert(postId)
+                    // Optionally, update favorites list if needed
+                    completion(.success(message))
+                    
+                case .failure(let error):
                     completion(.failure(error))
                 }
             }

@@ -292,7 +292,7 @@ public class APICaller {
     static func removeFavorites(postId: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         // Update the URL to include the postId
         let urlString = "\(NetworkConstants.Endpoints.removeFavorites)/\(postId)"
-        print("Request URL: \(urlString)") // Log the request URL for debugging
+        print("Request URL: \(urlString)")
         
         makeRequest(urlString: urlString, method: "POST") { result in
             switch result {
@@ -313,6 +313,36 @@ public class APICaller {
                 }
             case .failure(let error):
                 print("Network request failed with error: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    // MARK: - Add Post to Favorites
+    static func addFavorites(postId: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        let urlString = "\(NetworkConstants.Endpoints.addFavorites)/\(postId)"
+        print("Request URL: \(urlString)")
+        
+        makeRequest(urlString: urlString, method: "POST") { result in
+            switch result {
+            case .success(let data):
+                do {
+                    if let responseDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let message = responseDict["message"] as? String {
+                        print("Success response: \(message)")
+                        completion(.success(message))
+                    } else {
+                        let errorMsg = "Response data could not be parsed or message not found"
+                        print("Error: \(errorMsg)")
+                        completion(.failure(.canNotParseData))
+                    }
+                } catch {
+                    print("Error: JSONSerialization failed with error: \(error.localizedDescription)")
+                    completion(.failure(.canNotParseData))
+                }
+            case .failure(let error):
+                // Provide detailed error information for debugging
+                print("Error: Network request failed with error: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }

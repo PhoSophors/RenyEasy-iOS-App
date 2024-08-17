@@ -1,6 +1,10 @@
 import UIKit
 import SnapKit
 
+protocol VilaCollectionViewCellDelegate: AnyObject {
+    func didTapHeartButton(on cell: VilaCollectionViewCell)
+}
+
 class VilaCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "VilaCollectionViewCell"
@@ -24,9 +28,9 @@ class VilaCollectionViewCell: UICollectionViewCell {
     
     private let heartButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .white
-        button.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        button.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
         return button
@@ -68,6 +72,9 @@ class VilaCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    // Define and declare the delegate
+    weak var delegate: VilaCollectionViewCellDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(containerView)
@@ -107,6 +114,8 @@ class VilaCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview().offset(-10)
         }
         
+        heartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
+        
         // Adjust gradient layer frame after layout
         gradientLabelView.layer.sublayers?.first?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 60)
     }
@@ -123,7 +132,23 @@ class VilaCollectionViewCell: UICollectionViewCell {
         if let imageUrl = imageUrl {
             villaImageView.loadImage(from: imageUrl)
         } else {
-            villaImageView.image = UIImage(named: "placeholder") // Provide a placeholder image if needed
+            villaImageView.image = UIImage(named: "placeholder")
         }
     }
+    
+    // New property
+    var isFavorite: Bool = false {
+        didSet {
+            let imageName = isFavorite ? "heart.fill" : "heart"
+            heartButton.setImage(UIImage(systemName: imageName), for: .normal)
+            heartButton.tintColor = isFavorite ? .white : .white
+        }
+    }
+    
+    @objc private func heartButtonTapped() {
+        isFavorite.toggle()
+        delegate?.didTapHeartButton(on: self)
+        print("Heart button tapped. Current favorite status: \(isFavorite)")
+    }
 }
+

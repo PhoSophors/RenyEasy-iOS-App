@@ -93,7 +93,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
 
         let favorite = viewModel.favorites[indexPath.row]
-        let postId = favorite.post.id // Access the id from the favorite's post
+        let postId = favorite.post.id
 
         viewModel.removeFavorite(postId: postId) { [weak self] result in
             DispatchQueue.main.async {
@@ -101,7 +101,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
 
                 switch result {
                 case .success(let message):
-                    print("Success response: \(message)") // Log success message
+                    print("Success response: \(message)")
 
                     // Update the data source before attempting to delete from collection view
                     if let indexToRemove = strongSelf.viewModel.favorites.firstIndex(where: { $0.post.id == postId }) {

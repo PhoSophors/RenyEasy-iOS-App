@@ -52,13 +52,13 @@ extension HomeCategoryCollectionViewCell: UICollectionViewDelegate, UICollection
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .gray
+        label.textColor = .white
         label.text = categories[indexPath.item]
         label.sizeToFit()
         label.frame = cell.contentView.bounds.insetBy(dx: 10, dy: 10)
         cell.contentView.addSubview(label)
         
-        cell.contentView.backgroundColor = .systemGray6
+        cell.contentView.backgroundColor = .systemIndigo
         cell.contentView.layer.cornerRadius = 8
         cell.contentView.layer.masksToBounds = true
         
