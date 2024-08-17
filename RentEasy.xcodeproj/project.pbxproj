@@ -16,6 +16,8 @@
 		182643B02C607BC20061D422 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643AF2C607BC20061D422 /* APICaller.swift */; };
 		182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B12C607BDB0061D422 /* NetworkConstants.swift */; };
 		182643B42C607C5A0061D422 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B32C607C5A0061D422 /* AuthModel.swift */; };
+		184D8F322C7085B500D895BF /* AllPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184D8F312C7085B500D895BF /* AllPostViewController.swift */; };
+		184D8F342C70895E00D895BF /* AllPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184D8F332C70895E00D895BF /* AllPostCollectionViewCell.swift */; };
 		1850AB462C6F449200F31BB8 /* PostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850AB452C6F449200F31BB8 /* PostsModel.swift */; };
 		18560C7F2C65FE98008791AB /* ForgotPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */; };
 		18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */; };
@@ -66,6 +68,8 @@
 		182643AF2C607BC20061D422 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		182643B12C607BDB0061D422 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		182643B32C607C5A0061D422 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
+		184D8F312C7085B500D895BF /* AllPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostViewController.swift; sourceTree = "<group>"; };
+		184D8F332C70895E00D895BF /* AllPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		1850AB452C6F449200F31BB8 /* PostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsModel.swift; sourceTree = "<group>"; };
 		18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ForgotPassword.storyboard; sourceTree = "<group>"; };
 		18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyForgotPasswordOTPViewController.swift; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 			children = (
 				1883ECDB2C5F43AD003861CA /* PostViewController.swift */,
 				1808A8DC2C7050CE00164743 /* PostDetailViewController.swift */,
+				184D8F312C7085B500D895BF /* AllPostViewController.swift */,
 			);
 			path = PostController;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 				1885CD342C6C66B900C2FFA5 /* CategoryCell.swift */,
 				1885CD362C6C677C00C2FFA5 /* VilaCollectionViewCell.swift */,
 				18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */,
+				184D8F332C70895E00D895BF /* AllPostCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -454,6 +460,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				184D8F342C70895E00D895BF /* AllPostCollectionViewCell.swift in Sources */,
 				188461882C621AE000F7737B /* ShareProfileViewController.swift in Sources */,
 				182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */,
 				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
@@ -466,6 +473,7 @@
 				182643B02C607BC20061D422 /* APICaller.swift in Sources */,
 				18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */,
 				1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */,
+				184D8F322C7085B500D895BF /* AllPostViewController.swift in Sources */,
 				1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */,
 				18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */,
 				181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */,

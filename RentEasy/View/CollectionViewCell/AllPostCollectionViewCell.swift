@@ -1,18 +1,17 @@
 //
-//  AllRentCollectionViewCell.swift
+//  AllPostCollectionViewCell.swift
 //  RentEasy
 //
-//  Created by Apple on 14/8/24.
+//  Created by Apple on 17/8/24.
 //
 
 import Foundation
 import UIKit
 import SnapKit
 
-class AllRentCollectionViewCell: UICollectionViewCell {
+class AllPostCollectionViewCell: UICollectionViewCell {
+    static let identifier = "AllPostCollectionViewCell"
 
-    static let identifier = "VilaCollectionViewCell"
-    
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .gray
@@ -21,7 +20,7 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private let villaImageView: UIImageView = {
+    private let postImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -32,18 +31,19 @@ class AllRentCollectionViewCell: UICollectionViewCell {
     
     private let heartButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .white
         button.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
         return button
     }()
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.numberOfLines = 1
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         return label
     }()
     
@@ -75,23 +75,23 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         view.layer.insertSublayer(gradient, at: 0)
         return view
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(containerView)
-        containerView.addSubview(villaImageView)
+        containerView.addSubview(postImageView)
         containerView.addSubview(heartButton)
         containerView.addSubview(gradientLabelView)
-        containerView.addSubview(propertyLabel)
-        containerView.addSubview(titleLabel)
-        containerView.addSubview(locationLabel)
+        gradientLabelView.addSubview(titleLabel)
+        gradientLabelView.addSubview(locationLabel)
         
+        // Layout using SnapKit
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(0)
         }
         
-        villaImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        postImageView.snp.makeConstraints { make in
+            make.edges.equalTo(containerView)
         }
         
         heartButton.snp.makeConstraints { make in
@@ -104,7 +104,7 @@ class AllRentCollectionViewCell: UICollectionViewCell {
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(60)
         }
-        
+
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
             make.bottom.equalTo(locationLabel.snp.top).offset(-5)
@@ -118,10 +118,12 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         // Adjust gradient layer frame after layout
         gradientLabelView.layer.sublayers?.first?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 60)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // Configure the cell with data
     
     func configure(with imageUrl: String?, title: String, location: String, property: String, price: Int) {
         titleLabel.text = title
@@ -129,9 +131,10 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         propertyLabel.text = property
         
         if let imageUrl = imageUrl {
-            villaImageView.loadImage(from: imageUrl)
+            postImageView.loadImage(from: imageUrl)
         } else {
-            villaImageView.image = UIImage(named: "placeholder")
+            postImageView.image = UIImage(named: "placeholder")
         }
     }
 }
+

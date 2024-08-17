@@ -130,6 +130,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         seeMoreLabel.text = "See more"
         seeMoreLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         seeMoreLabel.textColor = .systemIndigo
+        seeMoreLabel.isUserInteractionEnabled = true // Enable user interaction
         
         let stackView = UIStackView(arrangedSubviews: [label, seeMoreLabel])
         stackView.axis = .horizontal
@@ -144,6 +145,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             make.trailing.equalTo(contentView).offset(-16)
             make.height.equalTo(30)
         }
+        
+        // Add tap gesture recognizer to the "See more" label
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(seeMoreTapped))
+        seeMoreLabel.addGestureRecognizer(tapGesture)
         
         return stackView
     }
@@ -341,6 +346,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
 
+    // Action
+    
+    @objc private func seeMoreTapped() {
+        let allPostViewController = AllPostViewController()
+        navigationController?.pushViewController(allPostViewController, animated: true)
+        
+        print("See more button tapped..!")
+    }
 
     @objc private func settingsButtonTapped() {
         // Handle settings button tap
