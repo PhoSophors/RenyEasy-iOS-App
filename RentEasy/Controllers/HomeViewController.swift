@@ -156,7 +156,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     private func setupAllRentCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: view.frame.width * 0.5, height: 250) // Adjust width to 50% of screen width
+        layout.itemSize = CGSize(width: view.frame.width * 0.5, height: 250)
         layout.minimumLineSpacing = 15
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
 
@@ -232,7 +232,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let isFavorite = favoriteViewModel.isFavorite(postId: post.id)
 
             cell.configure(with: imageUrl, title: post.title, location: post.location, property: post.propertyType, price: post.price)
-            cell.isFavorite = post.isFavorite
+            cell.isFavorite = isFavorite
             cell.delegate = self
 
             return cell
@@ -246,7 +246,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let isFavorite = favoriteViewModel.isFavorite(postId: post.id)
 
             cell.configure(with: imageUrl, title: post.title, location: post.location, property: post.propertyType, price: post.price)
-            cell.isFavorite = post.isFavorite
+            cell.isFavorite = isFavorite
             cell.delegate = self
 
             return cell
@@ -255,14 +255,15 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     // MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        _ = allPosts[indexPath.item]
         if collectionView == vilaCollectionView {
-            _ = vilaPosts[indexPath.row]
+            let selectedPost = vilaPosts[indexPath.item]
             let detailViewController = PostDetailViewController()
+            detailViewController.configure(with: selectedPost)
             navigationController?.pushViewController(detailViewController, animated: true)
         } else {
-            _ = allPosts[indexPath.row]
+            let selectedPost = allPosts[indexPath.item]
             let detailViewController = PostDetailViewController()
+            detailViewController.configure(with: selectedPost)
             navigationController?.pushViewController(detailViewController, animated: true)
         }
     }

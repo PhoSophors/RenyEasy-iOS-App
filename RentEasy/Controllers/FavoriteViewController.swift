@@ -75,9 +75,9 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
     // MARK: - Collection View Delegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let favorite = viewModel.favorites[indexPath.row]
+        let selectedPost = viewModel.favorites[indexPath.row].post
         let detailViewController = PostDetailViewController()
-//        detailViewController.post = favorite.post
+        detailViewController.configure(with: selectedPost)
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
@@ -130,3 +130,4 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
 }
+

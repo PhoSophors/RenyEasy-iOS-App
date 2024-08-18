@@ -21,6 +21,7 @@
 		18560C7F2C65FE98008791AB /* ForgotPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */; };
 		18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */; };
 		18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560C822C660C73008791AB /* SetNewPasswordViewController.swift */; };
+		186FDAF82C719D1800B45B63 /* PostDeatailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FDAF72C719D1800B45B63 /* PostDeatailCollectionViewCell.swift */; };
 		1878D46C2C5F9245006B1FF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1878D46A2C5F9245006B1FF9 /* LoginViewController.swift */; };
 		1878D46D2C5F9245006B1FF9 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1878D46B2C5F9245006B1FF9 /* LoginViewController.xib */; };
 		187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187A86A02C5E3A2E00F70783 /* AppDelegate.swift */; };
@@ -71,6 +72,7 @@
 		18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ForgotPassword.storyboard; sourceTree = "<group>"; };
 		18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyForgotPasswordOTPViewController.swift; sourceTree = "<group>"; };
 		18560C822C660C73008791AB /* SetNewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNewPasswordViewController.swift; sourceTree = "<group>"; };
+		186FDAF72C719D1800B45B63 /* PostDeatailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDeatailCollectionViewCell.swift; sourceTree = "<group>"; };
 		1878D46A2C5F9245006B1FF9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1878D46B2C5F9245006B1FF9 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		187A869D2C5E3A2E00F70783 /* RentEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RentEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -203,6 +205,7 @@
 				1885CD322C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift */,
 				1885CD342C6C66B900C2FFA5 /* CategoryCell.swift */,
 				18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */,
+				186FDAF72C719D1800B45B63 /* PostDeatailCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				1808A8DD2C7050CF00164743 /* PostDetailViewController.swift in Sources */,
 				1881F8462C6B0DBB0008E86B /* ProfileViewModel.swift in Sources */,
 				1881F84B2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift in Sources */,
+				186FDAF82C719D1800B45B63 /* PostDeatailCollectionViewCell.swift in Sources */,
 				1885CD332C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift in Sources */,
 				188092772C5FA3BA00A72B80 /* RegisterViewController.swift in Sources */,
 				182643B02C607BC20061D422 /* APICaller.swift in Sources */,

@@ -31,6 +31,26 @@ extension UIImageView {
             }
         }.resume()
     }
+    
+    // New method with completion handler
+        func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
+            guard let url = URL(string: urlString) else {
+                completion(nil)
+                return
+            }
+            
+            URLSession.shared.dataTask(with: url) { data, _, _ in
+                guard let data = data, let image = UIImage(data: data) else {
+                    completion(nil)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.image = image
+                    completion(image)
+                }
+            }.resume()
+        }
 }
 
 
