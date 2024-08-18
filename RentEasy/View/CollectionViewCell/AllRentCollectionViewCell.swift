@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import SnapKit
 
+protocol AllRentCollectionViewCellDelegate: AnyObject {
+    func didTapHeartButton(on cell: AllRentCollectionViewCell)
+}
+
 class AllRentCollectionViewCell: UICollectionViewCell {
 
     static let identifier = "VilaCollectionViewCell"
@@ -76,6 +80,9 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    // Define and declare the delegate
+    weak var delegate: AllRentCollectionViewCellDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(containerView)
@@ -115,6 +122,8 @@ class AllRentCollectionViewCell: UICollectionViewCell {
             make.bottom.equalToSuperview().offset(-10)
         }
         
+        heartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
+        
         // Adjust gradient layer frame after layout
         gradientLabelView.layer.sublayers?.first?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 60)
     }
@@ -133,5 +142,20 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         } else {
             villaImageView.image = UIImage(named: "placeholder")
         }
+    }
+    
+    // New property
+    var isFavorite: Bool = false {
+        didSet {
+            let imageName = isFavorite ? "heart.fill" : "heart"
+            heartButton.setImage(UIImage(systemName: imageName), for: .normal)
+            heartButton.tintColor = isFavorite ? .white : .white
+        }
+    }
+    
+    @objc private func heartButtonTapped() {
+        isFavorite.toggle()
+        delegate?.didTapHeartButton(on: self)
+        print("Heart button tapped. Current favorite status: \(isFavorite)")
     }
 }

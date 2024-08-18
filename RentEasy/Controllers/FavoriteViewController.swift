@@ -75,7 +75,10 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
     // MARK: - Collection View Delegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // Handle cell selection
+        let favorite = viewModel.favorites[indexPath.row]
+        let detailViewController = PostDetailViewController()
+//        detailViewController.post = favorite.post
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     @objc private func heartButtonTapped(_ sender: UIButton) {

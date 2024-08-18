@@ -30,7 +30,7 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
         collectionView.dataSource = self
         collectionView.delegate = self
 
-        collectionView.register(AllPostCollectionViewCell.self, forCellWithReuseIdentifier: AllPostCollectionViewCell.identifier)
+        collectionView.register(AllRentCollectionViewCell.self, forCellWithReuseIdentifier: AllRentCollectionViewCell.identifier)
 
         view.addSubview(collectionView)
         
@@ -63,7 +63,7 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllPostCollectionViewCell.identifier, for: indexPath) as? AllPostCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllRentCollectionViewCell.identifier, for: indexPath) as? AllRentCollectionViewCell else {
             return UICollectionViewCell()
         }
         

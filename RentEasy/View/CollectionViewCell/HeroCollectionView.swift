@@ -71,3 +71,4 @@ extension HeroCollectionView: UICollectionViewDelegate, UICollectionViewDataSour
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
 }
+

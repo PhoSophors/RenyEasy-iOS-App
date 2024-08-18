@@ -40,9 +40,9 @@ public class APICaller {
         
         request.httpBody = body
         
-        print("Making request to: \(urlString)")
-        print("Method: \(method)")
-        print("Headers: \(request.allHTTPHeaderFields ?? [:])")
+//        print("Making request to: \(urlString)")
+//        print("Method: \(method)")
+//        print("Headers: \(request.allHTTPHeaderFields ?? [:])")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {

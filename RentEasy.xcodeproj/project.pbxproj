@@ -17,7 +17,6 @@
 		182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B12C607BDB0061D422 /* NetworkConstants.swift */; };
 		182643B42C607C5A0061D422 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B32C607C5A0061D422 /* AuthModel.swift */; };
 		184D8F322C7085B500D895BF /* AllPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184D8F312C7085B500D895BF /* AllPostViewController.swift */; };
-		184D8F342C70895E00D895BF /* AllPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184D8F332C70895E00D895BF /* AllPostCollectionViewCell.swift */; };
 		1850AB462C6F449200F31BB8 /* PostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850AB452C6F449200F31BB8 /* PostsModel.swift */; };
 		18560C7F2C65FE98008791AB /* ForgotPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */; };
 		18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */; };
@@ -47,7 +46,6 @@
 		1885CD2F2C6C61CD00C2FFA5 /* HeroCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1885CD2E2C6C61CD00C2FFA5 /* HeroCollectionView.swift */; };
 		1885CD332C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1885CD322C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift */; };
 		1885CD352C6C66B900C2FFA5 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1885CD342C6C66B900C2FFA5 /* CategoryCell.swift */; };
-		1885CD372C6C677C00C2FFA5 /* VilaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1885CD362C6C677C00C2FFA5 /* VilaCollectionViewCell.swift */; };
 		18C3D1472C64BB5400FA2A0E /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */; };
 		18C3D1482C64BB5400FA2A0E /* OTPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */; };
 		18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C980DA2C64D04E001AA8A7 /* Helper.swift */; };
@@ -69,7 +67,6 @@
 		182643B12C607BDB0061D422 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		182643B32C607C5A0061D422 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		184D8F312C7085B500D895BF /* AllPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostViewController.swift; sourceTree = "<group>"; };
-		184D8F332C70895E00D895BF /* AllPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		1850AB452C6F449200F31BB8 /* PostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsModel.swift; sourceTree = "<group>"; };
 		18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ForgotPassword.storyboard; sourceTree = "<group>"; };
 		18560C802C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyForgotPasswordOTPViewController.swift; sourceTree = "<group>"; };
@@ -101,7 +98,6 @@
 		1885CD2E2C6C61CD00C2FFA5 /* HeroCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroCollectionView.swift; sourceTree = "<group>"; };
 		1885CD322C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		1885CD342C6C66B900C2FFA5 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
-		1885CD362C6C677C00C2FFA5 /* VilaCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VilaCollectionViewCell.swift; sourceTree = "<group>"; };
 		18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPViewController.xib; sourceTree = "<group>"; };
 		18C980DA2C64D04E001AA8A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -206,9 +202,7 @@
 				1885CD2E2C6C61CD00C2FFA5 /* HeroCollectionView.swift */,
 				1885CD322C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift */,
 				1885CD342C6C66B900C2FFA5 /* CategoryCell.swift */,
-				1885CD362C6C677C00C2FFA5 /* VilaCollectionViewCell.swift */,
 				18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */,
-				184D8F332C70895E00D895BF /* AllPostCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -460,7 +454,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				184D8F342C70895E00D895BF /* AllPostCollectionViewCell.swift in Sources */,
 				188461882C621AE000F7737B /* ShareProfileViewController.swift in Sources */,
 				182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */,
 				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
@@ -496,7 +489,6 @@
 				181D2DB42C6B4C2000916C18 /* HomeView.swift in Sources */,
 				188461862C6216E200F7737B /* SettingViewController.swift in Sources */,
 				18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */,
-				1885CD372C6C677C00C2FFA5 /* VilaCollectionViewCell.swift in Sources */,
 				1850AB462C6F449200F31BB8 /* PostsModel.swift in Sources */,
 				1883ECD82C5F429D003861CA /* FavoriteViewController.swift in Sources */,
 				181D2DB22C6B3B8800916C18 /* FavoriteViewModel.swift in Sources */,

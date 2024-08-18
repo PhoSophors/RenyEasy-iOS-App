@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, VilaCollectionViewCellDelegate {
+class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, AllRentCollectionViewCellDelegate {
 
     private let heroCollectionView = HeroCollectionView()
     private let categoryCollectionViewCell = HomeCategoryCollectionViewCell()
@@ -108,7 +108,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         vilaCollectionView.dataSource = self
         vilaCollectionView.backgroundColor = .white
         vilaCollectionView.showsHorizontalScrollIndicator = false
-        vilaCollectionView.register(VilaCollectionViewCell.self, forCellWithReuseIdentifier: VilaCollectionViewCell.identifier)
+        vilaCollectionView.register(AllRentCollectionViewCell.self, forCellWithReuseIdentifier: AllRentCollectionViewCell.identifier)
 
         contentView.addSubview(vilaCollectionView)
         let labelView = vilaLabelView()
@@ -223,7 +223,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == vilaCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VilaCollectionViewCell.identifier, for: indexPath) as? VilaCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllRentCollectionViewCell.identifier, for: indexPath) as? AllRentCollectionViewCell else {
                 return UICollectionViewCell()
             }
 
@@ -243,8 +243,11 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
             let post = allPosts[indexPath.item]
             let imageUrl = post.images.first
+            let isFavorite = favoriteViewModel.isFavorite(postId: post.id)
 
             cell.configure(with: imageUrl, title: post.title, location: post.location, property: post.propertyType, price: post.price)
+            cell.isFavorite = post.isFavorite
+            cell.delegate = self
 
             return cell
         }
@@ -265,7 +268,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     @objc private func heartButtonTapped(_ sender: UIButton) {
-        guard let cell = sender.superview?.superview as? VilaCollectionViewCell,
+        guard let cell = sender.superview?.superview as? AllRentCollectionViewCell,
               let indexPath = vilaCollectionView.indexPath(for: cell) else {
             print("Error: Unable to determine indexPath for cell")
             return
@@ -301,7 +304,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
 
-    func didTapHeartButton(on cell: VilaCollectionViewCell) {
+    func didTapHeartButton(on cell: AllRentCollectionViewCell) {
         guard let indexPath = vilaCollectionView.indexPath(for: cell) else {
             print("Error: Unable to determine indexPath for cell")
             return
@@ -346,7 +349,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
 
-    // Action
+    // MARK: - Action
     
     @objc private func seeMoreTapped() {
         let allPostViewController = AllPostViewController()
