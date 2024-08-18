@@ -5,6 +5,8 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
 
     private var post: RentPost?
     private let pageControl = UIPageControl()
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
 
     private let imageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -29,9 +31,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         return label
     }()
     
-    // Define the userInfoStackView as a property
     private let userInfoStackView: UIStackView = {
-        // User Image View
         let userImageView = UIImageView()
         userImageView.image = UIImage(named: "AppIcon")
         userImageView.contentMode = .scaleAspectFill
@@ -41,25 +41,21 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             make.width.height.equalTo(40)
         }
 
-        // Name Label
         let nameLabel = UILabel()
         nameLabel.text = "RENT EASY"
         nameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         nameLabel.textColor = .black
 
-        // Title Label
         let roleLabel = UILabel()
         roleLabel.text = "Admin"
         roleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         roleLabel.textColor = .gray
 
-        // Stack View for Labels (Vertical)
         let labelStackView = UIStackView(arrangedSubviews: [nameLabel, roleLabel])
         labelStackView.axis = .vertical
         labelStackView.alignment = .leading
         labelStackView.spacing = 2
 
-        // Phone Button
         let phoneButton = UIButton(type: .system)
         phoneButton.setImage(UIImage(systemName: "phone"), for: .normal)
         phoneButton.tintColor = .systemIndigo
@@ -78,17 +74,15 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             make.width.height.equalTo(40)
         }
 
-        // Stack View (Horizontal) for the entire row
         let stackView = UIStackView(arrangedSubviews: [userImageView, labelStackView,messageButton, phoneButton])
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.spacing = 16 // Adjust spacing as needed
+        stackView.spacing = 16
         
         // Add background color
         stackView.backgroundColor = UIColor.systemGray6
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        
         stackView.clipsToBounds = true
         
         return stackView
@@ -102,26 +96,47 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         return label
     }()
     
-    private func propertyInfoView() -> UIStackView {
-        // Create labels for each feature and amenity
+    private func propertyInfoView() -> UIView {
+        var lastUpdateText = "N/A"
+        var createdDateText = "N/A"
+        
+        if let createdAtString = post?.createdAt {
+            print("createAt: \(createdAtString)")  // Debug: Check the createdAt string
+            if let createdAtDate = DateUtility.dateFromISO8601String(createdAtString) {
+                // Debug: Print current date and createdAtDate for comparison
+                let currentDate = Date()
+                print("Current date: \(currentDate)")
+                print("Post created date: \(createdAtDate)")
+                
+                lastUpdateText = DateUtility.timeAgoSinceDate(createdAtDate, currentDate: currentDate)
+                createdDateText = DateUtility.formattedDateString(from: createdAtDate)
+                print("lastUpdateText: \(lastUpdateText)")
+                print("createdDateText: \(createdDateText)")
+            } else {
+                print("Failed to convert date from string: \(createdAtString)")
+            }
+        } else {
+            print("post?.createdAt is nil")
+        }
+        
         let featureLabels: [(String, String)] = [
-            ("Type:", "Villa"),
-            ("Last Update:", "2 day ago"),
+            ("• Type:", post?.propertyType ?? "N/A"),
+            ("• Last Update:", lastUpdateText),
+            ("• Created Date:", createdDateText)
         ]
         
-        // Create an array to hold the stack views for each feature
         var featureViews: [UIStackView] = []
         
         for (labelText, detailText) in featureLabels {
             let label = UILabel()
             label.text = labelText
-            label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+            label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
             label.textColor = .gray
             
             let detailLabel = UILabel()
             detailLabel.text = detailText
-            detailLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-            detailLabel.textColor = .black
+            detailLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+            detailLabel.textColor = .systemIndigo
             
             let featureStackView = UIStackView(arrangedSubviews: [label, detailLabel])
             featureStackView.axis = .horizontal
@@ -131,12 +146,20 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             featureViews.append(featureStackView)
         }
         
-        // Create a stack view for all features and amenities
         let featuresStackView = UIStackView(arrangedSubviews: featureViews)
         featuresStackView.axis = .vertical
         featuresStackView.spacing = 10
+
+        let featuresContainerView = UIView()
+        featuresContainerView.backgroundColor = .systemGray6
+        featuresContainerView.layer.cornerRadius = 10
         
-        return featuresStackView
+        featuresContainerView.addSubview(featuresStackView)
+        featuresStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(10)
+        }
+        
+        return featuresContainerView
     }
 
     private let propertyFeatureLabel: UILabel = {
@@ -147,32 +170,27 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         return label
     }()
  
-    private func propertyFeaturesView() -> UIStackView {
-        // Create labels for each feature and amenity
+    private func propertyFeaturesView() -> UIView {
         let featureLabels: [(String, String)] = [
-            ("Location:", "Single Villa for rent at Khan Touk Kork"),
-            ("Asking price:", "$1800 /Month"),
-            ("Land size:", "14 x 22m"),
-            ("House size:", "9m x 12m"),
-            ("Bedrooms:", "04"),
-            ("Bathrooms:", "05"),
-            ("Furnished:", "Fully furnished"),
-            ("Distance:", "1km from Avenue TK")
-        ]
-        
-        // Create an array to hold the stack views for each feature
+           ("• Location:", post?.location ?? "N/A"),
+           ("• Asking price:", "\(post?.price ?? 0)"),
+           ("• Bedrooms:", "\(post?.bedrooms ?? 0)"),
+           ("• Bathrooms:", "\(post?.bathrooms ?? 0)"),
+           ("• Contact:", post?.contact ?? "N/A")
+       ]
+      
         var featureViews: [UIStackView] = []
         
         for (labelText, detailText) in featureLabels {
             let label = UILabel()
             label.text = labelText
-            label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+            label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
             label.textColor = .gray
             
             let detailLabel = UILabel()
             detailLabel.text = detailText
-            detailLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-            detailLabel.textColor = .black
+            detailLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+            detailLabel.textColor = .systemIndigo
             
             let featureStackView = UIStackView(arrangedSubviews: [label, detailLabel])
             featureStackView.axis = .horizontal
@@ -182,17 +200,46 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             featureViews.append(featureStackView)
         }
         
-        // Create a stack view for all features and amenities
         let featuresStackView = UIStackView(arrangedSubviews: featureViews)
         featuresStackView.axis = .vertical
         featuresStackView.spacing = 10
         
-        return featuresStackView
+        let featuresContainerView = UIView()
+        featuresContainerView.backgroundColor = .systemGray6
+        featuresContainerView.layer.cornerRadius = 10
+        
+        featuresContainerView.addSubview(featuresStackView)
+        featuresStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(10)
+        }
+        
+        return featuresContainerView
+    }
+    
+    private func descriptionView() -> UIView {
+        // Create a container view for the description
+        let descriptionContainerView = UIView()
+        descriptionContainerView.backgroundColor = .systemGray6
+        descriptionContainerView.layer.cornerRadius = 10
+        
+        // Create the description label
+        let descriptionLabel = UILabel()
+        descriptionLabel.text = post?.content ?? "No description available"
+        descriptionLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        descriptionLabel.textColor = .black
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        
+        descriptionContainerView.addSubview(descriptionLabel)
+        
+        // Use SnapKit to set constraints
+        descriptionLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(16)
+        }
+        
+        return descriptionContainerView
     }
 
-
-    private let propertyLabel = UILabel()
-    private let priceLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -202,96 +249,108 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         setupViews()
         setupCollectionView()
         displayPostDetails()
+        
+        // Create a UIBarButtonItem with the desired image
+        let rightButton = UIBarButtonItem(
+            image: UIImage(systemName: "arrowshape.turn.up.right.fill"),
+            style: .plain,
+            target: self,
+            action: #selector(rightBarButtonTapped)
+        )
+
+        // Add the UIBarButtonItem to the right side of the navigation bar
+        self.navigationItem.rightBarButtonItem = rightButton
     }
+
+    // Action method for the right bar button item
+    @objc private func rightBarButtonTapped() {
+        // Handle the action when the button is tapped
+        print("Right bar button tapped")
+    }
+
 
     private func setupViews() {
         let propertyFeaturesView = propertyFeaturesView()
         let propertyInfoView = propertyInfoView()
+        let descriptionView = descriptionView()
         
-        view.addSubview(imageCollectionView)
-        view.addSubview(pageControl)
-        view.addSubview(titleLabel)
-        view.addSubview(locationLabel)
-        view.addSubview(userInfoStackView)
-        view.addSubview(propertyInfoLabel)
-        view.addSubview(propertyFeatureLabel)
-        view.addSubview(propertyLabel)
-        view.addSubview(priceLabel)
-        view.addSubview(propertyFeaturesView)
-        view.addSubview(propertyInfoView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
         
-        // Constraints for imageCollectionView
+        contentView.addSubview(imageCollectionView)
+        contentView.addSubview(pageControl)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(locationLabel)
+        contentView.addSubview(userInfoStackView)
+        contentView.addSubview(propertyInfoLabel)
+        contentView.addSubview(propertyFeatureLabel)
+        contentView.addSubview(propertyFeaturesView)
+        contentView.addSubview(propertyInfoView)
+        contentView.addSubview(descriptionView)
+        
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView)
+        }
+
         imageCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            make.top.equalTo(contentView.snp.top).offset(20)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(imageCollectionView.snp.width).multipliedBy(9.0 / 16.0)
         }
 
-        // Constraints for pageControl
         pageControl.snp.makeConstraints { make in
             make.top.equalTo(imageCollectionView.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
 
-        // Constraints for titleLabel
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(pageControl.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(10)
         }
 
-        // Constraints for locationLabel
         locationLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(10)
         }
-        
-        // Constraints for userInfoStackView
+
         userInfoStackView.snp.makeConstraints { make in
             make.top.equalTo(locationLabel.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(0)
+            make.height.equalTo(60)
         }
 
-        // Constraints for propertyInfoLabel
         propertyInfoLabel.snp.makeConstraints { make in
-            make.top.equalTo(userInfoStackView.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(30)
+            make.top.equalTo(userInfoStackView.snp.bottom).offset(30)
+            make.leading.trailing.equalToSuperview().inset(10)
         }
-        
-        // Constraints for propertyInfoView
+
         propertyInfoView.snp.makeConstraints { make in
             make.top.equalTo(propertyInfoLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(10)
         }
-        
-        
-        // Constraints for propertyFeatureLabel
+
         propertyFeatureLabel.snp.makeConstraints { make in
-            make.top.equalTo(propertyInfoView.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(30)
+            make.top.equalTo(propertyInfoView.snp.bottom).offset(30)
+            make.leading.trailing.equalToSuperview().inset(10)
         }
-        
-        // Constraints for propertyFeaturesView
+
         propertyFeaturesView.snp.makeConstraints { make in
             make.top.equalTo(propertyFeatureLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.bottom.equalTo(descriptionView.snp.top).offset(-10) // Updated
         }
         
-        // Constraints for propertyLabel
-        propertyLabel.snp.makeConstraints { make in
+        descriptionView.snp.makeConstraints { make in
             make.top.equalTo(propertyFeaturesView.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
-        }
-
-        // Constraints for priceLabel
-        priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(propertyLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-10)
         }
     }
-
-
 
     private func setupCollectionView() {
         imageCollectionView.dataSource = self
@@ -308,8 +367,6 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         imageCollectionView.reloadData()
         titleLabel.text = post.title
         locationLabel.text = post.location
-        propertyLabel.text = post.propertyType
-        priceLabel.text = "\(post.price) USD"
     }
 
     func configure(with post: RentPost) {

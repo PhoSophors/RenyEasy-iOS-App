@@ -16,6 +16,7 @@
 		182643B02C607BC20061D422 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643AF2C607BC20061D422 /* APICaller.swift */; };
 		182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B12C607BDB0061D422 /* NetworkConstants.swift */; };
 		182643B42C607C5A0061D422 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B32C607C5A0061D422 /* AuthModel.swift */; };
+		1830B48A2C723A72003AED1D /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1830B4892C723A72003AED1D /* DateUtility.swift */; };
 		184D8F322C7085B500D895BF /* AllPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184D8F312C7085B500D895BF /* AllPostViewController.swift */; };
 		1850AB462C6F449200F31BB8 /* PostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850AB452C6F449200F31BB8 /* PostsModel.swift */; };
 		18560C7F2C65FE98008791AB /* ForgotPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */; };
@@ -67,6 +68,7 @@
 		182643AF2C607BC20061D422 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		182643B12C607BDB0061D422 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		182643B32C607C5A0061D422 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
+		1830B4892C723A72003AED1D /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		184D8F312C7085B500D895BF /* AllPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostViewController.swift; sourceTree = "<group>"; };
 		1850AB452C6F449200F31BB8 /* PostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsModel.swift; sourceTree = "<group>"; };
 		18560C7E2C65FE98008791AB /* ForgotPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ForgotPassword.storyboard; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			children = (
 				18031BC82C612C1000B21678 /* AuthManager.swift */,
 				18C980DA2C64D04E001AA8A7 /* Helper.swift */,
+				1830B4892C723A72003AED1D /* DateUtility.swift */,
 			);
 			path = utilize;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				1878D46C2C5F9245006B1FF9 /* LoginViewController.swift in Sources */,
 				1814DCAB2C6FA8FD00B1389B /* PostView.swift in Sources */,
 				18C3D1472C64BB5400FA2A0E /* OTPViewController.swift in Sources */,
+				1830B48A2C723A72003AED1D /* DateUtility.swift in Sources */,
 				181D2DB42C6B4C2000916C18 /* HomeView.swift in Sources */,
 				188461862C6216E200F7737B /* SettingViewController.swift in Sources */,
 				18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */,
