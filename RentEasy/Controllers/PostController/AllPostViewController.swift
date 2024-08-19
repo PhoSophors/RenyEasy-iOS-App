@@ -15,7 +15,7 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "All Post Page"
+        self.title = "All Posts"
         view.backgroundColor = .white
         
         // Setup UICollectionViewFlowLayout

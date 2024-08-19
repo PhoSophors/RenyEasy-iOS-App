@@ -1,4 +1,3 @@
-
 import UIKit
 
 @main
@@ -18,6 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let navigationController = UINavigationController(rootViewController: initialViewController)
+        
+        // Set custom back button image globally
+        let backButtonImage = UIImage(systemName: "arrow.left")?.withRenderingMode(.alwaysTemplate)
+        let backButtonAppearance = UIBarButtonItem.appearance()
+        backButtonAppearance.setBackButtonTitlePositionAdjustment(UIOffset(horizontal: -1000, vertical: 0), for: .default)
+        backButtonAppearance.tintColor = .black
+        
+        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: nil, action: nil)
+        navigationController.navigationBar.backIndicatorImage = backButton.image
+        navigationController.navigationBar.backIndicatorTransitionMaskImage = backButton.image
+        
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
@@ -25,7 +35,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
         return true
     }
-
 }
-
-

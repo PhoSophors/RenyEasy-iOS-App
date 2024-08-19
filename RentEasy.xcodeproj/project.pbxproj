@@ -50,6 +50,7 @@
 		1885CD2F2C6C61CD00C2FFA5 /* HeroCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1885CD2E2C6C61CD00C2FFA5 /* HeroCollectionView.swift */; };
 		1885CD332C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1885CD322C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift */; };
 		1885CD352C6C66B900C2FFA5 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1885CD342C6C66B900C2FFA5 /* CategoryCell.swift */; };
+		1888FEE42C73935A00259A62 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1888FEE32C73935A00259A62 /* NotificationViewController.swift */; };
 		18C3D1472C64BB5400FA2A0E /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */; };
 		18C3D1482C64BB5400FA2A0E /* OTPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */; };
 		18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C980DA2C64D04E001AA8A7 /* Helper.swift */; };
@@ -105,6 +106,7 @@
 		1885CD2E2C6C61CD00C2FFA5 /* HeroCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroCollectionView.swift; sourceTree = "<group>"; };
 		1885CD322C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		1885CD342C6C66B900C2FFA5 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		1888FEE32C73935A00259A62 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		18C3D1452C64BB5400FA2A0E /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPViewController.xib; sourceTree = "<group>"; };
 		18C980DA2C64D04E001AA8A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				1883ECD52C5F4285003861CA /* HomeViewController.swift */,
 				1883ECD72C5F429D003861CA /* FavoriteViewController.swift */,
 				1883ECD92C5F42DC003861CA /* SearchViewController.swift */,
+				1888FEE32C73935A00259A62 /* NotificationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */,
 				1878D46C2C5F9245006B1FF9 /* LoginViewController.swift in Sources */,
 				1814DCAB2C6FA8FD00B1389B /* PostView.swift in Sources */,
+				1888FEE42C73935A00259A62 /* NotificationViewController.swift in Sources */,
 				18C3D1472C64BB5400FA2A0E /* OTPViewController.swift in Sources */,
 				1830B48A2C723A72003AED1D /* DateUtility.swift in Sources */,
 				181D2DB42C6B4C2000916C18 /* HomeView.swift in Sources */,

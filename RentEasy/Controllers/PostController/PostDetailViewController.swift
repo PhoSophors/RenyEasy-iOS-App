@@ -57,8 +57,8 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         labelStackView.spacing = 2
 
         let phoneButton = UIButton(type: .system)
-        phoneButton.setImage(UIImage(systemName: "phone"), for: .normal)
-        phoneButton.tintColor = .systemIndigo
+        phoneButton.setImage(UIImage(systemName: "phone.fill"), for: .normal)
+        phoneButton.tintColor = .darkGray
         phoneButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
         phoneButton.layer.cornerRadius = 20
         phoneButton.snp.makeConstraints { make in
@@ -67,7 +67,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         
         let messageButton = UIButton(type: .system)
         messageButton.setImage(UIImage(systemName: "message.fill"), for: .normal)
-        messageButton.tintColor = .systemIndigo
+        messageButton.tintColor = .darkGray
         messageButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
         messageButton.layer.cornerRadius = 20
         messageButton.snp.makeConstraints { make in
@@ -173,7 +173,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     private func propertyFeaturesView() -> UIView {
         let featureLabels: [(String, String)] = [
            ("• Location:", post?.location ?? "N/A"),
-           ("• Asking price:", "\(post?.price ?? 0)"),
+           ("• Asking price:", "$\(post?.price ?? 0) /Month"),
            ("• Bedrooms:", "\(post?.bedrooms ?? 0)"),
            ("• Bathrooms:", "\(post?.bathrooms ?? 0)"),
            ("• Contact:", post?.contact ?? "N/A")
@@ -244,7 +244,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        self.title = "Post Detail Page"
+        self.title = "Post Details"
 
         setupViews()
         setupCollectionView()
