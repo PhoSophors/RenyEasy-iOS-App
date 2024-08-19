@@ -66,10 +66,19 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
         let favorite = viewModel.favorites[indexPath.row]
         cell.configure(with: favorite)
+
+        // Initialize SeeMoreOptionsUtilize with the current view controller
+        cell.seeMoreOptionsUtilize = SeeMoreOptionsUtilize(viewController: self)
         
         cell.heartIcon.addTarget(self, action: #selector(heartButtonTapped(_:)), for: .touchUpInside)
+        cell.moreIcon.addTarget(self, action: #selector(moreIconTapped(_:)), for: .touchUpInside)
         
         return cell
+    }
+
+    @objc private func moreIconTapped(_ sender: UIButton) {
+        // Handle the "more" button tap in the FavoriteViewController
+        // This method will be called when the "more" button is tapped
     }
     
     // MARK: - Collection View Delegate

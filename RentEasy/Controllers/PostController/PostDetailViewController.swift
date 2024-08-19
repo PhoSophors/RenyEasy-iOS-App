@@ -255,19 +255,12 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             image: UIImage(systemName: "arrowshape.turn.up.right.fill"),
             style: .plain,
             target: self,
-            action: #selector(rightBarButtonTapped)
+            action: #selector(shareBarButtonTapped)
         )
 
         // Add the UIBarButtonItem to the right side of the navigation bar
         self.navigationItem.rightBarButtonItem = rightButton
     }
-
-    // Action method for the right bar button item
-    @objc private func rightBarButtonTapped() {
-        // Handle the action when the button is tapped
-        print("Right bar button tapped")
-    }
-
 
     private func setupViews() {
         let propertyFeaturesView = propertyFeaturesView()
@@ -410,6 +403,14 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         } else {
             print("Invalid page width: \(pageWidth)")
         }
+    }
+    
+    // MARK: - Action
+    
+    @objc private func shareBarButtonTapped() {
+        let sharePostViewController = SharePostViewController()
+//        sharePostViewController.modalPresentationStyle = .fullScreen
+        self.present(sharePostViewController, animated: true, completion: nil)
     }
 }
 
