@@ -42,6 +42,8 @@ class ForgotPasswordViewController: UIViewController {
             return
         }
         
+        LoadingOverlay.shared.show(over: self.view)
+        
         if validate(email: email) {
             APICaller.requestNewPassword(email: email) { (result: Result<String, NetworkError>) in
                 DispatchQueue.main.async {
@@ -56,6 +58,8 @@ class ForgotPasswordViewController: UIViewController {
                     }
                 }
             }
+        } else {
+            LoadingOverlay.shared.hide()
         }
     }
     

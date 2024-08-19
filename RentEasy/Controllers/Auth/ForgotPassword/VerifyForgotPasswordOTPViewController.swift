@@ -77,8 +77,13 @@ class VerifyForgotPasswordOTPViewController: UIViewController, UITextFieldDelega
             return
         }
         
+        LoadingOverlay.shared.show(over: self.view)
+        
         APICaller.verifyResetPasswordOTP(email: email, otp: otp) { result in
             DispatchQueue.main.async {
+                
+                LoadingOverlay.shared.hide()
+                
                 switch result {
                 case .success(_):
                     self.navigateToSetNewPasswordViewController()

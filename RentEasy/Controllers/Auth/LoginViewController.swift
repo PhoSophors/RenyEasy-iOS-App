@@ -39,18 +39,25 @@ class LoginViewController: UIViewController {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             return
         }
-        
+    
+        // Show loading
+        LoadingOverlay.shared.show(over: self.view)
+
         if validate(email: email, password: password) {
             APICaller.login(email: email, password: password) { result in
                 DispatchQueue.main.async {
                     switch result {
                         case .success(let token):
+                            LoadingOverlay.shared.hide()
                             self.handleLoginSuccess(token: token)
                         case .failure(let error):
                             ErrorHandlingUtility.handle(error: error, in: self)
                     }
                 }
             }
+        } else {
+            // hide loading if validation fails
+            LoadingOverlay.shared.hide()
         }
     }
 

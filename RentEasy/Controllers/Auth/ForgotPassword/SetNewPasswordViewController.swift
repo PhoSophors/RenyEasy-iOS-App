@@ -35,15 +35,18 @@ class SetNewPasswordViewController: UIViewController {
         guard validate(password: password, confirmPassword: confirmPassword) else {
             return
         }
+        
+        LoadingOverlay.shared.show(over: self.view)
 
         APICaller.setNewPassword(email: email, newPassword: password, confirmPassword: confirmPassword) { result in
             DispatchQueue.main.async {
+                
+                LoadingOverlay.shared.hide()
+                
                 switch result {
                 case .success(let message):
-                    print("Password reset successful: \(message)")
                     self.handleSetNewPasswordSuccess()
                 case .failure(let error):
-                    print("API Error: \(error.localizedDescription)")
                     self.showAlert(title: "Error", message: "Failed to set new password.")
                 }
             }

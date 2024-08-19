@@ -66,6 +66,7 @@ public class APICaller {
                     completion(.failure(.canNotParseData))
                 }
             case 400:
+//                completion(.failure(.invalidCredentials("Incorrect email or password")))
                 if let data = data, let errorMessage = String(data: data, encoding: .utf8) {
                         completion(.failure(.invalidCredentials(errorMessage)))
                     } else {

@@ -1,10 +1,3 @@
-//
-//  ErrorHandlingUtility.swift
-//  RentEasy
-//
-//  Created by Apple on 19/8/24.
-//
-
 import Foundation
 import UIKit
 
@@ -28,12 +21,17 @@ class ErrorHandlingUtility {
         case .notFound:
             errorMessage = "Resource not found. Please check the URL or try again later."
         }
-        showAlert(with: errorMessage, in: viewController)
+        showAlert(with: errorMessage, in: viewController) {
+            LoadingOverlay.shared.hide()
+        }
     }
     
-    private static func showAlert(with message: String, in viewController: UIViewController) {
+    private static func showAlert(with message: String, in viewController: UIViewController, completion: @escaping () -> Void) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            completion()
+        }
+        alert.addAction(okAction)
         viewController.present(alert, animated: true, completion: nil)
     }
 }

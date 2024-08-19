@@ -77,8 +77,13 @@ class OTPViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        LoadingOverlay.shared.show(over: self.view)
+        
         APICaller.verifyRegisterOTP(email: email, otp: otp) { result in
             DispatchQueue.main.async {
+    
+                LoadingOverlay.shared.hide()
+                
                 switch result {
                     case .success(let token):
                         // Save the token to UserDefaults

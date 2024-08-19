@@ -60,6 +60,8 @@ class RegisterViewController: UIViewController {
             return
         }
         
+        LoadingOverlay.shared.show(over: self.view)
+        
         if validate(username: username, email: email, password: password, confirmPassword: confirmPassword) {
             APICaller.register(username: username, email: email, password: password, confirmPassword: confirmPassword) { result in
                 DispatchQueue.main.async {
@@ -71,6 +73,8 @@ class RegisterViewController: UIViewController {
                     }
                 }
             }
+        } else {
+            LoadingOverlay.shared.hide()
         }
     }
     

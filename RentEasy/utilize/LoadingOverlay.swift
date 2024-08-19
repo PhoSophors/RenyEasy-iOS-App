@@ -11,58 +11,56 @@ import SnapKit
 
 class LoadingOverlay {
     
+    private var overlayView: UIView!
+    private var activityIndicator: UIActivityIndicatorView!
+
     static let shared = LoadingOverlay()
-    
-    private var overlayView: UIView?
-    private var activityIndicator: UIActivityIndicatorView?
-    
-    private init() {}
-    
-    func showLoadingOverlay(on view: UIView) {
-        DispatchQueue.main.async {
-            guard self.overlayView == nil else { return } // Prevent multiple overlays
-            
-            self.overlayView = UIView(frame: view.bounds)
-            self.overlayView?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            self.overlayView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            
-            self.activityIndicator = UIActivityIndicatorView(style: .large)
-            self.activityIndicator?.color = .white
-            self.activityIndicator?.translatesAutoresizingMaskIntoConstraints = false
-            
-            if let overlayView = self.overlayView, let activityIndicator = self.activityIndicator {
-                overlayView.addSubview(activityIndicator)
-                
-                activityIndicator.snp.makeConstraints { make in
-                    make.center.equalToSuperview()
-                }
-                
-                view.addSubview(overlayView)
-                activityIndicator.startAnimating()
-                
-                print("Loading overlay shown") // Debug statement
-            } else {
-                print("Failed to initialize overlay or activity indicator") // Debug statement
-            }
+
+    private init() {
+        setupOverlay()
+    }
+
+    private func setupOverlay() {
+        overlayView = UIView()
+        overlayView.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        overlayView.layer.cornerRadius = 10
+        overlayView.layer.masksToBounds = true
+
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .white
+        activityIndicator.hidesWhenStopped = true
+
+        overlayView.addSubview(activityIndicator)
+
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
-    
-    func hideLoadingOverlay() {
-        DispatchQueue.main.async {
-            print("Hiding loading overlay") // Debug statement
-            
-            guard let overlayView = self.overlayView else {
-                print("No overlay view found") // Debug statement
-                return
-            }
-            
-            self.activityIndicator?.stopAnimating()
-            self.activityIndicator?.removeFromSuperview()
-            overlayView.removeFromSuperview()
-            
-            // Clean up references
-            self.overlayView = nil
-            self.activityIndicator = nil
+
+    func show(over view: UIView) {
+        guard overlayView.superview == nil else { return }
+
+        overlayView.alpha = 0
+        view.addSubview(overlayView)
+        overlayView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.equalTo(100)
+            make.height.equalTo(100)
+        }
+
+        activityIndicator.startAnimating()
+
+        UIView.animate(withDuration: 0.3) {
+            self.overlayView.alpha = 1
+        }
+    }
+
+    func hide() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.overlayView.alpha = 0
+        }) { _ in
+            self.activityIndicator.stopAnimating()
+            self.overlayView.removeFromSuperview()
         }
     }
 }
