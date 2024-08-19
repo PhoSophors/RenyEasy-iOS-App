@@ -40,9 +40,10 @@ class SettingViewController: UIViewController {
         }
     }
     
-    @objc private func logoutButtonTapped() {
+    @objc private func logoutButtonTapped(_ sender: UIButton) {
         // Call the AuthManager's clearToken method
         AuthManager.clearToken()
+       
         
         // Create and configure the login view controller
         let loginVC = LoginViewController()

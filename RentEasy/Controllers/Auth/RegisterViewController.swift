@@ -64,27 +64,10 @@ class RegisterViewController: UIViewController {
             APICaller.register(username: username, email: email, password: password, confirmPassword: confirmPassword) { result in
                 DispatchQueue.main.async {
                     switch result {
-                    case .success():
-                        self.handleRegisterSuccess()
-                    case .failure(let error):
-                        let errorMessage: String
-                        switch error {
-                        case .urlError:
-                            errorMessage = "URL Error"
-                        case .canNotParseData:
-                            errorMessage = "Failed to parse data"
-                        case .serverError(let message):
-                            errorMessage = message
-                        case .invalidCredentials(let message):
-                            errorMessage = message
-                        case .unauthorized:
-                            errorMessage = "Unauthorized access. Please check your credentials and try again."
-                        case .forbidden:
-                            errorMessage = "Access forbidden. You don't have permission to access this resource."
-                        case .notFound:
-                            errorMessage = "Resource not found. Please check the URL or try again later."
-                        }
-                        self.showAlert(title: "Error", message: errorMessage)
+                        case .success():
+                            self.handleRegisterSuccess()
+                        case .failure(let error):
+                            ErrorHandlingUtility.handle(error: error, in: self)
                     }
                 }
             }

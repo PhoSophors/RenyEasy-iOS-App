@@ -40,12 +40,18 @@ class HeroCollectionView: UIView {
     private func startImageSlideshow() {
         timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { [weak self] _ in
             guard let self = self else { return }
+            guard self.collectionView.frame.width > 0 else {
+                print("Collection view width is zero or invalid")
+                return
+            }
+            
             let currentIndex = Int(self.collectionView.contentOffset.x / self.collectionView.frame.width)
             let nextIndex = (currentIndex + 1) % self.images.count
             let indexPath = IndexPath(item: nextIndex, section: 0)
             self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         }
     }
+
 }
 
 extension HeroCollectionView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

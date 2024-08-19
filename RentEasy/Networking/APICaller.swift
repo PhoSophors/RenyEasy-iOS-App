@@ -8,8 +8,6 @@ enum NetworkError: Error {
     case unauthorized
     case forbidden
     case notFound
-//    case invalidURL
-//    case noData
 }
 
 struct UpdateProfile: Codable {

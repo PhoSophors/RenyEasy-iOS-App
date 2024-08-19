@@ -43,24 +43,7 @@ class SetNewPasswordViewController: UIViewController {
                     print("Password reset successful: \(message)")
                     self.handleSetNewPasswordSuccess()
                 case .failure(let error):
-                    let errorMessage: String
-                    switch error {
-                    case .urlError:
-                        errorMessage = "The URL is incorrect."
-                    case .canNotParseData:
-                        errorMessage = "Failed to parse data."
-                    case .serverError(let message):
-                        errorMessage = message
-                    case .invalidCredentials(let message):
-                        errorMessage = message
-                    case .unauthorized:
-                        errorMessage = "Unauthorized access. Please check your credentials."
-                    case .forbidden:
-                        errorMessage = "Access forbidden. You don't have permission to access this resource."
-                    case .notFound:
-                        errorMessage = "Resource not found. Please try again later."
-                    }
-                    self.showAlert(title: "Error", message: errorMessage)
+                    ErrorHandlingUtility.handle(error: error, in: self)
                 }
             }
         }

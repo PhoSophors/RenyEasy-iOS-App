@@ -9,5 +9,4 @@ target 'RentEasy' do
  pod 'SnapKit'
 pod 'SDWebImage'
 
-
 end
