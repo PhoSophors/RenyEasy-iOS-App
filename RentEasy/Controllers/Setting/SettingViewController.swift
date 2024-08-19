@@ -44,7 +44,6 @@ class SettingViewController: UIViewController {
         // Call the AuthManager's clearToken method
         AuthManager.clearToken()
        
-        
         // Create and configure the login view controller
         let loginVC = LoginViewController()
         let navController = UINavigationController(rootViewController: loginVC)

@@ -26,12 +26,12 @@ class SetNewPasswordViewController: UIViewController {
     
     @IBAction func saveNewPasswordButtonTapped(_ sender: UIButton) {
         guard let email = email,
-              let password = passwordTextField.text,
-              let confirmPassword = confirmPasswordTextField.text else {
+              let password = passwordTextField.text, !password.isEmpty,
+              let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else {
             showAlert(title: "Error", message: "Please fill in all fields.")
             return
         }
-        
+
         guard validate(password: password, confirmPassword: confirmPassword) else {
             return
         }
@@ -43,7 +43,8 @@ class SetNewPasswordViewController: UIViewController {
                     print("Password reset successful: \(message)")
                     self.handleSetNewPasswordSuccess()
                 case .failure(let error):
-                    ErrorHandlingUtility.handle(error: error, in: self)
+                    print("API Error: \(error.localizedDescription)")
+                    self.showAlert(title: "Error", message: "Failed to set new password.")
                 }
             }
         }
@@ -51,6 +52,14 @@ class SetNewPasswordViewController: UIViewController {
 
     func handleSetNewPasswordSuccess() {
         print("New Password set successfully.")
+        
+        // Debug email value
+          if let email = email {
+              print("Email used for new password: \(email)")
+          } else {
+              print("Email is nil in handleSetNewPasswordSuccess.")
+          }
+        
         // Ensure that the XIB file name matches the one used here
         let loginVC = LoginViewController(nibName: "LoginViewController", bundle: nil)
         loginVC.modalPresentationStyle = .fullScreen

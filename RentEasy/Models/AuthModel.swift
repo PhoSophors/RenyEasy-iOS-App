@@ -52,7 +52,7 @@ struct VerifyNewPasswordOTPResponse: Decodable {
 // MARK: Reset New Password
 struct NewPasswordModel: Codable {
     var email: String
-    var password: String
+    var newPassword: String
     var confirmPassword: String
 }
 

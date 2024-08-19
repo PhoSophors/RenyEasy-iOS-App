@@ -38,9 +38,9 @@ public class APICaller {
         
         request.httpBody = body
         
-//        print("Making request to: \(urlString)")
-//        print("Method: \(method)")
-//        print("Headers: \(request.allHTTPHeaderFields ?? [:])")
+        print("Making request to: \(urlString)")
+        print("Method: \(method)")
+        print("Headers: \(request.allHTTPHeaderFields ?? [:])")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -66,7 +66,11 @@ public class APICaller {
                     completion(.failure(.canNotParseData))
                 }
             case 400:
-                completion(.failure(.invalidCredentials("Incorrect email or password")))
+                if let data = data, let errorMessage = String(data: data, encoding: .utf8) {
+                        completion(.failure(.invalidCredentials(errorMessage)))
+                    } else {
+                        completion(.failure(.invalidCredentials("Bad request")))
+                    }
             case 401:
                 completion(.failure(.unauthorized))
             case 403:
@@ -200,14 +204,14 @@ public class APICaller {
     
     // MARK: - Set New Password
     static func setNewPassword(email: String, newPassword: String, confirmPassword: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
-        let newPasswordModel = NewPasswordModel(email: email, password: newPassword, confirmPassword: confirmPassword)
+        let newPasswordModel = NewPasswordModel(email: email, newPassword: newPassword, confirmPassword: confirmPassword)
         
         do {
             let jsonData = try JSONEncoder().encode(newPasswordModel)
             makeRequest(urlString: NetworkConstants.Endpoints.setNewPassword, method: "POST", body: jsonData) { result in
                 switch result {
                 case .success:
-                    completion(.success("Password has been successfully reset"))
+                    completion(.success(("asdf")))
                 case .failure(let error):
                     completion(.failure(error))
                 }
