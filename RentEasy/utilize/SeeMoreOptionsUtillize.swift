@@ -43,18 +43,17 @@ class SeeMoreOptionsUtilize {
     
     private func shareOptionTapped() {
         let sharePostViewController = SharePostViewController()
-        sharePostViewController.modalPresentationStyle = .fullScreen
+//        sharePostViewController.modalPresentationStyle = .fullScreen
         self.viewController?.present(sharePostViewController, animated: true, completion: nil)
     }
     
     private func editOptionTapped() {
         let editPostViewController = EditPostViewController()
-        let navigationController = UINavigationController(rootViewController: editPostViewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        self.viewController?.present(navigationController, animated: true, completion: nil)
+//        editPostViewController.modalPresentationStyle = .fullScreen
+        self.viewController?.present(editPostViewController, animated: true, completion: nil)
     }
     
     private func deleteButtonTapped() {
-       print("Delete Button tapped..!")
+        // Implement option 3 functionality
     }
 }

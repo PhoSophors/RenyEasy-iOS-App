@@ -9,7 +9,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
 
         self.tabBar.backgroundColor = .white
         self.tabBar.unselectedItemTintColor = .gray
-        self.tabBar.tintColor = .black
+        self.tabBar.tintColor = ColorManagerUtilize.shared.forestGreen
         self.delegate = self
         
         // Add border to tab bar

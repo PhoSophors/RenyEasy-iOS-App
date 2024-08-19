@@ -37,10 +37,18 @@ class AllRentCollectionViewCell: UICollectionViewCell {
     private let heartButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        button.tintColor = .white
-        button.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        button.tintColor = .darkGray
+        button.backgroundColor = .white
+//        button.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
+        
+        // Add shadow
+        button.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 2) // Shadow offset
+        button.layer.shadowOpacity = 0.5 // Shadow opacity
+        button.layer.shadowRadius = 4 // Shadow radius
+        
         return button
     }()
     
@@ -149,7 +157,7 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         didSet {
             let imageName = isFavorite ? "heart.fill" : "heart"
             heartButton.setImage(UIImage(systemName: imageName), for: .normal)
-            heartButton.tintColor = isFavorite ? .white : .white
+            heartButton.tintColor = isFavorite ? ColorManagerUtilize.shared.forestGreen : .darkGray
         }
     }
     

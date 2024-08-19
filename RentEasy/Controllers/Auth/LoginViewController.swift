@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
         passwordTextField.roundCorners([.allCorners], radius: 10)
         
         loginBtn.roundCorners([.allCorners], radius: 10)
-        loginBtn.backgroundColor = .systemIndigo
+        loginBtn.backgroundColor = ColorManagerUtilize.shared.forestGreen
         
         // Add tap gesture recognizer to registerLabel
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(navigateToRegister))

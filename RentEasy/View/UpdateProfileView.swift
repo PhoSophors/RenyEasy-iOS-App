@@ -50,7 +50,7 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         let button = UIButton(type: .system)
         button.setTitle("Save", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        button.backgroundColor = .systemIndigo
+        button.backgroundColor = ColorManagerUtilize.shared.forestGreen
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(ProfileUpdateView.self, action: #selector(didTapSaveButton), for: .touchUpInside)

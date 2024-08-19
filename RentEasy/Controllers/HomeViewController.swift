@@ -38,20 +38,20 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let leftImageView = UIImageView(image: UIImage(named: "AppIcon"))
         leftImageView.contentMode = .scaleAspectFit
         leftImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(35)
         }
         
         // Customize border for the left image view
-        leftImageView.layer.borderColor = UIColor.darkGray.cgColor
+        leftImageView.layer.borderColor = ColorManagerUtilize.shared.forestGreen.cgColor
         leftImageView.layer.borderWidth = 0.5
-        leftImageView.layer.cornerRadius = 15
+        leftImageView.layer.cornerRadius = 17.5
         leftImageView.layer.masksToBounds = true
         
         // Set up the username label
         let usernameLabel = UILabel()
         usernameLabel.text = "RentEasy" 
-        usernameLabel.textColor = .darkGray
-        usernameLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        usernameLabel.textColor = ColorManagerUtilize.shared.forestGreen
+        usernameLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         
         // Create a container view for the image and username
         let leftContainerView = UIStackView(arrangedSubviews: [leftImageView, usernameLabel])
@@ -59,7 +59,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         leftContainerView.spacing = 8
         leftContainerView.alignment = .center
         leftContainerView.snp.makeConstraints { make in
-            make.height.equalTo(30)
+            make.height.equalTo(35)
         }
         
         let leftBarButtonItem = UIBarButtonItem(customView: leftContainerView)
@@ -137,14 +137,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     private func vilaLabelView() -> UIStackView {
         let label = UILabel()
-        label.text = "Vila"
+        label.text = "VILLA"
         label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        label.textColor = .systemIndigo
+        label.textColor = .darkGray
         
         let seeMoreLabel = UILabel()
-        seeMoreLabel.text = "See more"
+        seeMoreLabel.text = "SEE MORE"
         seeMoreLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        seeMoreLabel.textColor = .systemIndigo
+        seeMoreLabel.textColor = ColorManagerUtilize.shared.forestGreen
         
         let stackView = UIStackView(arrangedSubviews: [label, seeMoreLabel])
         stackView.axis = .horizontal
@@ -189,14 +189,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     private func condoLabelView() -> UIStackView {
         let label = UILabel()
-        label.text = "Condo"
+        label.text = "CONDO"
         label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        label.textColor = .systemIndigo
+        label.textColor = .darkGray
         
         let seeMoreLabel = UILabel()
-        seeMoreLabel.text = "See more"
+        seeMoreLabel.text = "SEE MORE"
         seeMoreLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        seeMoreLabel.textColor = .systemIndigo
+        seeMoreLabel.textColor = ColorManagerUtilize.shared.forestGreen
         seeMoreLabel.isUserInteractionEnabled = true
         
         let stackView = UIStackView(arrangedSubviews: [label, seeMoreLabel])
@@ -246,14 +246,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     private func allRentLabelView() -> UIStackView {
         let label = UILabel()
-        label.text = "All"
+        label.text = "ALL"
         label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        label.textColor = .systemIndigo
+        label.textColor = .darkGray
         
         let seeMoreLabel = UILabel()
-        seeMoreLabel.text = "See more"
+        seeMoreLabel.text = "SEE MORE"
         seeMoreLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        seeMoreLabel.textColor = .systemIndigo
+        seeMoreLabel.textColor = ColorManagerUtilize.shared.forestGreen
         seeMoreLabel.isUserInteractionEnabled = true
         
         let stackView = UIStackView(arrangedSubviews: [label, seeMoreLabel])

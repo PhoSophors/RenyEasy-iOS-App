@@ -19,15 +19,15 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemIndigo
+        label.textColor = ColorManagerUtilize.shared.forestGreen
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return label
     }()
     
     private let locationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.textColor = ColorManagerUtilize.shared.deepCharcoal
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return label
     }()
     
@@ -44,12 +44,12 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         let nameLabel = UILabel()
         nameLabel.text = "RENT EASY"
         nameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        nameLabel.textColor = .black
+        nameLabel.textColor = ColorManagerUtilize.shared.deepCharcoal
 
         let roleLabel = UILabel()
         roleLabel.text = "Admin"
         roleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        roleLabel.textColor = .gray
+        roleLabel.textColor = ColorManagerUtilize.shared.forestGreen
 
         let labelStackView = UIStackView(arrangedSubviews: [nameLabel, roleLabel])
         labelStackView.axis = .vertical
@@ -58,7 +58,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
 
         let phoneButton = UIButton(type: .system)
         phoneButton.setImage(UIImage(systemName: "phone.fill"), for: .normal)
-        phoneButton.tintColor = .darkGray
+        phoneButton.tintColor = ColorManagerUtilize.shared.deepCharcoal
         phoneButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
         phoneButton.layer.cornerRadius = 20
         phoneButton.snp.makeConstraints { make in
@@ -67,7 +67,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         
         let messageButton = UIButton(type: .system)
         messageButton.setImage(UIImage(systemName: "message.fill"), for: .normal)
-        messageButton.tintColor = .darkGray
+        messageButton.tintColor = ColorManagerUtilize.shared.deepCharcoal
         messageButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
         messageButton.layer.cornerRadius = 20
         messageButton.snp.makeConstraints { make in
@@ -80,7 +80,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         stackView.spacing = 16
         
         // Add background color
-        stackView.backgroundColor = UIColor.systemGray6
+        stackView.backgroundColor = ColorManagerUtilize.shared.lightGray
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         stackView.clipsToBounds = true
@@ -91,7 +91,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     private let propertyInfoLabel: UILabel = {
         let label = UILabel()
         label.text = "Property Information"
-        label.textColor = .systemIndigo
+        label.textColor = ColorManagerUtilize.shared.deepCharcoal
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return label
     }()
@@ -130,13 +130,13 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         for (labelText, detailText) in featureLabels {
             let label = UILabel()
             label.text = labelText
-            label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+            label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
             label.textColor = .gray
             
             let detailLabel = UILabel()
             detailLabel.text = detailText
-            detailLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-            detailLabel.textColor = .systemIndigo
+            detailLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+            detailLabel.textColor = ColorManagerUtilize.shared.forestGreen
             
             let featureStackView = UIStackView(arrangedSubviews: [label, detailLabel])
             featureStackView.axis = .horizontal
@@ -151,8 +151,8 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         featuresStackView.spacing = 10
 
         let featuresContainerView = UIView()
-        featuresContainerView.backgroundColor = .systemGray6
-        featuresContainerView.layer.cornerRadius = 10
+        featuresContainerView.backgroundColor = ColorManagerUtilize.shared.lightGray
+        featuresContainerView.layer.cornerRadius = 5
         
         featuresContainerView.addSubview(featuresStackView)
         featuresStackView.snp.makeConstraints { make in
@@ -165,7 +165,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     private let propertyFeatureLabel: UILabel = {
         let label = UILabel()
         label.text = "Property Feature and Amenities"
-        label.textColor = .systemIndigo
+        label.textColor = ColorManagerUtilize.shared.deepCharcoal
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         return label
     }()
@@ -184,13 +184,13 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         for (labelText, detailText) in featureLabels {
             let label = UILabel()
             label.text = labelText
-            label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+            label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
             label.textColor = .gray
             
             let detailLabel = UILabel()
             detailLabel.text = detailText
-            detailLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-            detailLabel.textColor = .systemIndigo
+            detailLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+            detailLabel.textColor = ColorManagerUtilize.shared.forestGreen
             
             let featureStackView = UIStackView(arrangedSubviews: [label, detailLabel])
             featureStackView.axis = .horizontal
@@ -205,8 +205,8 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         featuresStackView.spacing = 10
         
         let featuresContainerView = UIView()
-        featuresContainerView.backgroundColor = .systemGray6
-        featuresContainerView.layer.cornerRadius = 10
+        featuresContainerView.backgroundColor = ColorManagerUtilize.shared.lightGray
+        featuresContainerView.layer.cornerRadius = 5
         
         featuresContainerView.addSubview(featuresStackView)
         featuresStackView.snp.makeConstraints { make in
@@ -219,14 +219,14 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     private func descriptionView() -> UIView {
         // Create a container view for the description
         let descriptionContainerView = UIView()
-        descriptionContainerView.backgroundColor = .systemGray6
-        descriptionContainerView.layer.cornerRadius = 10
+        descriptionContainerView.backgroundColor = ColorManagerUtilize.shared.lightGray
+        descriptionContainerView.layer.cornerRadius = 5
         
         // Create the description label
         let descriptionLabel = UILabel()
         descriptionLabel.text = post?.content ?? "No description available"
         descriptionLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        descriptionLabel.textColor = .black
+        descriptionLabel.textColor = ColorManagerUtilize.shared.deepCharcoal
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
         

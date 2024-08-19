@@ -24,7 +24,7 @@ class VerifyForgotPasswordOTPViewController: UIViewController, UITextFieldDelega
         super.viewDidLoad()
 
         verifyButton.roundCorners([.allCorners], radius: 10)
-        verifyButton.backgroundColor = .systemIndigo
+        verifyButton.backgroundColor = ColorManagerUtilize.shared.forestGreen
         verifyButton.tintColor = .white
         
         helper = Helper(viewController: self)

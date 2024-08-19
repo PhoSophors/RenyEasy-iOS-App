@@ -26,7 +26,7 @@ class OTPViewController: UIViewController, UITextFieldDelegate {
         backgroundView.roundCorners([.topLeft, .topRight], radius: 30)
         
         verifyOTPButton.roundCorners([.allCorners], radius: 10)
-        verifyOTPButton.backgroundColor = .systemIndigo
+        verifyOTPButton.backgroundColor = ColorManagerUtilize.shared.forestGreen
         
         // Initialize the helper
         helper = Helper(viewController: self)

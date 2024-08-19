@@ -30,7 +30,7 @@ class ForgotPasswordViewController: UIViewController {
         
         resetButton.roundCorners([.allCorners], radius: 10)
         
-        resetButton.backgroundColor = .systemIndigo
+        resetButton.backgroundColor = ColorManagerUtilize.shared.forestGreen
         resetButton.tintColor = .white
         
     }

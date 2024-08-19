@@ -56,6 +56,7 @@
 		18C5E9712C739DB900879BD9 /* SeeMoreOptionsUtillize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C5E9702C739DB900879BD9 /* SeeMoreOptionsUtillize.swift */; };
 		18C5E9732C73A74700879BD9 /* SharePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C5E9722C73A74700879BD9 /* SharePostViewController.swift */; };
 		18C5E9752C73A9AC00879BD9 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C5E9742C73A9AC00879BD9 /* EditPostViewController.swift */; };
+		18C5E9772C73B1A800879BD9 /* ColorManagerUtillze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */; };
 		18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C980DA2C64D04E001AA8A7 /* Helper.swift */; };
 		18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */; };
 		18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */; };
@@ -115,6 +116,7 @@
 		18C5E9702C739DB900879BD9 /* SeeMoreOptionsUtillize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoreOptionsUtillize.swift; sourceTree = "<group>"; };
 		18C5E9722C73A74700879BD9 /* SharePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePostViewController.swift; sourceTree = "<group>"; };
 		18C5E9742C73A9AC00879BD9 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
+		18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManagerUtillze.swift; sourceTree = "<group>"; };
 		18C980DA2C64D04E001AA8A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessageViewController.swift; sourceTree = "<group>"; };
 		18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRentCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				18017D922C732A4A00986D8A /* LoadingOverlay.swift */,
 				18017D942C732C7900986D8A /* ErrorHandlingUtility.swift */,
 				18C5E9702C739DB900879BD9 /* SeeMoreOptionsUtillize.swift */,
+				18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */,
 			);
 			path = utilize;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				18C5E9752C73A9AC00879BD9 /* EditPostViewController.swift in Sources */,
 				1808A8DD2C7050CF00164743 /* PostDetailViewController.swift in Sources */,
 				1881F8462C6B0DBB0008E86B /* ProfileViewModel.swift in Sources */,
+				18C5E9772C73B1A800879BD9 /* ColorManagerUtillze.swift in Sources */,
 				1881F84B2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift in Sources */,
 				186FDAF82C719D1800B45B63 /* PostDeatailCollectionViewCell.swift in Sources */,
 				1885CD332C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift in Sources */,

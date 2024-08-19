@@ -17,7 +17,7 @@ class SetNewPasswordViewController: UIViewController {
         confirmPasswordTextField.roundCorners([.allCorners], radius: 10)
         
         saveNewPasswordButton.roundCorners([.allCorners], radius: 10)
-        saveNewPasswordButton.backgroundColor = .systemIndigo
+        saveNewPasswordButton.backgroundColor = ColorManagerUtilize.shared.forestGreen
         saveNewPasswordButton.tintColor = .white
         
         addEyeIconToPasswordTextField()

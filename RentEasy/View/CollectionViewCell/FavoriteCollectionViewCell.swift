@@ -36,6 +36,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .bold)
         label.numberOfLines = 1
+        label.textColor = ColorManagerUtilize.shared.black
         return label
     }()
     
@@ -43,42 +44,54 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
         label.numberOfLines = 1
+        label.textColor = .darkGray
         return label
     }()
     
     let bedroomsAndbathroomsLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.textColor = .darkGray
         return label
     }()
     
     let propertyTypeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.textColor = .darkGray
         return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.textColor = ColorManagerUtilize.shared.forestGreen
         return label
     }()
     
     let heartIcon: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        button.tintColor = .darkGray
-        button.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
+        button.tintColor = ColorManagerUtilize.shared.forestGreen
+        button.backgroundColor = .white
         button.layer.cornerRadius = 20
         button.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Add shadow
+        button.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 2) // Shadow offset
+        button.layer.shadowOpacity = 0.5 // Shadow opacity
+        button.layer.shadowRadius = 4 // Shadow radius
+        
         return button
     }()
 
     let moreIcon: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        button.tintColor = .darkGray
-        button.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
+        button.tintColor = ColorManagerUtilize.shared.forestGreen
+        button.backgroundColor = .white
+//        button.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
         button.layer.cornerRadius = 20
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -86,7 +99,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemGray6
+        contentView.backgroundColor = ColorManagerUtilize.shared.lightGray
         contentView.layer.cornerRadius = 15
         
         contentView.addSubview(imageView)
@@ -118,7 +131,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         propertyTypeLabel.frame = CGRect(x: imageWidth + 20, y: 5 + labelHeight * 3, width: contentView.frame.size.width - imageWidth - 60, height: labelHeight)
         priceLabel.frame = CGRect(x: imageWidth + 20, y: 5 + labelHeight * 4, width: contentView.frame.size.width - imageWidth - 60, height: labelHeight)
         
-        let iconSize: CGFloat = 35
+        let iconSize: CGFloat = 38
         let padding: CGFloat = 10
         
         heartIcon.frame = CGRect(

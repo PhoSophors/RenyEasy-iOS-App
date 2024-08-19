@@ -167,7 +167,7 @@ class ProfileView: UIView {
     private func setupFollowersLabel() {
         followersLabel.textAlignment = .left
         followersLabel.font = UIFont.systemFont(ofSize: 14)
-        followersLabel.textColor = .blue
+        followersLabel.textColor = ColorManagerUtilize.shared.forestGreen
         contentView.addSubview(followersLabel)
         
         followersLabel.snp.makeConstraints { make in
@@ -209,7 +209,7 @@ class ProfileView: UIView {
     private func configureButton(_ button: UIButton, title: String, imageName: String) {
         button.setTitle(title, for: .normal)
         button.setImage(UIImage(systemName: imageName), for: .normal)
-        button.backgroundColor = .systemIndigo
+        button.backgroundColor = ColorManagerUtilize.shared.forestGreen
         button.tintColor = .white
         button.layer.cornerRadius = 8
         button.contentHorizontalAlignment = .left
