@@ -11,7 +11,9 @@ class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = "Search"
+        print("SearchViewController loaded")
+//        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .systemGray6
     }
 

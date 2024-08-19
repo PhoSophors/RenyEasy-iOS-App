@@ -23,17 +23,22 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setupCategoryCollectionView()
         setupVilaCollectionView()
         setupAllRentCollectionView()
-        
+        self.navigationController?.navigationBar.isHidden = false
         fetchPosts()
         favoriteViewModel.fetchFavorites()
 
-        let settingsImage = UIImage(systemName: "gearshape.fill")?.withRenderingMode(.alwaysTemplate)
-        let settingsButton = UIBarButtonItem(image: settingsImage, style: .plain, target: self, action: #selector(settingsButtonTapped))
-        self.navigationItem.rightBarButtonItem = settingsButton
-
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
-        self.navigationController?.navigationBar.tintColor = .black
+//        let settingsImage = UIImage(systemName: "gearshape.fill")?.withRenderingMode(.alwaysTemplate)
+//        let settingsButton = UIBarButtonItem(image: settingsImage, style: .plain, target: self, action: #selector(settingsButtonTapped))
+//        self.navigationItem.rightBarButtonItem = settingsButton
+//
+//        self.navigationController?.navigationBar.prefersLargeTitles = true
+//        self.navigationItem.largeTitleDisplayMode = .always
+//        self.navigationController?.navigationBar.tintColor = .black
+        
+     
+            
+            self.title = "Home"
+        // Additional setup for HomeViewController
     }
 
     private func setupScrollView() {
@@ -48,7 +53,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             make.width.equalTo(scrollView)
         }
     }
-
+    
     private func setupHeroCollectionView() {
         contentView.addSubview(heroCollectionView)
         heroCollectionView.snp.makeConstraints { make in
