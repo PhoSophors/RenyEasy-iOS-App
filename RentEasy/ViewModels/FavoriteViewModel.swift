@@ -14,6 +14,7 @@ class FavoriteViewModel {
     @Published var favorites: [Favorite] = []
     @Published var errorMessage: String?
     private var favoritePostIds: Set<String> = Set()
+    private var userInfo: UserInfo?
     
     // Fetch favorites
     func fetchFavorites() {
@@ -54,9 +55,17 @@ class FavoriteViewModel {
         }
     }
     
-    // Check if a post is a favorite
+    // Check if a post is a user favorite
     func isFavorite(postId: String) -> Bool {
-        return favoritePostIds.contains(postId)
+        if let userInfo = userInfo {
+            return userInfo.favorites.contains(postId)
+        }
+        return false
+    }
+
+    // Update user info
+    func updateUserInfo(_ userInfo: UserInfo) {
+        self.userInfo = userInfo
     }
     
     // Add a specific favorite

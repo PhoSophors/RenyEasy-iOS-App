@@ -4,7 +4,7 @@ import SnapKit
 class ProfileViewController: UIViewController, ProfileViewDelegate {
 
     private let profileView = ProfileView()
-    private let profileViewModel = ProfileViewModel()
+    private let userViewModel = UserViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,16 +33,16 @@ class ProfileViewController: UIViewController, ProfileViewDelegate {
         bindViewModel()
 
         // Fetch user info
-        profileViewModel.fetchUserInfo()
+        userViewModel.fetchUserInfo()
     }
 
     private func bindViewModel() {
-        profileViewModel.onUserInfoFetched = { [weak self] in
-            guard let userInfo = self?.profileViewModel.userInfo else { return }
+        userViewModel.onUserInfoFetched = { [weak self] in
+            guard let userInfo = self?.userViewModel.userInfo else { return }
             self?.profileView.updateProfile(with: userInfo)
         }
 
-        profileViewModel.onError = { [weak self] error in
+        userViewModel.onError = { [weak self] error in
             self?.handleError(error as! NetworkError)
         }
     }

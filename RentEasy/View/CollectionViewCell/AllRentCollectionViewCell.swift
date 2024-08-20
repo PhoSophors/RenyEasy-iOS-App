@@ -150,15 +150,21 @@ class AllRentCollectionViewCell: UICollectionViewCell {
         } else {
             villaImageView.image = UIImage(named: "placeholder")
         }
+        
+        updateFavoriteState()
     }
     
     // New property
     var isFavorite: Bool = false {
         didSet {
-            let imageName = isFavorite ? "heart.fill" : "heart"
-            heartButton.setImage(UIImage(systemName: imageName), for: .normal)
-            heartButton.tintColor = isFavorite ? ColorManagerUtilize.shared.forestGreen : .darkGray
+            updateFavoriteState()
         }
+    }
+    
+    func updateFavoriteState() {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        heartButton.setImage(UIImage(systemName: imageName), for: .normal)
+        heartButton.tintColor = isFavorite ? ColorManagerUtilize.shared.forestGreen : .darkGray
     }
     
     @objc private func heartButtonTapped() {

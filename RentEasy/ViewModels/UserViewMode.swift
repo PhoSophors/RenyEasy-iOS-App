@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ProfileViewModel {
+class UserViewModel {
     var userInfo: UserInfo?
     var onUserInfoFetched: (() -> Void)?
     var onError: ((Error) -> Void)?
