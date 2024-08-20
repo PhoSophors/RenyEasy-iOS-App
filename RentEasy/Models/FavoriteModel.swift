@@ -19,7 +19,7 @@ struct FavoriteData: Codable {
 
 struct Favorite: Codable {
     let id: String
-    let user: String
+    let user: [UserInfo]
     let post: RentPost
     let createdAt: String
     let v: Int

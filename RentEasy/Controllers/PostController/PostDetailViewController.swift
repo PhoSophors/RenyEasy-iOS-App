@@ -7,7 +7,8 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     private let pageControl = UIPageControl()
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-
+    private let userInfoStackView = UIStackView()
+    
     private let imageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -21,6 +22,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         let label = UILabel()
         label.textColor = ColorManagerUtilize.shared.forestGreen
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -31,23 +33,54 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         return label
     }()
     
-    private let userInfoStackView: UIStackView = {
+    private func configureUserInfoStackView() {
+        // Clear any existing arranged subviews from userInfoStackView
+        userInfoStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        guard let firstUser = post?.user.first else {
+            // Handle case where user array is empty or nil
+            return
+        }
+        
         let userImageView = UIImageView()
-        userImageView.image = UIImage(named: "AppIcon")
+        userImageView.image = UIImage(systemName: "person.circle.fill")
         userImageView.contentMode = .scaleAspectFill
         userImageView.clipsToBounds = true
         userImageView.layer.cornerRadius = 20
+        userImageView.backgroundColor = ColorManagerUtilize.shared.white
+        userImageView.tintColor = ColorManagerUtilize.shared.deepCharcoal
         userImageView.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
 
+
+        // Use the profile photo URL directly
+        if !firstUser.profilePhoto.isEmpty {
+            userImageView.loadImage(from: firstUser.profilePhoto) { image in
+                if let image = image {
+                    // Successfully loaded image
+                    userImageView.image = image
+                } else {
+                    // Handle image loading failure
+                    print("Failed to load image")
+                }
+            }
+        } else {
+            print("No profile photo URL available")
+        }
+        
         let nameLabel = UILabel()
-        nameLabel.text = "RENT EASY"
+        nameLabel.text = firstUser.username
         nameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         nameLabel.textColor = ColorManagerUtilize.shared.deepCharcoal
 
+        // Display role information
         let roleLabel = UILabel()
-        roleLabel.text = "Admin"
+        if let firstRole = firstUser.roles.first {
+            roleLabel.text = firstRole.name // Assuming 'name' is the field you want to display
+        } else {
+            roleLabel.text = "No role assigned"
+        }
         roleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         roleLabel.textColor = ColorManagerUtilize.shared.forestGreen
 
@@ -74,19 +107,17 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             make.width.height.equalTo(40)
         }
 
-        let stackView = UIStackView(arrangedSubviews: [userImageView, labelStackView,messageButton, phoneButton])
+        let stackView = UIStackView(arrangedSubviews: [userImageView, labelStackView, messageButton, phoneButton])
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 16
-        
-        // Add background color
         stackView.backgroundColor = ColorManagerUtilize.shared.lightGray
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         stackView.clipsToBounds = true
         
-        return stackView
-    }()
+        userInfoStackView.addArrangedSubview(stackView)
+    }
 
     private let propertyInfoLabel: UILabel = {
         let label = UILabel()
@@ -360,6 +391,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         imageCollectionView.reloadData()
         titleLabel.text = post.title
         locationLabel.text = post.location
+        configureUserInfoStackView()
     }
 
     func configure(with post: RentPost) {

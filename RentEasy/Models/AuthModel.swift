@@ -58,19 +58,52 @@ struct NewPasswordModel: Codable {
 
 // MARK: - User Response
 struct UserInfo: Codable {
-    let _id: String
+    let id: String
     let coverPhoto: String
     let profilePhoto: String
     let username: String
     let email: String
     let bio: String
     let location: String
-    let createdAt: Date
-    
-    // Update
-    let roles: String
+    let isVerified: Bool
+    let roles: [Role]
     let posts: [String]
     let favorites: [String]
     let messages: [String]
     let messagedUsers: [String]
+    let createdAt: String
+    let version: Int
+    let refreshToken: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case coverPhoto
+        case profilePhoto
+        case username
+        case email
+        case bio
+        case location
+        case isVerified
+        case roles
+        case posts
+        case favorites
+        case messages
+        case messagedUsers
+        case createdAt
+        case version = "__v"
+        case refreshToken
+    }
+}
+
+// Define the Role struct
+struct Role: Codable {
+    let name: String
+    let permissions: [String]
+    let id: String
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case permissions
+        case id = "_id"
+    }
 }

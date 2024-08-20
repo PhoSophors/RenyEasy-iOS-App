@@ -145,10 +145,10 @@ class ProfileView: UIView {
             make.top.equalTo(nameLabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
-            make.width.equalToSuperview().multipliedBy(0.7)
+            // Removed width constraint to avoid conflict
         }
     }
-    
+
     private func setupLocationLabel() {
         locationLabel.textAlignment = .left
         locationLabel.numberOfLines = 2
@@ -158,9 +158,8 @@ class ProfileView: UIView {
 
         locationLabel.snp.makeConstraints { make in
             make.top.equalTo(bioLabel.snp.bottom).offset(10)
-            make.left.equalToSuperview().offset(20)
-            make.width.equalToSuperview().multipliedBy(0.7)
-            make.right.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
     }
 

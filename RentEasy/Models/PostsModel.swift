@@ -20,7 +20,7 @@ struct PostData: Codable {
 
 struct RentPost: Codable {
     let id: String
-    let user: String
+    let user: [UserInfo]
     let title: String
     let content: String
     let images: [String]
