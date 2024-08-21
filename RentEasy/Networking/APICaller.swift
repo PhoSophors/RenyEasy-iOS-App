@@ -410,5 +410,30 @@ public class APICaller {
         }
     }
 
+    /**
+     *
+     * Search
+     * ============================================================================================
+     */
 
+    // MARK: - Search
+    static func searchPostsAndUsers(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
+        let urlString = "\(NetworkConstants.Endpoints.searchPostAndUser)?query=\(query)"
+        makeRequest(urlString: urlString, method: "GET") { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let response = try decoder.decode(SearchResponse.self, from: data)
+                    completion(.success(response))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
 }

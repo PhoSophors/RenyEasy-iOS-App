@@ -7,7 +7,7 @@ protocol HomeCategoryCollectionViewCellDelegate: AnyObject {
 
 class HomeCategoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "HomeCategoryCollectionViewCell"
-    
+
     private let categories = [
         "House": "house",
         "Apartment": "apartment",
@@ -17,9 +17,11 @@ class HomeCategoryCollectionViewCell: UICollectionViewCell {
         "Townhouse": "townhouse",
         "Room": "room"
     ]
-    
+
     weak var delegate: HomeCategoryCollectionViewCellDelegate?
     
+    var activeCategory: String?
+
     private let categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -28,25 +30,30 @@ class HomeCategoryCollectionViewCell: UICollectionViewCell {
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCollectionView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func setupCollectionView() {
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
         categoryCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCell")
         contentView.addSubview(categoryCollectionView)
-        
+
         categoryCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+
+    func configure(with activeCategory: String?) {
+        self.activeCategory = activeCategory
+        categoryCollectionView.reloadData()
     }
 }
 
@@ -73,7 +80,12 @@ extension HomeCategoryCollectionViewCell: UICollectionViewDelegate, UICollection
         label.frame = cell.contentView.bounds.insetBy(dx: 10, dy: 10)
         cell.contentView.addSubview(label)
 
-        cell.contentView.backgroundColor = ColorManagerUtilize.shared.deepGreen
+        if activeCategory == nil || categories[categoryName] == activeCategory {
+            cell.contentView.backgroundColor = ColorManagerUtilize.shared.deepGreen
+        } else {
+            cell.contentView.backgroundColor = .gray
+        }
+
         cell.contentView.layer.cornerRadius = 8
         cell.contentView.layer.masksToBounds = true
 
@@ -87,18 +99,13 @@ extension HomeCategoryCollectionViewCell: UICollectionViewDelegate, UICollection
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // Convert the dictionary keys to an array to use with the index
         let categoryNames = Array(categories.keys)
-        
-        // Access the category name using the index
         let categoryName = categoryNames[indexPath.item]
-        
-        // Configure the label
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.text = categoryName
         label.sizeToFit()
-        
+
         let desiredHeight: CGFloat = 40
         
         return CGSize(width: label.frame.width + 20, height: desiredHeight)

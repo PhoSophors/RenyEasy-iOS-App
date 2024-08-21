@@ -38,7 +38,7 @@ class NetworkConstants {
         }
         
         
-        // MARK: User
+        // MARK: - User
         public static var getUserInfo: String {
             return "\(NetworkConstants.shared.serverAddress)/auths/profile"
         }
@@ -63,6 +63,11 @@ class NetworkConstants {
         }
         public static var fetchAllPost: String {
             return "\(NetworkConstants.shared.serverAddress)/posts/get-all-posts"
+        }
+        
+        // MARK: - Search Post and User
+        public static var searchPostAndUser: String {
+            return "\(NetworkConstants.shared.serverAddress)/searchs/searchsPostAndUser"
         }
         
    }

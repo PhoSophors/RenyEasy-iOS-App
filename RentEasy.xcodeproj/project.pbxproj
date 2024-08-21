@@ -19,6 +19,8 @@
 		182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B12C607BDB0061D422 /* NetworkConstants.swift */; };
 		182643B42C607C5A0061D422 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B32C607C5A0061D422 /* AuthModel.swift */; };
 		1830B48A2C723A72003AED1D /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1830B4892C723A72003AED1D /* DateUtility.swift */; };
+		184CABAD2C75BE4300700345 /* PullToRefreshHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184CABAC2C75BE4300700345 /* PullToRefreshHandler.swift */; };
+		184CABAF2C75C7AA00700345 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184CABAE2C75C7AA00700345 /* SearchModel.swift */; };
 		184D8F322C7085B500D895BF /* AllPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184D8F312C7085B500D895BF /* AllPostViewController.swift */; };
 		18507C9C2C74E42100ADD2B5 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18507C9B2C74E42100ADD2B5 /* PostViewModel.swift */; };
 		1850AB462C6F449200F31BB8 /* PostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1850AB452C6F449200F31BB8 /* PostsModel.swift */; };
@@ -77,6 +79,8 @@
 		182643B12C607BDB0061D422 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		182643B32C607C5A0061D422 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		1830B4892C723A72003AED1D /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
+		184CABAC2C75BE4300700345 /* PullToRefreshHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefreshHandler.swift; sourceTree = "<group>"; };
+		184CABAE2C75C7AA00700345 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		184D8F312C7085B500D895BF /* AllPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostViewController.swift; sourceTree = "<group>"; };
 		18507C9B2C74E42100ADD2B5 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		1850AB452C6F449200F31BB8 /* PostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsModel.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				18017D942C732C7900986D8A /* ErrorHandlingUtility.swift */,
 				18C5E9702C739DB900879BD9 /* SeeMoreOptionsUtillize.swift */,
 				18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */,
+				184CABAC2C75BE4300700345 /* PullToRefreshHandler.swift */,
 			);
 			path = utilize;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 				182643B32C607C5A0061D422 /* AuthModel.swift */,
 				1881F84C2C6B2BFF0008E86B /* FavoriteModel.swift */,
 				1850AB452C6F449200F31BB8 /* PostsModel.swift */,
+				184CABAE2C75C7AA00700345 /* SearchModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -484,6 +490,7 @@
 				188461882C621AE000F7737B /* ShareProfileViewController.swift in Sources */,
 				182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */,
 				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
+				184CABAF2C75C7AA00700345 /* SearchModel.swift in Sources */,
 				18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */,
 				18C5E9752C73A9AC00879BD9 /* EditPostViewController.swift in Sources */,
 				1808A8DD2C7050CF00164743 /* PostDetailViewController.swift in Sources */,
@@ -511,6 +518,7 @@
 				18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */,
 				187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */,
 				1880927A2C5FA55F00A72B80 /* UIView+Extensions.swift in Sources */,
+				184CABAD2C75BE4300700345 /* PullToRefreshHandler.swift in Sources */,
 				1881F84D2C6B2BFF0008E86B /* FavoriteModel.swift in Sources */,
 				18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */,
 				18031BC92C612C1000B21678 /* AuthManager.swift in Sources */,
