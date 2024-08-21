@@ -35,7 +35,6 @@ class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.title = "Search"
         view.backgroundColor = ColorManagerUtilize.shared.white
         setupNavigationBar()
         
@@ -47,21 +46,15 @@ class SearchViewController: UIViewController {
     
     // MARK: - setupNavigationBar
     private func setupNavigationBar() {
-        // Set up the left image view
-        let leftImageView = UIImageView(image: UIImage(named: "AppIcon"))
-        leftImageView.contentMode = .scaleAspectFit
-        leftImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(35)
-        }
+        // Set up the left label
+        let leftLabel = UILabel()
+        leftLabel.text = "Search"
+        leftLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        leftLabel.textColor = ColorManagerUtilize.shared.forestGreen
+        leftLabel.textAlignment = .center
         
-        // Customize border for the left image view
-        leftImageView.layer.borderColor = ColorManagerUtilize.shared.forestGreen.cgColor
-        leftImageView.layer.borderWidth = 0.5
-        leftImageView.layer.cornerRadius = 17.5
-        leftImageView.layer.masksToBounds = true
-        
-        // Create a container view for the image and username
-        let leftContainerView = UIStackView(arrangedSubviews: [leftImageView])
+        // Create a container view for the label
+        let leftContainerView = UIStackView(arrangedSubviews: [leftLabel])
         leftContainerView.axis = .horizontal
         leftContainerView.spacing = 8
         leftContainerView.alignment = .center
@@ -250,7 +243,7 @@ extension SearchViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width - 10) / 2 
+        let width = (collectionView.frame.width - 10) / 2
         return CGSize(width: width, height: width * 1.5)
     }
 }
