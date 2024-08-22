@@ -27,11 +27,12 @@ class SearchViewController: UIViewController {
         label.text = "No results found"
         label.textAlignment = .center
         label.textColor = .gray
-        label.isHidden = true
+        label.backgroundColor = .yellow
         return label
     }()
     
     private var posts: [RentPost] = []
+    private var users: [UserInfo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,9 @@ class SearchViewController: UIViewController {
         setupSearchTextField()
         setupCollectionView()
         setupNoResultsLabel()
+        
+        noResultsLabel.isHidden = false
+        view.layoutIfNeeded()
     }
     
     // MARK: - setupNavigationBar
@@ -118,21 +122,21 @@ class SearchViewController: UIViewController {
     private func setupSearchTextField() {
         searchTextField = UITextField()
         searchTextField.placeholder = "Search..."
-        searchTextField.borderStyle = .roundedRect
+        searchTextField.borderStyle = .none
         searchTextField.clearButtonMode = .whileEditing
         searchTextField.returnKeyType = .search
         searchTextField.autocorrectionType = .no
         searchTextField.autocapitalizationType = .none
         searchTextField.backgroundColor = ColorManagerUtilize.shared.white
         searchTextField.delegate = self
-
+        
         // Create a search icon
         let searchIcon = UIImageView(image: UIImage(systemName: "magnifyingglass"))
         searchIcon.tintColor = .gray // Set color for the icon
         searchIcon.contentMode = .scaleAspectFit
 
         // Set padding
-        let padding: CGFloat = 8.0
+        let padding: CGFloat = 20
         let iconWidth: CGFloat = 20.0
         searchIcon.frame = CGRect(x: 0, y: 0, width: iconWidth, height: iconWidth)
 
@@ -143,6 +147,12 @@ class SearchViewController: UIViewController {
         searchTextField.leftView = paddingView
         searchTextField.leftViewMode = .always
 
+        // Set corner radius
+        searchTextField.layer.cornerRadius = 20
+        searchTextField.layer.borderWidth = 1
+        searchTextField.backgroundColor = nil
+        searchTextField.layer.borderColor = ColorManagerUtilize.shared.deepCharcoal.cgColor
+
         containerView.addSubview(searchTextField)
 
         searchTextField.snp.makeConstraints { make in
@@ -152,7 +162,6 @@ class SearchViewController: UIViewController {
             make.height.equalTo(40)
         }
     }
-
 
     private func setupCollectionView() {
         containerView.addSubview(collectionView)
@@ -175,6 +184,7 @@ class SearchViewController: UIViewController {
             make.top.equalTo(searchTextField.snp.bottom).offset(20)
             make.bottom.equalTo(containerView.snp.bottom).offset(-20)
         }
+        noResultsLabel.isHidden = true
     }
 
     private func updateCollectionViewHeight() {
@@ -185,28 +195,40 @@ class SearchViewController: UIViewController {
     }
 
     private func updateNoResultsLabelVisibility() {
-        noResultsLabel.isHidden = !posts.isEmpty
+        let shouldHideLabel = (posts.isEmpty && users.isEmpty)
+        noResultsLabel.isHidden = shouldHideLabel
+        print("NoResultsLabel is hidden: \(shouldHideLabel)") // Debugging statement
     }
 
+
     private func performSearch(query: String) {
+        print("Performing search with query: \(query)") // Debugging statement
+
         APICaller.searchPostsAndUsers(query: query) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
+                    print("Search successful: \(response)") // Debugging statement
                     self.posts = response.data.posts
+                    self.users = response.data.users
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
                     self.updateNoResultsLabelVisibility()
                 case .failure(let error):
-                    print("Failed to search: \(error)")
-                    self.posts = [] // Ensure posts are empty on error
+                    print("Failed to search: \(error)") // Debugging statement
+                    self.posts = []
+                    self.users = []
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
                     self.updateNoResultsLabelVisibility()
+                    
+                    // Correct print statement
+                    print("Posts after failure: \(self.posts)")
                 }
             }
         }
     }
+
     
     @objc private func messageButtonTapped() {
         let mainMessageViewController = MainMessageViewController()

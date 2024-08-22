@@ -1,22 +1,26 @@
 PODS:
+  - BSImagePicker (3.3.3)
   - SDWebImage (5.19.6):
     - SDWebImage/Core (= 5.19.6)
   - SDWebImage/Core (5.19.6)
   - SnapKit (5.7.1)
 
 DEPENDENCIES:
+  - BSImagePicker (~> 3.3)
   - SDWebImage
   - SnapKit
 
 SPEC REPOS:
   trunk:
+    - BSImagePicker
     - SDWebImage
     - SnapKit
 
 SPEC CHECKSUMS:
+  BSImagePicker: 57900b323f951711608acaf97d52e9183530cb6d
   SDWebImage: a79252b60f4678812d94316c91da69ec83089c9f
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
 
-PODFILE CHECKSUM: 78136b610e94ab445da50424b68f8bb254e8455d
+PODFILE CHECKSUM: 43988929232a0890bb623c6864688c2d3c54e4c3
 
 COCOAPODS: 1.15.2

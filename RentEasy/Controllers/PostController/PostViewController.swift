@@ -1,122 +1,205 @@
 import UIKit
+import PhotosUI
 
-class PostViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+class PostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoGalaryCollectionViewCellDelegate {
+
     private let postView = PostView()
     private var selectedImages: [UIImage] = []
-    private let imageCollectionView: UICollectionView
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 8
-        imageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+    override func loadView() {
+        view = postView
     }
-    
-    required init?(coder: NSCoder) {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 8
-        imageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        super.init(coder: coder)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemGray6
-        
-        setupUI()
+        title = "Create Post"
         setupCollectionView()
+        postView.addPhotoButton.addTarget(self, action: #selector(addPhotoTapped), for: .touchUpInside)
     }
-    
-    private func setupUI() {
-        view.addSubview(postView)
-        
-        postView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
-        postView.uploadPhotoButton.addTarget(self, action: #selector(uploadPhotoTapped), for: .touchUpInside)
-        postView.priceTypeSegmentedControl.addTarget(self, action: #selector(discountTypeChanged(_:)), for: .valueChanged)
-        postView.locationTextField.addTarget(self, action: #selector(locationTextFieldTapped), for: .editingDidBegin)
-        postView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
-        
-        view.addSubview(imageCollectionView)
-        
-        imageCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(postView.snp.bottom).offset(16)
-            make.left.right.equalToSuperview().inset(16)
-            make.height.equalTo(150)
-        }
-    }
-    
+
     private func setupCollectionView() {
-        imageCollectionView.dataSource = self
-        imageCollectionView.delegate = self
-        imageCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        imageCollectionView.backgroundColor = .clear
-        imageCollectionView.showsHorizontalScrollIndicator = false
+        postView.photoCollectionView.delegate = self
+        postView.photoCollectionView.dataSource = self
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = 5
+        postView.photoCollectionView.collectionViewLayout = layout
+        
+        postView.photoCollectionView.register(PhotoGalaryCollectionViewCell.self, forCellWithReuseIdentifier: "PhotoGalaryCell")
     }
-    
-    @objc private func uploadPhotoTapped() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
-    @objc private func discountTypeChanged(_ sender: UISegmentedControl) {
-        let selectedDiscountType = sender.selectedSegmentIndex == 0 ? "%" : "$"
-        print("Selected Discount Type: \(selectedDiscountType)")
-    }
-    
-    @objc private func locationTextFieldTapped() {
-        print("Location Text Field Tapped")
-    }
-    
-    @objc private func postButtonTapped() {
-        print("Post Button Tapped")
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didPickMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.originalImage] as? UIImage {
-            selectedImages.append(image)
-            imageCollectionView.reloadData()
+
+    // UICollectionViewDelegateFlowLayout method to define the size of each cell
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let width = collectionView.frame.width / 2 - 10
+//        return CGSize(width: width, height: width)
+//    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let layout = collectionViewLayout as! UICollectionViewFlowLayout
+        let maxHeight: CGFloat = 180 // Set your maximum height here
+
+        if indexPath.item == 0 || indexPath.item == 1 || indexPath.item == 2 {
+//            // For the first item (full-width image)
+//            let width = collectionView.frame.width
+//            let image = selectedImages[indexPath.item]
+//            let height = width * image.size.height / image.size.width
+//            
+//            // Ensure height does not exceed maxHeight
+//            let adjustedHeight = min(height, maxHeight)
+//            
+//            return CGSize(width: width, height: adjustedHeight)
+            let width = (collectionView.frame.width / 3) - (layout.minimumInteritemSpacing / 1)
+            return CGSize(width: width, height: width)
+        } else {
+            // For other items (smaller square images)
+            let width = (collectionView.frame.width / 3) - (layout.minimumInteritemSpacing / 1)
+            return CGSize(width: width, height: width)
         }
-        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
+    @objc private func addPhotoTapped() {
+        let maxPhotos = PhotoPrivacyManager.getPostPhotoLimit()
+
+        guard selectedImages.count < maxPhotos else {
+            showAlert(message: "You can only add up to \(maxPhotos) photos.")
+            return
+        }
+
+        PhotoPrivacyManager.checkPhotoLibraryPermission { [weak self] granted in
+            if granted {
+                self?.presentImagePicker()
+            } else {
+                self?.showAccessAlert()
+            }
+        }
     }
-    
-    // MARK: - UICollectionViewDataSource
-    
+
+    private func presentImagePicker() {
+        if #available(iOS 14, *) {
+            var configuration = PHPickerConfiguration()
+            configuration.filter = .images
+            configuration.selectionLimit = PhotoPrivacyManager.getPostPhotoLimit() - selectedImages.count
+            
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            present(picker, animated: true, completion: nil)
+        } else {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = .photoLibrary
+            imagePickerController.allowsEditing = false
+            present(imagePickerController, animated: true, completion: nil)
+        }
+    }
+
+    private func showAccessAlert() {
+        PhotoPrivacyManager.showAccessAlert(from: self)
+    }
+
+    // MARK: - UICollectionView DataSource
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return selectedImages.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoGalaryCell", for: indexPath) as! PhotoGalaryCollectionViewCell
+        cell.delegate = self
         
-        let imageView = UIImageView(image: selectedImages[indexPath.item])
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        cell.contentView.addSubview(imageView)
+        let image = selectedImages[indexPath.item]
+        let isRemovable = selectedImages.count > 0
         
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
+        cell.configure(with: image, isRemovable: isRemovable)
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(photoTapped(_:)))
+        cell.getImageView().tag = indexPath.item
+        cell.getImageView().addGestureRecognizer(tapGestureRecognizer)
+        cell.getImageView().isUserInteractionEnabled = true
+
         return cell
     }
-    
-    // MARK: - UICollectionViewDelegateFlowLayout
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 150, height: 150)
+
+    // MARK: - Photo Detail Handling
+
+    @objc private func photoTapped(_ sender: UITapGestureRecognizer) {
+        guard let tappedImageView = sender.view as? UIImageView else { return }
+        
+        let photoDetailVC = PhotoDetailPageViewController(images: selectedImages, initialIndex: tappedImageView.tag)
+        photoDetailVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(photoDetailVC, animated: true)
+    }
+
+    // MARK: - PhotoGalaryCollectionViewCellDelegate
+
+    func didTapRemoveButton(cell: PhotoGalaryCollectionViewCell) {
+        if let indexPath = postView.photoCollectionView.indexPath(for: cell) {
+            selectedImages.remove(at: indexPath.item)
+            postView.photoCollectionView.deleteItems(at: [indexPath])
+        }
+    }
+
+    // Helper function to show alerts
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Limit Reached", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - PHPickerViewControllerDelegate (iOS 14+)
+
+@available(iOS 14, *)
+extension PostViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+
+        let maxPhotos = PhotoPrivacyManager.getPostPhotoLimit()
+        let remainingSpace = maxPhotos - selectedImages.count
+
+        let limitedResults = results.prefix(remainingSpace)
+
+        for result in limitedResults {
+            if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                    guard let self = self, let image = image as? UIImage, error == nil else {
+                        return
+                    }
+
+                    DispatchQueue.main.async {
+                        self.selectedImages.append(image)
+                        self.postView.photoCollectionView.reloadData()
+                    }
+                }
+            }
+        }
+
+        if results.count > remainingSpace {
+            showAlert(message: "You can only add up to \(maxPhotos) photos.")
+        }
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate (iOS 13)
+
+extension PostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+
+        if let image = info[.originalImage] as? UIImage {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let maxPhotos = PhotoPrivacyManager.getPostPhotoLimit()
+                
+                if self.selectedImages.count < maxPhotos {
+                    self.selectedImages.append(image)
+                    self.postView.photoCollectionView.reloadData()
+                } else {
+                    self.showAlert(message: "You can only add up to \(maxPhotos) photos.")
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,9 @@ target 'RentEasy' do
   use_frameworks!
 
   # Pods for RentEasy
- pod 'SnapKit'
-pod 'SDWebImage'
+
+ 	pod 'SnapKit'
+	pod 'BSImagePicker', '~> 3.3'
+	pod 'SDWebImage'
 
 end

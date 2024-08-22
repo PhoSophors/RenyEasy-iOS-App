@@ -322,7 +322,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         }
 
         imageCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top).offset(20)
+            make.top.equalTo(contentView.snp.top).offset(0)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(imageCollectionView.snp.width).multipliedBy(9.0 / 16.0)
         }

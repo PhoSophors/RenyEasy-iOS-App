@@ -209,6 +209,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
         let bookmarkImageView = UIImageView(image: UIImage(systemName: "bookmark.fill"))
         bookmarkImageView.tintColor = .gray
         bookmarkImageView.tag = 1002
+        bookmarkImageView.tintColor = ColorManagerUtilize.shared.forestGreen
         bookmarkImageView.snp.makeConstraints { make in
             make.width.height.equalTo(50)
         }

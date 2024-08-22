@@ -62,6 +62,11 @@
 		18C5E9772C73B1A800879BD9 /* ColorManagerUtillze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */; };
 		18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C980DA2C64D04E001AA8A7 /* Helper.swift */; };
 		18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */; };
+		18E46B8E2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B8D2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift */; };
+		18E46B902C7736E5002A7D5E /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B8F2C7736E5002A7D5E /* PhotoDetailViewController.swift */; };
+		18E46B922C7737F5002A7D5E /* PhotoDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B912C7737F5002A7D5E /* PhotoDetailPageViewController.swift */; };
+		18E46B942C773F30002A7D5E /* PrivacyConsentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B932C773F30002A7D5E /* PrivacyConsentViewController.swift */; };
+		18E46B962C77437B002A7D5E /* PhotoPrivacyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B952C77437B002A7D5E /* PhotoPrivacyManager.swift */; };
 		18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */; };
 		18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC351B2C61E6C8000E95AA /* ProfileView.swift */; };
 		E7BC2590ED70625D4320E42D /* Pods_RentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07274123103DF5D216FDE2D /* Pods_RentEasy.framework */; };
@@ -125,6 +130,11 @@
 		18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManagerUtillze.swift; sourceTree = "<group>"; };
 		18C980DA2C64D04E001AA8A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessageViewController.swift; sourceTree = "<group>"; };
+		18E46B8D2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalaryCollectionViewCell.swift; sourceTree = "<group>"; };
+		18E46B8F2C7736E5002A7D5E /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
+		18E46B912C7737F5002A7D5E /* PhotoDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailPageViewController.swift; sourceTree = "<group>"; };
+		18E46B932C773F30002A7D5E /* PrivacyConsentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyConsentViewController.swift; sourceTree = "<group>"; };
+		18E46B952C77437B002A7D5E /* PhotoPrivacyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPrivacyManager.swift; sourceTree = "<group>"; };
 		18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRentCollectionViewCell.swift; sourceTree = "<group>"; };
 		18FC351B2C61E6C8000E95AA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		9A2278527EBBB75576F9A3CC /* Pods-RentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.release.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.release.xcconfig"; sourceTree = "<group>"; };
@@ -147,13 +157,12 @@
 		18031BC72C612BF900B21678 /* utilize */ = {
 			isa = PBXGroup;
 			children = (
-				18031BC82C612C1000B21678 /* AuthManager.swift */,
+				18E46B972C774384002A7D5E /* Manager */,
 				18C980DA2C64D04E001AA8A7 /* Helper.swift */,
 				1830B4892C723A72003AED1D /* DateUtility.swift */,
 				18017D922C732A4A00986D8A /* LoadingOverlay.swift */,
 				18017D942C732C7900986D8A /* ErrorHandlingUtility.swift */,
 				18C5E9702C739DB900879BD9 /* SeeMoreOptionsUtillize.swift */,
-				18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */,
 				184CABAC2C75BE4300700345 /* PullToRefreshHandler.swift */,
 				184CABB02C75EE3700700345 /* NavigationBarHelper.swift */,
 			);
@@ -168,6 +177,8 @@
 				184D8F312C7085B500D895BF /* AllPostViewController.swift */,
 				18C5E9722C73A74700879BD9 /* SharePostViewController.swift */,
 				18C5E9742C73A9AC00879BD9 /* EditPostViewController.swift */,
+				18E46B8F2C7736E5002A7D5E /* PhotoDetailViewController.swift */,
+				18E46B912C7737F5002A7D5E /* PhotoDetailPageViewController.swift */,
 			);
 			path = PostController;
 			sourceTree = "<group>";
@@ -237,6 +248,7 @@
 				1885CD322C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift */,
 				18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */,
 				186FDAF72C719D1800B45B63 /* PostDeatailCollectionViewCell.swift */,
+				18E46B8D2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -281,6 +293,7 @@
 				1883ECD72C5F429D003861CA /* FavoriteViewController.swift */,
 				1883ECD92C5F42DC003861CA /* SearchViewController.swift */,
 				1888FEE32C73935A00259A62 /* NotificationViewController.swift */,
+				18E46B932C773F30002A7D5E /* PrivacyConsentViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -343,6 +356,16 @@
 				18C3D1462C64BB5400FA2A0E /* OTPViewController.xib */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		18E46B972C774384002A7D5E /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				18E46B952C77437B002A7D5E /* PhotoPrivacyManager.swift */,
+				18031BC82C612C1000B21678 /* AuthManager.swift */,
+				18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		18FC351D2C61F702000E95AA /* ProfileViewController */ = {
@@ -500,10 +523,13 @@
 				1881F8462C6B0DBB0008E86B /* UserViewMode.swift in Sources */,
 				18C5E9772C73B1A800879BD9 /* ColorManagerUtillze.swift in Sources */,
 				1881F84B2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift in Sources */,
+				18E46B8E2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift in Sources */,
 				184CABB12C75EE3700700345 /* NavigationBarHelper.swift in Sources */,
 				186FDAF82C719D1800B45B63 /* PostDeatailCollectionViewCell.swift in Sources */,
 				1885CD332C6C63B600C2FFA5 /* HomeCategoryCollectionViewCell.swift in Sources */,
 				188092772C5FA3BA00A72B80 /* RegisterViewController.swift in Sources */,
+				18E46B962C77437B002A7D5E /* PhotoPrivacyManager.swift in Sources */,
+				18E46B942C773F30002A7D5E /* PrivacyConsentViewController.swift in Sources */,
 				18C5E9732C73A74700879BD9 /* SharePostViewController.swift in Sources */,
 				182643B02C607BC20061D422 /* APICaller.swift in Sources */,
 				18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */,
@@ -518,12 +544,14 @@
 				1881F8482C6B14FD0008E86B /* ProfileUpdateViewController.swift in Sources */,
 				1885CD2F2C6C61CD00C2FFA5 /* HeroCollectionView.swift in Sources */,
 				18C5E9712C739DB900879BD9 /* SeeMoreOptionsUtillize.swift in Sources */,
+				18E46B922C7737F5002A7D5E /* PhotoDetailPageViewController.swift in Sources */,
 				18017D952C732C7900986D8A /* ErrorHandlingUtility.swift in Sources */,
 				18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */,
 				187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */,
 				1880927A2C5FA55F00A72B80 /* UIView+Extensions.swift in Sources */,
 				184CABAD2C75BE4300700345 /* PullToRefreshHandler.swift in Sources */,
 				1881F84D2C6B2BFF0008E86B /* FavoriteModel.swift in Sources */,
+				18E46B902C7736E5002A7D5E /* PhotoDetailViewController.swift in Sources */,
 				18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */,
 				18031BC92C612C1000B21678 /* AuthManager.swift in Sources */,
 				187A86A32C5E3A2E00F70783 /* SceneDelegate.swift in Sources */,

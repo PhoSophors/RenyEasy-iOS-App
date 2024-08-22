@@ -8,10 +8,14 @@
 import UIKit
 import SnapKit
 
+import UIKit
+import SnapKit
+
 class AllPostViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     private var collectionView: UICollectionView!
     private var viewModel: PostViewModel!
+//    private var noPostsLabel: UILabel!
     
     private var propertyType: String?
     
@@ -25,14 +29,34 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
         super.init(coder: coder)
     }
     
+    private let noPostsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No posts found."
+        label.textAlignment = .center
+        label.textColor = .gray
+        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.isHidden = true
+        return label
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = propertyType?.capitalized ?? "All Posts"
         view.backgroundColor = .white
         
+        setupNoPostsLabel()
         setupCollectionView()
         setupViewModelBindings()
         viewModel.fetchPosts(by: propertyType)
+    }
+    
+    private func setupNoPostsLabel() {
+        view.addSubview(noPostsLabel)
+        noPostsLabel.snp.makeConstraints { make in
+            make.center.equalTo(view)
+            make.left.equalTo(view).offset(20)
+            make.right.equalTo(view).offset(-20)
+        }
     }
     
     private func setupCollectionView() {
@@ -58,11 +82,22 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
     
     private func setupViewModelBindings() {
         viewModel.onPostsFetched = { [weak self] in
-            self?.collectionView.reloadData()
+            self?.updateUI()
         }
         
         viewModel.onError = { error in
             print("Failed to fetch posts: \(error)")
+        }
+    }
+    
+    private func updateUI() {
+        if viewModel.allPosts.isEmpty {
+            noPostsLabel.isHidden = false
+            collectionView.isHidden = true
+        } else {
+            noPostsLabel.isHidden = true
+            collectionView.isHidden = false
+            collectionView.reloadData()
         }
     }
     
