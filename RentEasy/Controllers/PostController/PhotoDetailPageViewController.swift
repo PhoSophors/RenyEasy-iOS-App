@@ -29,6 +29,7 @@ class PhotoDetailPageViewController: UIPageViewController, UIPageViewControllerD
         delegate = self
         
         view.backgroundColor = .white
+        self.title = "Detail Photo"
         
         // Set the initial view controller
         if let startingViewController = viewControllerForIndex(initialIndex) {
