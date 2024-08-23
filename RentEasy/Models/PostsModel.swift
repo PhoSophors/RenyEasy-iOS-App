@@ -13,6 +13,17 @@ struct AllPostsResponse: Codable {
     let data: PostData
 }
 
+// Response Model for New Post
+struct NewPostResponse: Codable {
+    let message: String
+    let data: NewPostData
+}
+
+// Data Model for New Post
+struct NewPostData: Codable {
+    let newPost: RentPost
+}
+
 struct PostData: Codable {
     let postsCount: Int
     let posts: [RentPost] 

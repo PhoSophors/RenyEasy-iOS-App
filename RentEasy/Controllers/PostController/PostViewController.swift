@@ -31,32 +31,12 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     // UICollectionViewDelegateFlowLayout method to define the size of each cell
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let width = collectionView.frame.width / 2 - 10
-//        return CGSize(width: width, height: width)
-//    }
-
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let layout = collectionViewLayout as! UICollectionViewFlowLayout
         let maxHeight: CGFloat = 180 // Set your maximum height here
 
-        if indexPath.item == 0 || indexPath.item == 1 || indexPath.item == 2 {
-//            // For the first item (full-width image)
-//            let width = collectionView.frame.width
-//            let image = selectedImages[indexPath.item]
-//            let height = width * image.size.height / image.size.width
-//            
-//            // Ensure height does not exceed maxHeight
-//            let adjustedHeight = min(height, maxHeight)
-//            
-//            return CGSize(width: width, height: adjustedHeight)
-            let width = (collectionView.frame.width / 3) - (layout.minimumInteritemSpacing / 1)
-            return CGSize(width: width, height: width)
-        } else {
-            // For other items (smaller square images)
-            let width = (collectionView.frame.width / 3) - (layout.minimumInteritemSpacing / 1)
-            return CGSize(width: width, height: width)
-        }
+        let width = (collectionView.frame.width / 3) - (layout.minimumInteritemSpacing / 1)
+        return CGSize(width: width, height: width)
     }
     
     @objc private func addPhotoTapped() {
@@ -112,7 +92,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let isRemovable = selectedImages.count > 0
         
         cell.configure(with: image, isRemovable: isRemovable)
-
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(photoTapped(_:)))
         cell.getImageView().tag = indexPath.item
         cell.getImageView().addGestureRecognizer(tapGestureRecognizer)

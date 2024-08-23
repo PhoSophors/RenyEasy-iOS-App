@@ -405,6 +405,87 @@ public class APICaller {
             }
         }
     }
+    
+    
+        static func createNewPost(postData: RentPost, completion: @escaping (Result<NewPostResponse, NetworkError>) -> Void) {
+            let urlString = NetworkConstants.Endpoints.createNewPost
+            
+            guard let url = URL(string: urlString) else {
+                completion(.failure(.urlError))
+                return
+            }
+            
+            do {
+                let jsonData = try JSONEncoder().encode(postData)
+                
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                
+                if let token = AuthManager.getToken() {
+                    request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                }
+                
+                request.httpBody = jsonData
+                
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let error = error {
+                        print("Network request failed with error: \(error.localizedDescription)")
+                        completion(.failure(.canNotParseData))
+                        return
+                    }
+                    
+                    guard let httpResponse = response as? HTTPURLResponse else {
+                        print("Invalid response received")
+                        completion(.failure(.canNotParseData))
+                        return
+                    }
+                    
+                    switch httpResponse.statusCode {
+                    case 200...299:
+                        guard let data = data else {
+                            print("No data received")
+                            completion(.failure(.canNotParseData))
+                            return
+                        }
+                        
+                        do {
+                            let decoder = JSONDecoder()
+                            let newPostResponse = try decoder.decode(NewPostResponse.self, from: data)
+                            completion(.success(newPostResponse))
+                        } catch {
+                            print("Decoding error: \(error.localizedDescription)")
+                            completion(.failure(.canNotParseData))
+                        }
+                        
+                    case 400:
+                        let errorMsg = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Bad request"
+                        completion(.failure(.invalidCredentials(errorMsg)))
+                    case 401:
+                        completion(.failure(.unauthorized))
+                    case 403:
+                        completion(.failure(.forbidden))
+                    case 404:
+                        completion(.failure(.notFound))
+                    default:
+                        let errorMessage = "Error with status code: \(httpResponse.statusCode)"
+                        let serverMessage = (data != nil) ? String(data: data!, encoding: .utf8) ?? "No additional info" : "No additional info"
+                        completion(.failure(.serverError("\(errorMessage): \(serverMessage)")))
+                    }
+                }
+                
+                task.resume()
+            } catch {
+                completion(.failure(.canNotParseData))
+            }
+        }
+
+
+    // Define custom error for encoding issues
+    enum EncodingError: Error {
+        case failedToEncodePostData
+    }
+
 
     /**
      *

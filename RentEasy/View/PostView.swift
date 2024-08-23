@@ -2,18 +2,27 @@ import UIKit
 import SnapKit
 
 class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
-
+    
     private let scrollView = UIScrollView()
     private let contentView = UIView()
+    private var selectedImages: [UIImage]?
     
     let photoCollectionView: UICollectionView
     let addPhotoButton = UIButton(type: .system)
     let addCreateButton = UIButton(type: .system)
     
     private lazy var titleTextField: UITextField = createTextField(placeholder: "Enter title")
-    private lazy var bedroomTextField: UITextField = createTextField(placeholder: "Enter bedrooms")
-    private lazy var bathroomTextField: UITextField = createTextField(placeholder: "Enter bathrooms")
+    private lazy var bedroomTextField: UITextField = createTextField(placeholder: "Enter number of bedrooms")
+    private lazy var bathroomTextField: UITextField = createTextField(placeholder: "Enter number of bathrooms")
     private lazy var priceTextField: UITextField = createTextField(placeholder: "Enter price")
+    
+//    private let propertyTypes = ["House", "Apartment", "hotel", "Villa", "Condo", "Townhouse", "Room"]
+//    private let propertyTypeValues = ["house", "apartment", "hotel", "villa", "condo", "townhouse", "room"]
+//    private let locationTypes = ["Phnom Penh", "Kandal", "Kompong Som", "Kompong Spue"]
+//    
+    private let propertyTypes = ["house", "apartment", "hotel", "villa", "condo", "townhouse", "room"]
+    private let locationTypes = ["Phnom Penh", "Kandal", "Kompong Som", "Kompong Spue"]
+        
     
     private lazy var propertyTypeTextField: UITextField = {
         let textField = createTextField(placeholder: "Select property type")
@@ -42,7 +51,6 @@ class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         return textView
     }()
     
-    private let propertyTypes = ["House", "Apartment", "Hotel", "Villa", "Condo", "Townhouse", "Room"]
     private lazy var propertyTypePickerView: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.delegate = self
@@ -50,7 +58,6 @@ class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         return pickerView
     }()
     
-    private let locationTypes = ["Phnom Penh", "Kandal", "Kompong Som", "Kompong Spue"]
     private lazy var locationTypePickerView: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.delegate = self
@@ -81,10 +88,10 @@ class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         return textField
     }
-
+    
     private func setupCreatePostButton() {
         addCreateButton.setTitle("Create Post", for: .normal)
-        addCreateButton.backgroundColor = ColorManagerUtilize.shared.forestGreen
+        addCreateButton.backgroundColor = UIColor.systemGreen
         addCreateButton.setTitleColor(.white, for: .normal)
         addCreateButton.layer.cornerRadius = 5
         addCreateButton.clipsToBounds = true
@@ -99,13 +106,15 @@ class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         photoCollectionView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
         photoCollectionView.layer.borderWidth = 0.5
         photoCollectionView.layer.cornerRadius = 5
-        photoCollectionView.backgroundColor = ColorManagerUtilize.shared.lightGray
+        photoCollectionView.backgroundColor = UIColor.lightGray
         
         super.init(frame: frame)
         
         setupViewAndConstraints()
         setupAddPhotoButton()
         setupCreatePostButton()
+        
+        addCreateButton.addTarget(self, action: #selector(createPostButtonTapped), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -114,12 +123,11 @@ class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     
     private func setupAddPhotoButton() {
         addPhotoButton.setTitle("Add Photo", for: .normal)
-        addPhotoButton.backgroundColor = ColorManagerUtilize.shared.lightGray
-        addPhotoButton.setTitleColor(ColorManagerUtilize.shared.deepCharcoal, for: .normal)
+        addPhotoButton.backgroundColor = UIColor.lightGray
+        addPhotoButton.setTitleColor(UIColor.darkGray, for: .normal)
         addPhotoButton.layer.cornerRadius = 5
         addPhotoButton.clipsToBounds = true
     }
-
     
     private func setupViewAndConstraints() {
         addSubview(scrollView)
@@ -135,7 +143,7 @@ class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         contentView.addSubview(locationTypeTextField)
         contentView.addSubview(contactTextField)
         contentView.addSubview(descriptionTextView)
-        contentView.addSubview(addCreateButton) // Make sure this is added to the same hierarchy as other views
+        contentView.addSubview(addCreateButton)
         
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -208,37 +216,34 @@ class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
         }
         
         addCreateButton.snp.makeConstraints { make in
-            make.top.equalTo(descriptionTextView.snp.bottom).offset(20) // Update this to reference descriptionTextView
+            make.top.equalTo(descriptionTextView.snp.bottom).offset(20)
             make.centerX.equalTo(contentView)
             make.height.equalTo(50)
             make.leading.trailing.equalTo(contentView).inset(10)
-            make.bottom.equalTo(contentView.snp.bottom).inset(20) // Ensure this is within the contentView hierarchy
+            make.bottom.equalTo(contentView.snp.bottom).inset(20)
         }
     }
-
     
     @objc private func doneButtonTapped() {
-        endEditing(true)
+        if propertyTypeTextField.isFirstResponder {
+            propertyTypeTextField.resignFirstResponder()
+        }
+        if locationTypeTextField.isFirstResponder {
+            locationTypeTextField.resignFirstResponder()
+        }
     }
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == propertyTypePickerView {
-            return propertyTypes.count
-        } else {
-            return locationTypes.count
-        }
+        return pickerView == propertyTypePickerView ? propertyTypes.count : locationTypes.count
     }
     
+    // MARK: - UIPickerViewDelegate
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == propertyTypePickerView {
-            return propertyTypes[row]
-        } else {
-            return locationTypes[row]
-        }
+        return pickerView == propertyTypePickerView ? propertyTypes[row] : locationTypes[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -248,4 +253,85 @@ class PostView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
             locationTypeTextField.text = locationTypes[row]
         }
     }
+    
+    @objc private func createPostButtonTapped() {
+        
+//        // Check if images are selected
+//          guard let images = selectedImages, !images.isEmpty else {
+//              print("Please select at least one image")
+//              return
+//          }
+//          
+//          // Convert UIImage array to data or other required format if necessary
+//          let imageDataArray = images.map { $0.pngData() ?? Data() }
+        
+        
+        guard let title = titleTextField.text, !title.isEmpty,
+              let bedroomText = bedroomTextField.text, let bedrooms = Int(bedroomText),
+              let bathroomText = bathroomTextField.text, let bathrooms = Int(bathroomText),
+              let priceText = priceTextField.text, let price = Int(priceText),
+              let propertyType = propertyTypeTextField.text, !propertyType.isEmpty,
+              let location = locationTypeTextField.text, !location.isEmpty else {
+            // Handle missing required information
+            print("Please fill out all required fields correctly")
+            print("Title: \(titleTextField.text ?? "nil")")
+            print("Bedrooms: \(bedroomTextField.text ?? "nil")")
+            print("Bathrooms: \(bathroomTextField.text ?? "nil")")
+            print("Price: \(priceTextField.text ?? "nil")")
+            print("Property Type: \(propertyTypeTextField.text ?? "nil")")
+            print("Location: \(locationTypeTextField.text ?? "nil")")
+            return
+        }
+        
+        // Optional fields
+        let contact = contactTextField.text
+        let description = descriptionTextView.text
+        
+        
+        print("All required fields are valid:")
+        print("Title: \(title)")
+        print("Bedrooms: \(bedrooms)")
+        print("Bathrooms: \(bathrooms)")
+        print("Price: \(price)")
+        print("Property Type: \(propertyType)")
+        print("Location: \(location)")
+        print("Contact: \(contact ?? "N/A")")
+        print("Description: \(description ?? "N/A")")
+        
+        let post = RentPost(
+            id: "",
+            user: [], // Make sure to provide actual user data if needed
+            title: title,
+            content: description ?? "", // Use default value if description is nil
+            images: [], // Provide actual images if needed
+            contact: contact ?? "", // Use default value if contact is nil
+            location: location,
+            price: price,
+            bedrooms: bedrooms,
+            bathrooms: bathrooms,
+            propertyType: propertyType,
+            createdAt: "",
+            version: 0
+        )
+        
+        APICaller.createNewPost(postData: post) { result in
+            switch result {
+            case .success(let response):
+                print("Post created successfully: \(response)")
+                // Handle success (e.g., show a success message or navigate back)
+            case .failure(let error):
+                print("Failed to create post: \(error)")
+                // Handle error (e.g., show an error message)
+            }
+        }
+
+        
+        
+        // Optionally use these indexes if needed
+        let propertyTypeIndex = propertyTypes.firstIndex(of: propertyType) ?? 0
+        let locationIndex = locationTypes.firstIndex(of: location) ?? 0
+    }
+
+   
+
 }

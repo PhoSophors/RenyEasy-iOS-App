@@ -195,9 +195,9 @@ class SearchViewController: UIViewController {
     }
 
     private func updateNoResultsLabelVisibility() {
-        let shouldHideLabel = (posts.isEmpty && users.isEmpty)
+        let shouldHideLabel = (!posts.isEmpty && users.isEmpty)
         noResultsLabel.isHidden = shouldHideLabel
-        print("NoResultsLabel is hidden: \(shouldHideLabel)") // Debugging statement
+        print("NoResultsLabel is hidden: \(shouldHideLabel)")
     }
 
 

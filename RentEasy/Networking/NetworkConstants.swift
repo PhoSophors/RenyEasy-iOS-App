@@ -64,6 +64,10 @@ class NetworkConstants {
         public static var fetchAllPost: String {
             return "\(NetworkConstants.shared.serverAddress)/posts/get-all-posts"
         }
+        public static var createNewPost: String {
+            return "\(NetworkConstants.shared.serverAddress)/posts/create-post"
+        }
+        
         
         // MARK: - Search Post and User
         public static var searchPostAndUser: String {

@@ -73,12 +73,26 @@ class PhotoGalaryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with image: UIImage, isRemovable: Bool) {
-        imageView.image = image
-        imageView.isHidden = false
+//    func configure(with image: UIImage, isRemovable: Bool) {
+//        imageView.image = image
+//        imageView.isHidden = false
+//        removeButton.isHidden = !isRemovable
+//        addPhotoButton.isHidden = true 
+//    }
+//    
+    func configure(with image: UIImage?, isRemovable: Bool) {
+        if let image = image {
+            imageView.image = image
+            imageView.isHidden = false
+            addPhotoButton.isHidden = true
+        } else {
+            imageView.isHidden = true
+            addPhotoButton.isHidden = false
+        }
         removeButton.isHidden = !isRemovable
-        addPhotoButton.isHidden = true 
     }
+
+
     
     @objc private func didTapRemove() {
         delegate?.didTapRemoveButton(cell: self)
