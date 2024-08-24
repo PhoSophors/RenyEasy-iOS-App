@@ -427,15 +427,26 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
 
     // MARK: - UIScrollViewDelegate
 
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageWidth = scrollView.frame.size.width
-        if pageWidth > 0 {
-            let pageIndex = round(scrollView.contentOffset.x / pageWidth)
-            pageControl.currentPage = Int(pageIndex)
-        } else {
-            print("Invalid page width: \(pageWidth)")
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let imageUrl = post?.images[indexPath.item] else { return }
+        
+        // Load the image
+        let imageView = UIImageView()
+        imageView.loadImage(from: imageUrl) { image in
+            if let image = image {
+                // Present PhotoDetailViewController modally
+                let photoDetailViewController = PhotoDetailViewController(image: image)
+                photoDetailViewController.modalPresentationStyle = .fullScreen 
+                self.present(photoDetailViewController, animated: true, completion: nil)
+            } else {
+                // Handle image loading failure
+                print("Failed to load image for photo detail view")
+            }
         }
     }
+
+
+
     
     // MARK: - Action
     

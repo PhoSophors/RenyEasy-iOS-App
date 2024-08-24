@@ -7,7 +7,7 @@ protocol PhotoGalaryCollectionViewCellDelegate: AnyObject {
 
 class PhotoGalaryCollectionViewCell: UICollectionViewCell {
 
-    private let imageView: UIImageView = {
+    let imageView: UIImageView = {
         let imgView = UIImageView()
         imgView.contentMode = .scaleAspectFill
         imgView.clipsToBounds = true
@@ -18,7 +18,7 @@ class PhotoGalaryCollectionViewCell: UICollectionViewCell {
         return imgView
     }()
     
-    private let addPhotoButton: UIButton = {
+    let addPhotoButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         button.tintColor = .systemBlue
@@ -30,7 +30,7 @@ class PhotoGalaryCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    private let removeButton: UIButton = {
+    let removeButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         button.tintColor = .red
@@ -73,23 +73,11 @@ class PhotoGalaryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func configure(with image: UIImage, isRemovable: Bool) {
-//        imageView.image = image
-//        imageView.isHidden = false
-//        removeButton.isHidden = !isRemovable
-//        addPhotoButton.isHidden = true 
-//    }
-//    
-    func configure(with image: UIImage?, isRemovable: Bool) {
-        if let image = image {
-            imageView.image = image
-            imageView.isHidden = false
-            addPhotoButton.isHidden = true
-        } else {
-            imageView.isHidden = true
-            addPhotoButton.isHidden = false
-        }
+    func configure(with image: UIImage, isRemovable: Bool) {
+        imageView.image = image
+        imageView.isHidden = false
         removeButton.isHidden = !isRemovable
+        addPhotoButton.isHidden = true 
     }
 
 

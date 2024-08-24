@@ -46,6 +46,8 @@ class SearchViewController: UIViewController {
         
         noResultsLabel.isHidden = false
         view.layoutIfNeeded()
+        
+        collectionView.delegate = self
     }
     
     // MARK: - setupNavigationBar
@@ -291,5 +293,22 @@ extension SearchViewController: AllRentCollectionViewCellDelegate {
         var post = posts[indexPath.item]
         post.isFavorite.toggle()
         cell.isFavorite = post.isFavorite
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension SearchViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Get the selected post
+        let selectedPost = posts[indexPath.item]
+
+        // Initialize the PostDetailViewController
+        let detailViewController = PostDetailViewController()
+
+        // Configure the detailViewController with the selected post data
+        detailViewController.configure(with: selectedPost)
+
+        // Push the detailViewController onto the navigation stack
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

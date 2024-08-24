@@ -254,3 +254,4 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
         navigationController?.pushViewController(notificationViewController, animated: true)
     }
 }
+

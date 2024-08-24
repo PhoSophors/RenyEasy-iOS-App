@@ -158,6 +158,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         locationLabel.text = "\(favorite.post.propertyType) • \(favorite.post.location)"
         bedroomsAndbathroomsLabel.text = "Bedrooms: \(favorite.post.bedrooms) • Bathrooms: \(favorite.post.bathrooms)"
     }
+
     
     @objc private func moreIconTapped(_ sender: UIButton) {
         seeMoreOptionsUtilize?.showOptions(from: sender)

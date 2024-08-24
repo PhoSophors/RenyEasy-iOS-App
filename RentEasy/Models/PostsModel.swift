@@ -21,7 +21,7 @@ struct NewPostResponse: Codable {
 
 // Data Model for New Post
 struct NewPostData: Codable {
-    let newPost: RentPost
+    let newPost: NewPost
 }
 
 struct PostData: Codable {
@@ -62,3 +62,39 @@ struct RentPost: Codable {
         case version = "__v"
     }
 }
+
+struct NewPost: Codable {
+    let id: String
+    let user: [UserInfo]
+    let title: String
+    let content: String
+    let images: [Data]
+    let contact: String
+    let location: String
+    let price: Int
+    let bedrooms: Int
+    let bathrooms: Int
+    let propertyType: String
+    let createdAt: String
+    let version: Int
+
+    var isFavorite: Bool = false
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case user
+        case title
+        case content
+        case images
+        case contact
+        case location
+        case price
+        case bedrooms
+        case bathrooms
+        case propertyType = "propertytype"
+        case createdAt
+        case version = "__v"
+    }
+}
+
+

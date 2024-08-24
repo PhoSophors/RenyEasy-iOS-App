@@ -1,8 +1,8 @@
 import UIKit
 import PhotosUI
 
-class PostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoGalaryCollectionViewCellDelegate {
-
+class PostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PhotoGalaryCollectionViewCellDelegate, PostViewDelegate {
+    
     private let postView = PostView()
     private var selectedImages: [UIImage] = []
 
@@ -15,6 +15,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         title = "Create Post"
         setupCollectionView()
         postView.addPhotoButton.addTarget(self, action: #selector(addPhotoTapped), for: .touchUpInside)
+        postView.delegate = self
     }
 
     private func setupCollectionView() {
@@ -30,15 +31,14 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         postView.photoCollectionView.register(PhotoGalaryCollectionViewCell.self, forCellWithReuseIdentifier: "PhotoGalaryCell")
     }
 
-    // UICollectionViewDelegateFlowLayout method to define the size of each cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let layout = collectionViewLayout as! UICollectionViewFlowLayout
-        let maxHeight: CGFloat = 180 // Set your maximum height here
+        let maxHeight: CGFloat = 180
 
         let width = (collectionView.frame.width / 3) - (layout.minimumInteritemSpacing / 1)
         return CGSize(width: width, height: width)
     }
-    
+
     @objc private func addPhotoTapped() {
         let maxPhotos = PhotoPrivacyManager.getPostPhotoLimit()
 
@@ -78,6 +78,94 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         PhotoPrivacyManager.showAccessAlert(from: self)
     }
 
+    // MARK: - PostViewDelegate
+
+    func didTapCreatePostButton() {
+        // Retrieve and validate the input fields
+        let title = postView.titleTextField.text ?? ""
+        let bedroomCount = postView.bedroomTextField.text ?? ""
+        let bathroomCount = postView.bathroomTextField.text ?? ""
+        let price = postView.priceTextField.text ?? ""
+        let propertyType = postView.propertyTypeTextField.text ?? ""
+        let locationType = postView.locationTypeTextField.text ?? ""
+        let description = postView.descriptionTextView.text ?? ""
+        let contact = postView.contactTextField.text ?? ""
+
+        // Ensure required fields are not empty
+        guard !title.isEmpty, !bedroomCount.isEmpty, !bathroomCount.isEmpty, !price.isEmpty, !propertyType.isEmpty, !locationType.isEmpty, !contact.isEmpty else {
+            showAlert(message: "Please fill in all required fields.")
+            return
+        }
+        
+        // Convert text fields to appropriate data types
+        guard let bedrooms = Int(bedroomCount), bedrooms > 0 else {
+            showAlert(message: "Please enter a valid number for bedrooms.")
+            return
+        }
+        
+        guard let bathrooms = Int(bathroomCount), bathrooms > 0 else {
+            showAlert(message: "Please enter a valid number for bathrooms.")
+            return
+        }
+        
+        guard let priceValue = Int(price), priceValue > 0 else {
+            showAlert(message: "Please enter a valid price.")
+            return
+        }
+
+        guard selectedImages.count > 0 else {
+            showAlert(message: "Please select at least one image.")
+            return
+        }
+        
+        // Convert selected images to Data
+        let imageDataArray = selectedImages.compactMap { image -> Data? in
+            return image.jpegData(compressionQuality: 0.8)
+        }
+        
+        // Construct the RentPost object
+        let post = RentPost(
+            id: "",
+            user: [],
+            title: title,
+            content: description,
+            images: [],
+            contact: contact,
+            location: locationType,
+            price: priceValue,
+            bedrooms: bedrooms,
+            bathrooms: bathrooms,
+            propertyType: propertyType,
+            createdAt: "",
+            version: 0
+        )
+
+        // Call the API to create the new post
+        APICaller.createNewPost(postData: post, images: imageDataArray) { result in
+            switch result {
+            case .success(let response):
+                // Handle success response
+                print("Post created successfully: \(response)")
+                DispatchQueue.main.async {
+                    self.showAlert(message: "Post created successfully!")
+                    // Optionally clear form fields or navigate back
+                }
+                
+            case .failure(let error):
+                // Handle error response
+                print("Failed to create post: \(error)")
+                DispatchQueue.main.async {
+                    self.showAlert(message: "Failed to create post. Please try again.")
+                }
+            }
+        }
+        
+        print("Post Data: \(post)")
+        print("Selected Images Count: \(selectedImages.count)")
+    }
+
+
+
     // MARK: - UICollectionView DataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -102,11 +190,18 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     // MARK: - Photo Detail Handling
-
     @objc private func photoTapped(_ sender: UITapGestureRecognizer) {
         guard let tappedImageView = sender.view as? UIImageView else { return }
         
-        let photoDetailVC = PhotoDetailPageViewController(images: selectedImages, initialIndex: tappedImageView.tag)
+        // Check if the index is valid
+        let tappedIndex = tappedImageView.tag
+        guard tappedIndex >= 0 && tappedIndex < selectedImages.count else {
+            print("Invalid index for tapped photo.")
+            return
+        }
+        
+        // Create and present the photo detail view controller
+        let photoDetailVC = PhotoDetailPageViewController(images: selectedImages, initialIndex: tappedIndex)
         photoDetailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(photoDetailVC, animated: true)
     }
@@ -122,7 +217,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     // Helper function to show alerts
     private func showAlert(message: String) {
-        let alertController = UIAlertController(title: "Limit Reached", message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
@@ -157,29 +252,20 @@ extension PostViewController: PHPickerViewControllerDelegate {
         }
 
         if results.count > remainingSpace {
-            showAlert(message: "You can only add up to \(maxPhotos) photos.")
+            showAlert(message: "You can only select up to \(maxPhotos) photos.")
         }
     }
 }
 
-// MARK: - UIImagePickerControllerDelegate (iOS 13)
+// MARK: - UIImagePickerControllerDelegate
 
 extension PostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
 
-        if let image = info[.originalImage] as? UIImage {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                let maxPhotos = PhotoPrivacyManager.getPostPhotoLimit()
-                
-                if self.selectedImages.count < maxPhotos {
-                    self.selectedImages.append(image)
-                    self.postView.photoCollectionView.reloadData()
-                } else {
-                    self.showAlert(message: "You can only add up to \(maxPhotos) photos.")
-                }
-            }
+        if let pickedImage = info[.originalImage] as? UIImage {
+            selectedImages.append(pickedImage)
+            postView.photoCollectionView.reloadData()
         }
     }
 }

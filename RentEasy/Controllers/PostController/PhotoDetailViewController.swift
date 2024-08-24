@@ -9,6 +9,7 @@ class PhotoDetailViewController: UIViewController {
     init(image: UIImage) {
         super.init(nibName: nil, bundle: nil)
         imageView.image = image
+        modalPresentationStyle = .fullScreen
     }
     
     required init?(coder: NSCoder) {
@@ -19,6 +20,8 @@ class PhotoDetailViewController: UIViewController {
         super.viewDidLoad()
         setupGradientBackground()
         setupImageView()
+    
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     private func setupImageView() {
