@@ -407,7 +407,8 @@ public class APICaller {
         }
     }
     
-   static func createNewPost(postData: RentPost, images: [Data], completion: @escaping (Result<NewPostResponse, NetworkError>) -> Void) {
+
+    static func createNewPostWithImages(postData: [String: Any], images: [Data], completion: @escaping (Result<NewPostResponse, NetworkError>) -> Void) {
         let urlString = NetworkConstants.Endpoints.createNewPost
         guard let url = URL(string: urlString) else {
             completion(.failure(.urlError))
@@ -425,18 +426,15 @@ public class APICaller {
             data.append(stringData)
         }
         
-        do {
-            let jsonData = try JSONEncoder().encode(postData)
+        // Append post data
+        for (key, value) in postData {
             appendString("--\(boundary)\r\n", to: &body)
-            appendString("Content-Disposition: form-data; name=\"postData\"\r\n", to: &body)
-            appendString("Content-Type: application/json\r\n\r\n", to: &body)
-            body.append(jsonData)
-            appendString("\r\n", to: &body)
-        } catch {
-            completion(.failure(.canNotParseData))
-            return
+            appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n", to: &body)
+            appendString("Content-Type: text/plain\r\n\r\n", to: &body)
+            appendString("\(value)\r\n", to: &body)
         }
         
+        // Append images
         for (index, imageData) in images.enumerated() {
             appendString("--\(boundary)\r\n", to: &body)
             appendString("Content-Disposition: form-data; name=\"images\"; filename=\"image\(index).jpg\"\r\n", to: &body)

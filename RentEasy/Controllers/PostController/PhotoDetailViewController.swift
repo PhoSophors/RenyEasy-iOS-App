@@ -21,7 +21,7 @@ class PhotoDetailViewController: UIViewController {
         setupGradientBackground()
         setupImageView()
     
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+//        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     private func setupImageView() {

@@ -2,7 +2,9 @@ import UIKit
 import SnapKit
 
 class PostDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-
+    
+    var postID: String?
+    
     private var post: RentPost?
     private let pageControl = UIPageControl()
     private let scrollView = UIScrollView()
@@ -52,7 +54,6 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         userImageView.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
-
 
         // Use the profile photo URL directly
         if !firstUser.profilePhoto.isEmpty {

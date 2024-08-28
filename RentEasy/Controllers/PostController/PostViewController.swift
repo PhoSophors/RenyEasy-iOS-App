@@ -33,7 +33,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let layout = collectionViewLayout as! UICollectionViewFlowLayout
-        let maxHeight: CGFloat = 180
+        let _: CGFloat = 180
 
         let width = (collectionView.frame.width / 3) - (layout.minimumInteritemSpacing / 1)
         return CGSize(width: width, height: width)
@@ -92,7 +92,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let contact = postView.contactTextField.text ?? ""
 
         // Ensure required fields are not empty
-        guard !title.isEmpty, !bedroomCount.isEmpty, !bathroomCount.isEmpty, !price.isEmpty, !propertyType.isEmpty, !locationType.isEmpty, !contact.isEmpty else {
+        guard !title.isEmpty, !bedroomCount.isEmpty, !bathroomCount.isEmpty, !price.isEmpty, !propertyType.isEmpty, !locationType.isEmpty,!description.isEmpty, !contact.isEmpty else {
             showAlert(message: "Please fill in all required fields.")
             return
         }
@@ -123,47 +123,50 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
             return image.jpegData(compressionQuality: 0.8)
         }
         
-        // Construct the RentPost object
-        let post = RentPost(
-            id: "",
-            user: [],
-            title: title,
-            content: description,
-            images: [],
-            contact: contact,
-            location: locationType,
-            price: priceValue,
-            bedrooms: bedrooms,
-            bathrooms: bathrooms,
-            propertyType: propertyType,
-            createdAt: "",
-            version: 0
-        )
-
+        // Prepare post data dictionary for the API call
+        let postData: [String: Any] = [
+            "title": title,
+            "content": description,
+            "contact": contact,
+            "location": locationType,
+            "price": priceValue,
+            "bedrooms": bedrooms,
+            "bathrooms": bathrooms,
+            "propertytype": propertyType
+        ]
+        
+        LoadingOverlay.shared.show(over: self.view)
+        
         // Call the API to create the new post
-        APICaller.createNewPost(postData: post, images: imageDataArray) { result in
-            switch result {
-            case .success(let response):
-                // Handle success response
-                print("Post created successfully: \(response)")
-                DispatchQueue.main.async {
-                    self.showAlert(message: "Post created successfully!")
-                    // Optionally clear form fields or navigate back
-                }
-                
-            case .failure(let error):
-                // Handle error response
-                print("Failed to create post: \(error)")
-                DispatchQueue.main.async {
+        APICaller.createNewPostWithImages(postData: postData, images: imageDataArray) { result in
+            DispatchQueue.main.async {
+                LoadingOverlay.shared.hide()
+                switch result {
+                case .success(let response):
+                    // Handle success response
+                    print("Post created successfully: \(response)")
+                    
+                    // Clear form fields
+                    self.postView.titleTextField.text = ""
+                    self.postView.bedroomTextField.text = ""
+                    self.postView.bathroomTextField.text = ""
+                    self.postView.priceTextField.text = ""
+                    self.postView.propertyTypeTextField.text = ""
+                    self.postView.locationTypeTextField.text = ""
+                    self.postView.descriptionTextView.text = ""
+                    self.postView.contactTextField.text = ""
+
+                    // Navigate to HomeViewController
+                    let homeViewController = HomeViewController()
+                    self.navigationController?.pushViewController(homeViewController, animated: true)
+                    
+                case .failure(let error):
+                    print("Failed to create post: \(error)")
                     self.showAlert(message: "Failed to create post. Please try again.")
                 }
             }
         }
-        
-        print("Post Data: \(post)")
-        print("Selected Images Count: \(selectedImages.count)")
     }
-
 
 
     // MARK: - UICollectionView DataSource
@@ -207,14 +210,35 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     // MARK: - PhotoGalaryCollectionViewCellDelegate
+//
+//    func didTapRemoveButton(cell: PhotoGalaryCollectionViewCell) {
+//        if let indexPath = postView.photoCollectionView.indexPath(for: cell) {
+//            selectedImages.remove(at: indexPath.item)
+//            postView.photoCollectionView.deleteItems(at: [indexPath])
+//        }
+//    }
 
     func didTapRemoveButton(cell: PhotoGalaryCollectionViewCell) {
-        if let indexPath = postView.photoCollectionView.indexPath(for: cell) {
-            selectedImages.remove(at: indexPath.item)
-            postView.photoCollectionView.deleteItems(at: [indexPath])
+        guard let indexPath = postView.photoCollectionView.indexPath(for: cell) else {
+            print("Failed to get indexPath for the cell.")
+            return
         }
-    }
+        
+        // Ensure the indexPath.item is within the bounds of the array
+        guard indexPath.item < selectedImages.count else {
+            print("Index out of range. The item at \(indexPath.item) does not exist in the selectedImages array.")
+            return
+        }
 
+        // Remove image from data source
+        selectedImages.remove(at: indexPath.item)
+
+        // Delete the item from the collection view
+        postView.photoCollectionView.performBatchUpdates({
+            postView.photoCollectionView.deleteItems(at: [indexPath])
+        }, completion: nil)
+    }
+    
     // Helper function to show alerts
     private func showAlert(message: String) {
         let alertController = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
