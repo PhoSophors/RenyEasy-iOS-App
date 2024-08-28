@@ -25,20 +25,4 @@ class UserViewModel {
             }
         }
     }
-
-    // Update user profile information (e.g., bio, location) on the server
-    func updateUserInfo(with profile: UpdateProfile) {
-        APICaller.updateUserProfile(profile: profile) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success:
-                    print("User info updated successfully.")
-                    self?.fetchUserInfo()  // Refresh user info after update
-                case .failure(let error):
-                    self?.onError?(error)
-                }
-            }
-        }
-    }
-
 }

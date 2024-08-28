@@ -1,33 +1,33 @@
 import UIKit
 import SnapKit
 import SDWebImage
-import MapKit
 
 protocol UpdateProfileViewDelegate: AnyObject {
     func didTapUpdatePicture()
     func didTapUpdateCoverPicture()
-    func didTapSaveButton() // Added to handle save button tap
+    func didTapSaveButton()
 }
 
-class ProfileUpdateView: UIView, MKMapViewDelegate {
+class ProfileUpdateView: UIView {
     weak var delegate: UpdateProfileViewDelegate?
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     
     // UI Elements
-    private let profileImageView = UIImageView()
-    private let coverImageView = UIImageView()
-    private let bioTextField = UITextField()
-    private let locationMapView = MKMapView()
+    let profileImageView = UIImageView()
+    let coverImageView = UIImageView()
+    let usernameTextField = UITextField()
+    let emailTextField = UITextField()
+    let locationTextField = UITextField()
+    let bioTextField = UITextField()
     
-    // Property to hold the stack view
     private var profilePictureLabelStackView: UIStackView?
     private var coverPictureLabelStackView: UIStackView?
     private var locationLabelStackView: UIStackView?
-    private var bioLabel: UILabel?
+    private var bioLabelStackView: UIStackView?
     
-    private let photoIconImageView: UIImageView = {
+    let photoIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo")
         imageView.contentMode = .scaleAspectFit
@@ -36,7 +36,7 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         return imageView
     }()
     
-    private let addCoverLabel: UILabel = {
+    let addCoverLabel: UILabel = {
         let label = UILabel()
         label.text = "Add Your Cover"
         label.textColor = .gray
@@ -53,7 +53,7 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         button.backgroundColor = ColorManagerUtilize.shared.forestGreen
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
-        button.addTarget(ProfileUpdateView.self, action: #selector(didTapSaveButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
         return button
     }()
     
@@ -78,11 +78,11 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         bioLabelView()
         setupBioTextField()
         locationLabelView()
-        setupLocationView()
+        setupLocationTextField()
         setupSaveButton()
     }
     
-    // Scroll view =========================
+    // Scroll view setup
     private func setupScrollView() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -97,7 +97,7 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         }
     }
     
-    // Profile label =============================
+    // Profile label setup
     private func profilePictureLabelView() {
         let label = UILabel()
         label.text = "Profile picture"
@@ -119,13 +119,13 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         profilePictureLabelStackView = stackView
         
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(-30)
+            make.top.equalTo(contentView).offset(20)
             make.leading.equalTo(contentView).offset(16)
             make.trailing.equalTo(contentView).offset(-16)
         }
     }
     
-    // Profile picture =============================
+    // Profile picture setup
     private func setupProfileImageView() {
         profileImageView.layer.cornerRadius = 75
         profileImageView.backgroundColor = .white
@@ -133,6 +133,11 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         profileImageView.layer.borderWidth = 3
         profileImageView.layer.borderColor = UIColor.gray.cgColor
         contentView.addSubview(profileImageView)
+        
+        // Add a tap gesture recognizer to coverImageView
+       let profileTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTabProfileImageView))
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addGestureRecognizer(profileTapGesture)
         
         guard let profilePictureLabelStackView = profilePictureLabelStackView else { return }
 
@@ -143,7 +148,7 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         }
     }
   
-    // Cover label =============================
+    // Cover label setup
     private func coverPictureLabelView() {
         let label = UILabel()
         label.text = "Cover picture"
@@ -171,11 +176,17 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         }
     }
     
-    // Cover picture =============================
+    // Cover picture setup
     private func setupCoverImageView() {
         coverImageView.contentMode = .scaleAspectFill
         coverImageView.clipsToBounds = true
         contentView.addSubview(coverImageView)
+        
+        // Add a tap gesture recognizer to coverImageView
+       let coverTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCoverImageView))
+       coverImageView.isUserInteractionEnabled = true
+       coverImageView.addGestureRecognizer(coverTapGesture)
+        
         
         coverImageView.snp.makeConstraints { make in
             make.top.equalTo(coverPictureLabelStackView!.snp.bottom).offset(16)
@@ -198,53 +209,52 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         }
     }
     
-    // Bio label =============================
+    // Bio label setup
     private func bioLabelView() {
         let label = UILabel()
         label.text = "Bio"
         label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .black
         
-        contentView.addSubview(label)
+        let stackView = UIStackView(arrangedSubviews: [label])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 8
         
-        // Save reference to the label
-        bioLabel = label
+        contentView.addSubview(stackView)
         
-        label.snp.makeConstraints { make in
+        bioLabelStackView = stackView
+        
+        stackView.snp.makeConstraints { make in
             make.top.equalTo(coverImageView.snp.bottom).offset(16)
             make.leading.equalTo(contentView).offset(16)
             make.trailing.equalTo(contentView).offset(-16)
         }
     }
     
-    // Setup Bio text field =============================
+    // Bio text field setup
     private func setupBioTextField() {
         bioTextField.borderStyle = .roundedRect
         contentView.addSubview(bioTextField)
         
-        guard let bioLabel = bioLabel else { return }
+        guard let bioLabelStackView = bioLabelStackView else { return }
 
         bioTextField.snp.makeConstraints { make in
-            make.top.equalTo(bioLabel.snp.bottom).offset(8)
+            make.top.equalTo(bioLabelStackView.snp.bottom).offset(8)
             make.leading.equalTo(contentView).offset(16)
             make.trailing.equalTo(contentView).offset(-16)
             make.height.equalTo(40)
         }
     }
     
-    // Location label =============================
+    // Location label setup
     private func locationLabelView() {
         let label = UILabel()
-        label.text = "Set your location"
+        label.text = "Location"
         label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .black
         
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "mappin.and.ellipse")
-        imageView.tintColor = .black
-        imageView.contentMode = .scaleAspectFit
-        
-        let stackView = UIStackView(arrangedSubviews: [label, imageView])
+        let stackView = UIStackView(arrangedSubviews: [label])
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 8
@@ -260,84 +270,44 @@ class ProfileUpdateView: UIView, MKMapViewDelegate {
         }
     }
     
-    // Setup Location Map View =============================
-    private func setupLocationView() {
-        contentView.addSubview(locationMapView)
+    // Location text field setup
+    private func setupLocationTextField() {
+        locationTextField.borderStyle = .roundedRect
+        contentView.addSubview(locationTextField)
         
-        locationMapView.snp.makeConstraints { make in
-            make.top.equalTo(locationLabelStackView!.snp.bottom).offset(16)
+        guard let locationLabelStackView = locationLabelStackView else { return }
+
+        locationTextField.snp.makeConstraints { make in
+            make.top.equalTo(locationLabelStackView.snp.bottom).offset(8)
             make.leading.equalTo(contentView).offset(16)
             make.trailing.equalTo(contentView).offset(-16)
-            make.height.equalTo(200)
+            make.height.equalTo(40)
         }
     }
-
     
-    // Save button =============================
+    // Save button setup
     private func setupSaveButton() {
         contentView.addSubview(saveButton)
         
         saveButton.snp.makeConstraints { make in
-            make.top.equalTo(locationMapView.snp.bottom).offset(16)
+            make.top.equalTo(locationTextField.snp.bottom).offset(20)
             make.leading.equalTo(contentView).offset(16)
             make.trailing.equalTo(contentView).offset(-16)
-            make.height.equalTo(50) // Set the height to 50
-            make.bottom.equalTo(contentView).offset(-16) 
+            make.bottom.equalTo(contentView).offset(-20)
+            make.height.equalTo(50)
         }
     }
     
+    @objc private func didTabProfileImageView() {
+        delegate?.didTapUpdatePicture()
+    }
+    
+    @objc private func didTapCoverImageView() {
+       delegate?.didTapUpdateCoverPicture()
+   }
+
     @objc private func didTapSaveButton() {
         delegate?.didTapSaveButton()
-        
-        print("Update button tapped")
-    }
-
-    func updateProfile(with userInfo: UserInfo) {
-        updateProfileImage(with: userInfo.profilePhoto)
-        updateCoverImage(with: userInfo.coverPhoto)
-        
-        bioTextField.text = userInfo.bio
-        
-//        if let location = userInfo.location {
-//            let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-//            let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
-//            locationMapView.setRegion(region, animated: true)
-//        }
-    }
-
-    private func updateProfileImage(with urlString: String) {
-        if let profileUrl = URL(string: urlString) {
-            profileImageView.sd_setImage(with: profileUrl, placeholderImage: UIImage(systemName: "person.crop.circle.fill"))
-        } else {
-            profileImageView.image = UIImage(systemName: "person.crop.circle.fill")
-        }
-        
-        profileImageView.tintColor = .gray
-    }
-
-    private func updateCoverImage(with urlString: String) {
-        if let coverUrl = URL(string: urlString) {
-            coverImageView.sd_setImage(with: coverUrl) { [weak self] image, error, _, _ in
-                if image == nil || error != nil {
-                    self?.showPlaceholderOnCoverImageView()
-                } else {
-                    self?.hidePlaceholderOnCoverImageView()
-                }
-            }
-        } else {
-            showPlaceholderOnCoverImageView()
-        }
-    }
-
-    private func showPlaceholderOnCoverImageView() {
-        coverImageView.backgroundColor = .systemGray6
-        photoIconImageView.isHidden = false
-        addCoverLabel.isHidden = false
-    }
-
-    private func hidePlaceholderOnCoverImageView() {
-        coverImageView.backgroundColor = .clear
-        photoIconImageView.isHidden = true
-        addCoverLabel.isHidden = true
     }
 }
+

@@ -19,17 +19,15 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         
         setupViewControllers()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.barTintColor = .white
         // Hide the navigation bar
         navigationController?.navigationBar.isHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.navigationBar.barTintColor = .white
         // Ensure the navigation bar is visible when this view controller is not visible
         navigationController?.navigationBar.isHidden = false
     }
@@ -82,26 +80,9 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
 //    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-//        if viewController is ProfileViewController {
-//            let newVC = ProfileViewController()
-//            newVC.hidesBottomBarWhenPushed = true
-//            navigationController?.pushViewController(newVC, animated: true)
-//            return false
-//        }
+//        let profileViewController = ProfileViewController()
+//        navigationController?.pushViewController(profileViewController, animated: true)
 //        return true
 //    }
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if let navigationController = viewController as? UINavigationController,
-           let profileVC = navigationController.viewControllers.first as? ProfileViewController {
-            let newVC = ProfileViewController()
-            newVC.hidesBottomBarWhenPushed = true
-            
-            // Push the newVC on the navigation stack of the selected tab
-            if let selectedNavController = self.selectedViewController as? UINavigationController {
-                selectedNavController.pushViewController(newVC, animated: true)
-                return false
-            }
-        }
-        return true
-    }
+//    
 }

@@ -241,7 +241,6 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
             stackView.removeFromSuperview()
         }
     }
-
     
     // MARK: - Action
     @objc private func seeAllButtonTapped() {

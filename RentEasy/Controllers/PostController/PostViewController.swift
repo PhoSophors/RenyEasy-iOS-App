@@ -137,7 +137,6 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         LoadingOverlay.shared.show(over: self.view)
         
-        // Call the API to create the new post
         APICaller.createNewPostWithImages(postData: postData, images: imageDataArray) { result in
             DispatchQueue.main.async {
                 LoadingOverlay.shared.hide()

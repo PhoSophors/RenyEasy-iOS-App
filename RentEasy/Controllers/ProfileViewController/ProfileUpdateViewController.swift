@@ -1,49 +1,163 @@
-//
-//  UpdateViewController.swift
-//  RentEasy
-//
-//  Created by Apple on 6/8/24.
-//
-
 import UIKit
+import SDWebImage
 
-class ProfileUpdateViewController: UIViewController {
+class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private let profileUpdateView = ProfileUpdateView()
-    
+    private var selectedImage: UIImage?
+    private var isCoverImage = false
+    private var coverPhotosData: [Data] = []
+    private var profilePhotosData: [Data] = []
+    private var userInfo: UserInfo?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupProfileUpdateView()
-        fetchUserInfo()
+        self.title = "Update Profile"
+        setupView()
+        populateUserData()
     }
     
-    private func fetchUserInfo() {
-        APICaller.getUserInfo { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let userInfo):
-                    self?.profileUpdateView.updateProfile(with: userInfo)
-                case .failure(let error):
-                    self?.handleError(error)
-                }
+    // Initialize with user data
+    init(userInfo: UserInfo) {
+        self.userInfo = userInfo
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .white
+        view.addSubview(profileUpdateView)
+        profileUpdateView.delegate = self
+        
+        profileUpdateView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    private func populateUserData() {
+        guard let userInfo = userInfo else { return }
+        
+        profileUpdateView.usernameTextField.text = userInfo.username
+        profileUpdateView.emailTextField.text = userInfo.email
+        profileUpdateView.bioTextField.text = userInfo.bio
+        profileUpdateView.locationTextField.text = userInfo.location
+        
+        // Assuming profilePhoto and coverPhoto are non-optional
+        if !userInfo.profilePhoto.isEmpty {
+            let profilePhotoURL = URL(string: userInfo.profilePhoto)
+            profileUpdateView.profileImageView.sd_setImage(with: profilePhotoURL, completed: nil)
+        }
+        
+        if !userInfo.coverPhoto.isEmpty {
+            let coverPhotoURL = URL(string: userInfo.coverPhoto)
+            profileUpdateView.coverImageView.sd_setImage(with: coverPhotoURL, completed: nil)
+        }
+    }
+
+    
+    private func selectImage(forCoverImage: Bool) {
+        isCoverImage = forCoverImage
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    // UIImagePickerControllerDelegate methods
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            selectedImage = image
+            if isCoverImage {
+                profileUpdateView.coverImageView.image = image
+                profileUpdateView.addCoverLabel.isHidden = true
+                profileUpdateView.photoIconImageView.isHidden = false
+            } else {
+                profileUpdateView.profileImageView.image = image
+                profileUpdateView.photoIconImageView.isHidden = false
+            }
+            updateImageData()
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func updateImageData() {
+        if let coverImage = profileUpdateView.coverImageView.image {
+            if let coverImageData = convertImageToData(coverImage) {
+                coverPhotosData = [coverImageData]
+            }
+        }
+        
+        if let profileImage = profileUpdateView.profileImageView.image {
+            if let profileImageData = convertImageToData(profileImage) {
+                profilePhotosData = [profileImageData]
             }
         }
     }
     
-    private func handleError(_ error: NetworkError) {
-        // Handle error appropriately, e.g., show an alert
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+    private func convertImageToData(_ image: UIImage) -> Data? {
+        return image.jpegData(compressionQuality: 0.8)
     }
+}
 
+// MARK: - ProfileUpdateViewDelegate
+extension ProfileUpdateViewController: UpdateProfileViewDelegate {
     
-    private func setupProfileUpdateView() {
-        view.addSubview(profileUpdateView)
-        
-        profileUpdateView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+    func didTapUpdatePicture() {
+        selectImage(forCoverImage: false)
+    }
+    
+    func didTapUpdateCoverPicture() {
+        selectImage(forCoverImage: true)
+    }
+    
+    func didTapSaveButton() {
+        guard let profileInfo = getUpdatedProfileInfo() else {
+            showAlert(title: "Error", message: "Failed to gather profile info")
+            return
         }
+        LoadingOverlay.shared.show(over: self.view)
+        
+        APICaller.updateUserProfile(
+            profile: profileInfo,
+            coverPhoto: coverPhotosData,
+            profilePhoto: profilePhotosData
+        ) { [weak self] result in
+            DispatchQueue.main.async {
+                LoadingOverlay.shared.hide()
+                
+                switch result {
+                case .success(let response):
+                    print("Profile updated successfully: \(response.message)")
+                    self?.showAlert(title: "Success", message: response.message)
+                      
+                case .failure(let error):
+                    print("Failed to update profile: \(error.localizedDescription)")
+                    self?.showAlert(title: "Error", message: error.localizedDescription)
+                }
+            }
+        }
+    }
+    private func getUpdatedProfileInfo() -> UpdateProfile? {
+        let username = profileUpdateView.usernameTextField.text ?? ""
+        let email = profileUpdateView.emailTextField.text ?? ""
+        let bio = profileUpdateView.bioTextField.text
+        let location = profileUpdateView.locationTextField.text 
+        
+        return UpdateProfile(username: username, email: email, bio: bio, location: location)
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
+        })
+        present(alert, animated: true)
     }
 }

@@ -216,6 +216,7 @@ class SearchViewController: UIViewController {
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
                     self.updateNoResultsLabelVisibility()
+                    
                 case .failure(let error):
                     print("Failed to search: \(error)") // Debugging statement
                     self.posts = []

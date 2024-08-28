@@ -10,5 +10,4 @@ target 'RentEasy' do
  	pod 'SnapKit'
 	pod 'BSImagePicker', '~> 3.3'
 	pod 'SDWebImage'
-
 end

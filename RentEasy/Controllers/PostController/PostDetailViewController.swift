@@ -276,7 +276,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        self.title = "Post Details"
+        title = "Post Details"
 
         setupViews()
         setupCollectionView()

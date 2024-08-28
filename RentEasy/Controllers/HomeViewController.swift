@@ -369,7 +369,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 switch result {
                 case .success(let user):
                     self?.userInfo = user
-                    print("Fetched user info: \(user)") // Debugging line
+//                    print("Fetched user info: \(user)") // Debugging line
                 case .failure(let error):
                     print("Failed to fetch user info: \(error)")
                 }
@@ -552,7 +552,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     @objc private func seeMoreAllRentTapped() {
-        let allPostViewController = AllPostViewController(propertyType: nil) // Fetches all posts
+        let allPostViewController = AllPostViewController(propertyType: nil)
         navigationController?.pushViewController(allPostViewController, animated: true)
     }
     

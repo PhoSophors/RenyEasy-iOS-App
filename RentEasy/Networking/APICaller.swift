@@ -19,71 +19,7 @@ struct UpdateProfile: Codable {
     var location: String?
 }
 
-
 public class APICaller {
-    
-    // MARK: - Helper Methods
-    private static func makeRequest(urlString: String, method: String, body: Data? = nil, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.urlError))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = method
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        if let token = AuthManager.getToken() {
-            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
-        
-        request.httpBody = body
-        
-        print("Making request to: \(urlString)")
-        print("Method: \(method)")
-        print("Headers: \(request.allHTTPHeaderFields ?? [:])")
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Network request failed with error: \(error.localizedDescription)")
-                completion(.failure(.canNotParseData))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                print("Invalid response received")
-                completion(.failure(.canNotParseData))
-                return
-            }
-            
-            print("HTTP Status Code: \(httpResponse.statusCode)")
-            
-            switch httpResponse.statusCode {
-            case 200...299:
-                if let data = data {
-                    completion(.success(data))
-                } else {
-                    print("No data received")
-                    completion(.failure(.canNotParseData))
-                }
-            case 400:
-                let errorMsg = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Bad request"
-                completion(.failure(.invalidCredentials(errorMsg)))
-            case 401:
-                completion(.failure(.unauthorized))
-            case 403:
-                completion(.failure(.forbidden))
-            case 404:
-                completion(.failure(.notFound))
-            default:
-                let errorMessage = "Error with status code: \(httpResponse.statusCode)"
-                let serverMessage = (data != nil) ? String(data: data!, encoding: .utf8) ?? "No additional info" : "No additional info"
-                print("Error: \(errorMessage) - \(serverMessage)")
-                completion(.failure(.serverError("\(errorMessage): \(serverMessage)")))
-            }
-        }
-        task.resume()
-    }
     
     // MARK: - Login function
     static func login(email: String, password: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
@@ -91,7 +27,7 @@ public class APICaller {
         
         do {
             let jsonData = try JSONEncoder().encode(loginModel)
-            makeRequest(urlString: NetworkConstants.Endpoints.login, method: "POST", body: jsonData) { result in
+            APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.login, method: "POST", body: jsonData) { result in
                 switch result {
                 case .success(let data):
                     do {
@@ -120,7 +56,7 @@ public class APICaller {
         
         do {
             let jsonData = try JSONEncoder().encode(registerModel)
-            makeRequest(urlString: NetworkConstants.Endpoints.register, method: "POST", body: jsonData) { result in
+            APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.register, method: "POST", body: jsonData) { result in
                 switch result {
                 case .success:
                     completion(.success(()))
@@ -139,7 +75,7 @@ public class APICaller {
         
         do {
             let jsonData = try JSONEncoder().encode(verifyModel)
-            makeRequest(urlString: NetworkConstants.Endpoints.registerVerifyOTP, method: "POST", body: jsonData) { result in
+            APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.registerVerifyOTP, method: "POST", body: jsonData) { result in
                 switch result {
                 case .success(let data):
                     // Assuming the response is in JSON format and contains the token
@@ -163,7 +99,7 @@ public class APICaller {
         
         do {
             let jsonData = try JSONEncoder().encode(requestNewPasswordModel)
-            makeRequest(urlString: NetworkConstants.Endpoints.forgotPassword, method: "POST", body: jsonData) { result in
+            APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.forgotPassword, method: "POST", body: jsonData) { result in
                 switch result {
                 case .success:
                     completion(.success("Password reset request successful"))
@@ -182,7 +118,7 @@ public class APICaller {
         
         do {
             let jsonData = try JSONEncoder().encode(verifyNewPasswordOTPModel)
-            makeRequest(urlString: NetworkConstants.Endpoints.verifyResetPasswordOTP, method: "POST", body: jsonData) { result in
+            APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.verifyResetPasswordOTP, method: "POST", body: jsonData) { result in
                 switch result {
                 case .success(let data):
                     do {
@@ -206,7 +142,7 @@ public class APICaller {
         
         do {
             let jsonData = try JSONEncoder().encode(newPasswordModel)
-            makeRequest(urlString: NetworkConstants.Endpoints.setNewPassword, method: "POST", body: jsonData) { result in
+            APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.setNewPassword, method: "POST", body: jsonData) { result in
                 switch result {
                 case .success:
                     completion(.success(("asdf")))
@@ -227,7 +163,7 @@ public class APICaller {
     
     // MARK: - Get user info
     static func getUserInfo(completion: @escaping (Result<UserInfo, NetworkError>) -> Void) {
-        makeRequest(urlString: NetworkConstants.Endpoints.getUserInfo, method: "GET") { result in
+        APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.getUserInfo, method: "GET") { result in
             switch result {
             case .success(let data):
                 let dateFormatter = DateFormatter()
@@ -249,23 +185,76 @@ public class APICaller {
         }
     }
     
+    
+    
     // MARK: - Update user profile
-    static func updateUserProfile(profile: UpdateProfile, completion: @escaping (Result<Void, NetworkError>) -> Void) {
-        do {
-            let jsonData = try JSONEncoder().encode(profile)
-            makeRequest(urlString: NetworkConstants.Endpoints.updateUserInfo, method: "PUT", body: jsonData) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
+    static func updateUserProfile(
+        profile: UpdateProfile,
+        coverPhoto: [Data],
+        profilePhoto: [Data],
+        completion: @escaping (Result<UpdateUserInfoResponse, NetworkError>) -> Void
+    ) {
+        let urlString = NetworkConstants.Endpoints.updateUserInfo
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        
+        func appendString(_ string: String, to data: inout Data) {
+            guard let stringData = string.data(using: .utf8) else { return }
+            data.append(stringData)
+        }
+        
+        // Append profile data
+        let updateProfileData: [String: Any] = [
+            "username": profile.username,
+            "email": profile.email,
+            "bio": profile.bio ?? "Bio",
+            "location": profile.location ?? "Location"
+        ]
+        
+        // Append post data
+        for (key, value) in updateProfileData {
+            appendString("--\(boundary)\r\n", to: &body)
+            appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n", to: &body)
+            appendString("Content-Type: text/plain\r\n\r\n", to: &body)
+            appendString("\(value)\r\n", to: &body)
+        }
+        
+        // Append profile photos
+        APIHelper.appendFormData(named: "profilePhoto", with: profilePhoto, to: &body, boundary: boundary, appendString: appendString)
+       // Append cover photos
+        APIHelper.appendFormData(named: "coverPhoto", with: coverPhoto, to: &body, boundary: boundary, appendString: appendString)
+
+        
+        appendString("--\(boundary)--\r\n", to: &body)
+        
+        APIHelper.makeMultipartRequest(
+            urlString: urlString,
+            method: "POST",
+            body: body,
+            boundary: boundary
+        ) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let response = try decoder.decode(UpdateUserInfoResponse.self, from: data)
+                    completion(.success(response))
+                } catch {
+                    print("Decoding error: \(error.localizedDescription)")
+                    completion(.failure(.canNotParseData))
                 }
+                
+            case .failure(let error):
+                print("Request failed with error: \(error.localizedDescription)")
+                // Print the raw error if available
+                if let underlyingError = (error as NSError).userInfo[NSUnderlyingErrorKey] as? NSError {
+                    print("Underlying error: \(underlyingError.localizedDescription)")
+                }
+                completion(.failure(error))
             }
-        } catch {
-            completion(.failure(.canNotParseData))
         }
     }
-    
+
     /**
      *
      * Favorites data
@@ -273,7 +262,7 @@ public class APICaller {
      */
     // MARK: - Fetch User Favorites
     static func fetchUserFavorites(completion: @escaping (Result<[Favorite], NetworkError>) -> Void) {
-        makeRequest(urlString: NetworkConstants.Endpoints.fetchUserFavorites, method: "GET") { result in
+        APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.fetchUserFavorites, method: "GET") { result in
             switch result {
             case .success(let data):
                 do {
@@ -294,17 +283,17 @@ public class APICaller {
         let urlString = "\(NetworkConstants.Endpoints.removeFavorites)/\(postId)"
         print("Request URL: \(urlString)")
         
-        makeRequest(urlString: urlString, method: "POST") { result in
+        APIHelper.makeRequest(urlString: urlString, method: "POST") { result in
             switch result {
             case .success(let data):
                 do {
                     if let responseDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                        let message = responseDict["message"] as? String {
-                        print("Success response: \(message)") // Log the success message
+                        print("Success response: \(message)")
                         completion(.success(message))
                     } else {
                         let errorMsg = "Response data could not be parsed or message not found"
-                        print("Error: \(errorMsg)") // Log the error message
+                        print("Error: \(errorMsg)")
                         completion(.failure(.canNotParseData))
                     }
                 } catch {
@@ -323,7 +312,7 @@ public class APICaller {
         let urlString = "\(NetworkConstants.Endpoints.addFavorites)/\(postId)"
         print("Request URL: \(urlString)")
         
-        makeRequest(urlString: urlString, method: "POST") { result in
+        APIHelper.makeRequest(urlString: urlString, method: "POST") { result in
             switch result {
             case .success(let data):
                 do {
@@ -390,7 +379,7 @@ public class APICaller {
 
     // MARK: - Fetch all posts
     static func fetchAllPosts(completion: @escaping (Result<AllPostsResponse, Error>) -> Void) {
-        makeRequest(urlString: NetworkConstants.Endpoints.fetchAllPost, method: "GET") { result in
+        APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.fetchAllPost, method: "GET") { result in
             switch result {
             case .success(let data):
                 do {
@@ -408,16 +397,12 @@ public class APICaller {
     }
     
 
-    static func createNewPostWithImages(postData: [String: Any], images: [Data], completion: @escaping (Result<NewPostResponse, NetworkError>) -> Void) {
+    static func createNewPostWithImages(
+        postData: [String: Any],
+        images: [Data],
+        completion: @escaping (Result<NewPostResponse, NetworkError>) -> Void
+    ) {
         let urlString = NetworkConstants.Endpoints.createNewPost
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.urlError))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = Data()
         
@@ -425,7 +410,7 @@ public class APICaller {
             guard let stringData = string.data(using: .utf8) else { return }
             data.append(stringData)
         }
-        
+    
         // Append post data
         for (key, value) in postData {
             appendString("--\(boundary)\r\n", to: &body)
@@ -435,44 +420,18 @@ public class APICaller {
         }
         
         // Append images
-        for (index, imageData) in images.enumerated() {
-            appendString("--\(boundary)\r\n", to: &body)
-            appendString("Content-Disposition: form-data; name=\"images\"; filename=\"image\(index).jpg\"\r\n", to: &body)
-            appendString("Content-Type: image/jpeg\r\n\r\n", to: &body)
-            body.append(imageData)
-            appendString("\r\n", to: &body)
-        }
+        APIHelper.appendFormData(named: "images", with: images, to: &body, boundary: boundary, appendString: appendString)
         
         appendString("--\(boundary)--\r\n", to: &body)
         
-        request.httpBody = body
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        if let token = AuthManager.getToken() {
-            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Network request failed with error: \(error.localizedDescription)")
-                completion(.failure(.canNotParseData))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                print("Invalid response received")
-                completion(.failure(.canNotParseData))
-                return
-            }
-            
-            switch httpResponse.statusCode {
-            case 200...299:
-                guard let data = data else {
-                    print("No data received")
-                    completion(.failure(.canNotParseData))
-                    return
-                }
-                
+        APIHelper.makeMultipartRequest(
+            urlString: urlString,
+            method: "POST",
+            body: body,
+            boundary: boundary
+        ) { result in
+            switch result {
+            case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     let newPostResponse = try decoder.decode(NewPostResponse.self, from: data)
@@ -482,23 +441,10 @@ public class APICaller {
                     completion(.failure(.canNotParseData))
                 }
                 
-            case 400:
-                let errorMsg = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Bad request"
-                completion(.failure(.invalidCredentials(errorMsg)))
-            case 401:
-                completion(.failure(.unauthorized))
-            case 403:
-                completion(.failure(.forbidden))
-            case 404:
-                completion(.failure(.notFound))
-            default:
-                let errorMessage = "Error with status code: \(httpResponse.statusCode)"
-                let serverMessage = (data != nil) ? String(data: data!, encoding: .utf8) ?? "No additional info" : "No additional info"
-                completion(.failure(.serverError("\(errorMessage): \(serverMessage)")))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
-        
-        task.resume()
     }
 
 
@@ -511,7 +457,7 @@ public class APICaller {
     // MARK: - Search
     static func searchPostsAndUsers(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
         let urlString = "\(NetworkConstants.Endpoints.searchPostAndUser)?query=\(query)"
-        makeRequest(urlString: urlString, method: "GET") { result in
+        APIHelper.makeRequest(urlString: urlString, method: "GET") { result in
             switch result {
             case .success(let data):
                 do {
@@ -529,3 +475,5 @@ public class APICaller {
     }
     
 }
+
+

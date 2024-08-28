@@ -56,6 +56,12 @@ struct NewPasswordModel: Codable {
     var confirmPassword: String
 }
 
+// MARK: - Update user info response
+struct UpdateUserInfoResponse: Codable { 
+    let message: String
+    let user: UserInfo
+}
+
 // MARK: - User Response
 struct UserInfo: Codable {
     let id: String
