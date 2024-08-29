@@ -445,9 +445,6 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             }
         }
     }
-
-
-
     
     // MARK: - Action
     

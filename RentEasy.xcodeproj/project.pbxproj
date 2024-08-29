@@ -68,6 +68,8 @@
 		18E46B942C773F30002A7D5E /* PrivacyConsentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B932C773F30002A7D5E /* PrivacyConsentViewController.swift */; };
 		18E46B962C77437B002A7D5E /* PhotoPrivacyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B952C77437B002A7D5E /* PhotoPrivacyManager.swift */; };
 		18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */; };
+		18F787432C80998A00238B92 /* AddUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787422C80998A00238B92 /* AddUserViewController.swift */; };
+		18F787452C809B0200238B92 /* UserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787442C809B0200238B92 /* UserCollectionViewCell.swift */; };
 		18FC21B82C7F2BAE0037ACE6 /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC21B72C7F2BAE0037ACE6 /* APIHelper.swift */; };
 		18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC351B2C61E6C8000E95AA /* ProfileView.swift */; };
 		E7BC2590ED70625D4320E42D /* Pods_RentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07274123103DF5D216FDE2D /* Pods_RentEasy.framework */; };
@@ -137,6 +139,8 @@
 		18E46B932C773F30002A7D5E /* PrivacyConsentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyConsentViewController.swift; sourceTree = "<group>"; };
 		18E46B952C77437B002A7D5E /* PhotoPrivacyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPrivacyManager.swift; sourceTree = "<group>"; };
 		18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRentCollectionViewCell.swift; sourceTree = "<group>"; };
+		18F787422C80998A00238B92 /* AddUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserViewController.swift; sourceTree = "<group>"; };
+		18F787442C809B0200238B92 /* UserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCollectionViewCell.swift; sourceTree = "<group>"; };
 		18FC21B72C7F2BAE0037ACE6 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		18FC351B2C61E6C8000E95AA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		9A2278527EBBB75576F9A3CC /* Pods-RentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.release.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.release.xcconfig"; sourceTree = "<group>"; };
@@ -251,6 +255,7 @@
 				18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */,
 				186FDAF72C719D1800B45B63 /* PostDeatailCollectionViewCell.swift */,
 				18E46B8D2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift */,
+				18F787442C809B0200238B92 /* UserCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -343,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */,
+				18F787422C80998A00238B92 /* AddUserViewController.swift */,
 			);
 			path = MainMessageController;
 			sourceTree = "<group>";
@@ -519,6 +525,7 @@
 				188461882C621AE000F7737B /* ShareProfileViewController.swift in Sources */,
 				182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */,
 				1883ECDA2C5F42DC003861CA /* SearchViewController.swift in Sources */,
+				18F787432C80998A00238B92 /* AddUserViewController.swift in Sources */,
 				184CABAF2C75C7AA00700345 /* SearchModel.swift in Sources */,
 				18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */,
 				18C5E9752C73A9AC00879BD9 /* EditPostViewController.swift in Sources */,
@@ -536,6 +543,7 @@
 				18C5E9732C73A74700879BD9 /* SharePostViewController.swift in Sources */,
 				182643B02C607BC20061D422 /* APICaller.swift in Sources */,
 				18560C832C660C73008791AB /* SetNewPasswordViewController.swift in Sources */,
+				18F787452C809B0200238B92 /* UserCollectionViewCell.swift in Sources */,
 				18017D932C732A4A00986D8A /* LoadingOverlay.swift in Sources */,
 				1884618D2C6230C100F7737B /* UpdateProfileView.swift in Sources */,
 				184D8F322C7085B500D895BF /* AllPostViewController.swift in Sources */,

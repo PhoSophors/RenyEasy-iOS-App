@@ -167,7 +167,6 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
 
-
     // MARK: - UICollectionView DataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -209,13 +208,6 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     // MARK: - PhotoGalaryCollectionViewCellDelegate
-//
-//    func didTapRemoveButton(cell: PhotoGalaryCollectionViewCell) {
-//        if let indexPath = postView.photoCollectionView.indexPath(for: cell) {
-//            selectedImages.remove(at: indexPath.item)
-//            postView.photoCollectionView.deleteItems(at: [indexPath])
-//        }
-//    }
 
     func didTapRemoveButton(cell: PhotoGalaryCollectionViewCell) {
         guard let indexPath = postView.photoCollectionView.indexPath(for: cell) else {

@@ -57,6 +57,19 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
         }
     }
 
+    private func checkPhotoLibraryPermission(forCoverImage: Bool) {
+        PhotoPrivacyManager.checkPhotoLibraryPermission { [weak self] granted in
+            if granted {
+                self?.selectImage(forCoverImage: forCoverImage)
+            } else {
+                self?.showAccessAlert()
+            }
+        }
+    }
+    
+    private func showAccessAlert() {
+        PhotoPrivacyManager.showAccessAlert(from: self)
+    }
     
     private func selectImage(forCoverImage: Bool) {
         isCoverImage = forCoverImage
@@ -88,15 +101,17 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
     }
     
     private func updateImageData() {
-        if let coverImage = profileUpdateView.coverImageView.image {
-            if let coverImageData = convertImageToData(coverImage) {
-                coverPhotosData = [coverImageData]
+        if isCoverImage {
+            if let coverImage = profileUpdateView.coverImageView.image {
+                if let coverImageData = convertImageToData(coverImage) {
+                    coverPhotosData = [coverImageData]
+                }
             }
-        }
-        
-        if let profileImage = profileUpdateView.profileImageView.image {
-            if let profileImageData = convertImageToData(profileImage) {
-                profilePhotosData = [profileImageData]
+        } else {
+            if let profileImage = profileUpdateView.profileImageView.image {
+                if let profileImageData = convertImageToData(profileImage) {
+                    profilePhotosData = [profileImageData]
+                }
             }
         }
     }
@@ -110,12 +125,12 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
 extension ProfileUpdateViewController: UpdateProfileViewDelegate {
     
     func didTapUpdatePicture() {
-        selectImage(forCoverImage: false)
-    }
-    
-    func didTapUpdateCoverPicture() {
-        selectImage(forCoverImage: true)
-    }
+         checkPhotoLibraryPermission(forCoverImage: false) // For profile image
+     }
+
+     func didTapUpdateCoverPicture() {
+         checkPhotoLibraryPermission(forCoverImage: true) // For cover image
+     }
     
     func didTapSaveButton() {
         guard let profileInfo = getUpdatedProfileInfo() else {
@@ -156,7 +171,8 @@ extension ProfileUpdateViewController: UpdateProfileViewDelegate {
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            self?.dismiss(animated: true, completion: nil)
+//            self?.dismiss(animated: true, completion: nil)
+            self?.navigationController?.popViewController(animated: true)
         })
         present(alert, animated: true)
     }

@@ -38,8 +38,10 @@ class ProfileViewController: UIViewController, ProfileViewDelegate {
     }
 
     private func bindViewModel() {
+        LoadingOverlay.shared.show(over: self.view)
         userViewModel.onUserInfoFetched = { [weak self] in
             DispatchQueue.main.async {
+                LoadingOverlay.shared.hide()
                 guard let userInfo = self?.userViewModel.userInfo else { return }
                 self?.profileView.updateProfile(with: userInfo)
             }
@@ -47,11 +49,12 @@ class ProfileViewController: UIViewController, ProfileViewDelegate {
 
         userViewModel.onError = { [weak self] error in
             DispatchQueue.main.async {
+                LoadingOverlay.shared.hide()
                 self?.handleError(error as! NetworkError)
             }
         }
     }
-    
+   
     private func handleError(_ error: NetworkError) {
         let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -69,9 +72,11 @@ class ProfileViewController: UIViewController, ProfileViewDelegate {
             showAlert(title: "Error", message: "User profile information is not available.")
             return
         }
-        let profileUpdateViewController = ProfileUpdateViewController(userInfo: userInfo)
-        let navController = UINavigationController(rootViewController: profileUpdateViewController)
-        present(navController, animated: true, completion: nil)
+//        let profileUpdateViewController = ProfileUpdateViewController(userInfo: userInfo)
+//        let navController = UINavigationController(rootViewController: profileUpdateViewController)
+//        present(navController, animated: true, completion: nil)
+        let profileVC = ProfileUpdateViewController(userInfo: userInfo)
+        self.navigationController?.pushViewController(profileVC, animated: true)
         
     }
 

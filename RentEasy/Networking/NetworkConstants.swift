@@ -45,6 +45,9 @@ class NetworkConstants {
         public static var updateUserInfo: String {
             return "\(NetworkConstants.shared.serverAddress)/auths/update-profile"
         }
+        public static var getAllUser: String {
+            return "\(NetworkConstants.shared.serverAddress)/admin/all-users"
+        }
       
         // MARK: - Favorites
         public static var fetchUserFavorites: String {

@@ -118,18 +118,11 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: Navigation label to forgot password screen
-//    @objc func navigaionToForgotPassword() {
-//        let forgotPasswordVC = ForgotPasswordViewController()
-////        forgotPasswordVC.modalPresentationStyle = .fullScreen
-//        self.present(forgotPasswordVC, animated: true, completion: nil)
-//        
-//        print("Forgot password label tapped..!")
-//    }
 
     @objc func navigaionToForgotPassword() {
         let storyboard = UIStoryboard(name: "ForgotPassword", bundle: nil)
         if let forgotPasswordVC = storyboard.instantiateViewController(withIdentifier: "ForgotPasswordViewController") as? ForgotPasswordViewController {
-//            forgotPasswordVC.modalPresentationStyle = .fullScreen
+
             self.present(forgotPasswordVC, animated: true, completion: nil)
             
             print("Forgot password label tapped..!")

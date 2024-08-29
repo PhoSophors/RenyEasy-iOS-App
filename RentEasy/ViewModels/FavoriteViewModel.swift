@@ -8,7 +8,13 @@
 import Foundation
 import Combine
 
+protocol FavoriteViewModelDelegate: AnyObject {
+    func showLoadingOverlay()
+    func hideLoadingOverlay()
+}
+
 class FavoriteViewModel {
+    weak var delegate: FavoriteViewModelDelegate?
     
     // Properties
     @Published var favorites: [Favorite] = []
@@ -17,27 +23,31 @@ class FavoriteViewModel {
     private var userInfo: UserInfo?
     
     // Fetch favorites
-    func fetchFavorites() {
-        APICaller.fetchUserFavorites { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let favorites):
-                    self?.favorites = favorites
-                    self?.errorMessage = nil
-                case .failure(let error):
-                    self?.favorites = []
-                    self?.errorMessage = error.localizedDescription
-                }
-            }
-        }
-    }
+      func fetchFavorites() {
+          delegate?.showLoadingOverlay()
+          
+          APICaller.fetchUserFavorites { [weak self] result in
+              DispatchQueue.main.async {
+                  self?.delegate?.hideLoadingOverlay()
+                  
+                  switch result {
+                  case .success(let favorites):
+                      self?.favorites = favorites
+                      self?.errorMessage = nil
+                  case .failure(let error):
+                      self?.favorites = []
+                      self?.errorMessage = error.localizedDescription
+                  }
+              }
+          }
+      }
     
     // Remove a specific favorite
     func removeFavorite(postId: String, completion: @escaping (Result<String, Error>) -> Void) {
         APICaller.removeFavorites(postId: postId) { [weak self] result in
             DispatchQueue.main.async {
                 guard let strongSelf = self else { return }
-
+                
                 switch result {
                 case .success(let message):
                     // Ensure thread-safety while modifying the favorites array
@@ -70,6 +80,8 @@ class FavoriteViewModel {
     
     // Add a specific favorite
     func addFavorite(postId: String, completion: @escaping (Result<String, Error>) -> Void) {
+        delegate?.showLoadingOverlay()
+        
         APICaller.addFavorites(postId: postId) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -81,7 +93,11 @@ class FavoriteViewModel {
                 case .failure(let error):
                     completion(.failure(error))
                 }
+                
+                self?.delegate?.hideLoadingOverlay()
             }
         }
     }
+
+    
 }
