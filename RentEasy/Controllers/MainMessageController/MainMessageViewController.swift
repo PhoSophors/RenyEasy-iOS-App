@@ -31,7 +31,7 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "All Users' Messages"
+        self.title = "Chats"
         
         view.backgroundColor = .white
         setupNavigationBar()
@@ -46,7 +46,6 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
                 case .success(let response):
                     self?.users = response.data.users
                     self?.fetchAllMessages()
-                    print("current User: \(response)")
                 case .failure(let error):
                     self?.showError(error)
                 }
@@ -160,6 +159,23 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         let width = collectionView.frame.width
         return CGSize(width: width, height: 70)
     }
+    
+    // MARK: - UICollectionViewDelegate
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Retrieve the selected user based on the clicked item
+        let selectedUser = users[indexPath.item]
+        
+        // Create an instance of MessageViewController
+        let messageVC = MessageViewController()
+        
+        // Pass the selected user to the message view controller
+        messageVC.user = selectedUser
+        
+        // Push the message view controller onto the navigation stack
+        navigationController?.pushViewController(messageVC, animated: true)
+    }
+
     
     // MARK: - Error Handling
 
