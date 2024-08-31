@@ -21,6 +21,18 @@ struct UpdateProfile: Codable {
 
 public class APICaller {
     
+    /**
+     * @Authentication:
+     *
+     * Login
+     * Register
+     * verifyRegisterOTP
+     * requestNewPassword
+     * verifyResetPasswordOTP
+     * setNewPassword
+     * ============================================================================================
+     */
+    
     // MARK: - Login function
     static func login(email: String, password: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         let loginModel = LoginModel(email: email, password: password)
@@ -111,7 +123,7 @@ public class APICaller {
             completion(.failure(.canNotParseData))
         }
     }
-        
+    
     // MARK: - Verify Reset Password OTP
     static func verifyResetPasswordOTP(email: String, otp: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         let verifyNewPasswordOTPModel = VerifyNewPasswordOTPModel(email: email, otp: otp)
@@ -154,10 +166,12 @@ public class APICaller {
             completion(.failure(.canNotParseData))
         }
     }
-
+    
     /**
+     * @User data:
      *
-     * User data
+     * getUserInfo
+     * updateUserProfile
      * ============================================================================================
      */
     
@@ -184,8 +198,6 @@ public class APICaller {
             }
         }
     }
-    
-    
     
     // MARK: - Update user profile
     static func updateUserProfile(
@@ -221,9 +233,8 @@ public class APICaller {
         
         // Append profile photos
         APIHelper.appendFormData(named: "profilePhoto", with: profilePhoto, to: &body, boundary: boundary, appendString: appendString)
-       // Append cover photos
+        // Append cover photos
         APIHelper.appendFormData(named: "coverPhoto", with: coverPhoto, to: &body, boundary: boundary, appendString: appendString)
-
         
         appendString("--\(boundary)--\r\n", to: &body)
         
@@ -254,10 +265,13 @@ public class APICaller {
             }
         }
     }
-
+    
     /**
+     * @Favorites data:
      *
-     * Favorites data
+     * fetchUserFavorites
+     * removeFavorites
+     * addFavorites
      * ============================================================================================
      */
     // MARK: - Fetch User Favorites
@@ -338,8 +352,11 @@ public class APICaller {
     }
     
     /**
+     * @Posts
      *
-     * Posts
+     * fetchAllPostByProperty
+     * fetchAllPosts
+     * createNewPostWithImages
      * ============================================================================================
      */
     
@@ -376,7 +393,7 @@ public class APICaller {
         task.resume()
     }
     
-
+    
     // MARK: - Fetch all posts
     static func fetchAllPosts(completion: @escaping (Result<AllPostsResponse, Error>) -> Void) {
         APIHelper.makeRequest(urlString: NetworkConstants.Endpoints.fetchAllPost, method: "GET") { result in
@@ -396,7 +413,7 @@ public class APICaller {
         }
     }
     
-
+    // MARK: - Create new post
     static func createNewPostWithImages(
         postData: [String: Any],
         images: [Data],
@@ -410,7 +427,7 @@ public class APICaller {
             guard let stringData = string.data(using: .utf8) else { return }
             data.append(stringData)
         }
-    
+        
         // Append post data
         for (key, value) in postData {
             appendString("--\(boundary)\r\n", to: &body)
@@ -446,15 +463,14 @@ public class APICaller {
             }
         }
     }
-
-
+    
     /**
-     *
-     * Search
+     * @Search:
+     * searchPostsAndUsers
      * ============================================================================================
      */
-
-    // MARK: - Search
+    
+    // MARK: - Search Post and Search User
     static func searchPostsAndUsers(query: String, completion: @escaping (Result<SearchResponse, Error>) -> Void) {
         let urlString = "\(NetworkConstants.Endpoints.searchPostAndUser)?query=\(query)"
         APIHelper.makeRequest(urlString: urlString, method: "GET") { result in
@@ -473,7 +489,97 @@ public class APICaller {
             }
         }
     }
+
+    /**
+     * @Mesage:
+     *
+     * fetchAllUserMessages
+     * fetchAllMessages
+     *
+     * ============================================================================================
+     */
     
+    // MARK: - Fetch all user message
+    static func fetchAllUserMessages(completion: @escaping (Result<AllUserMessageResponse, Error>) -> Void) {
+        let urlString = "\(NetworkConstants.Endpoints.fetchAllUserMessages)"
+    
+        APIHelper.makeRequest(urlString: urlString, method: "GET") { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                       decoder.keyDecodingStrategy = .convertFromSnakeCase
+                       let response = try decoder.decode(AllUserMessageResponse.self, from: data)
+                       completion(.success(response))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // MARK: - Fetch all message
+    static func fetchAllMessages(completion: @escaping (Result<MessageResponse, Error>) -> Void) {
+        let urlString = "\(NetworkConstants.Endpoints.fetchAllMessage)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(.failure(URLError(.badURL)))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        if let token = AuthManager.getToken() {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(URLError(.badServerResponse)))
+                return
+            }
+            
+            // Check for different status codes
+            switch httpResponse.statusCode {
+            case 200...299:
+                guard let data = data, !data.isEmpty else {
+                    print("No data received or data is empty")
+                    completion(.failure(URLError(.zeroByteResource)))
+                    return
+                }
+                
+                print("Raw Data: \(String(decoding: data, as: UTF8.self))")
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let messageResponse = try decoder.decode(MessageResponse.self, from: data)
+                    completion(.success(messageResponse))
+                } catch {
+                    print("Decoding Error: \(error.localizedDescription)")
+                    completion(.failure(error))
+                }
+                
+            case 404:
+                print("HTTP Status Code 404: Resource not found")
+                completion(.failure(URLError(.fileDoesNotExist)))
+                
+            default:
+                print("HTTP Status Code \(httpResponse.statusCode)")
+                completion(.failure(URLError(.badServerResponse)))
+            }
+        }
+        
+        task.resume()
+    }
+
 }
 
 

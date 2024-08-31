@@ -13,7 +13,7 @@ class UserViewModel {
     var onError: ((Error) -> Void)?
 
     func fetchUserInfo() {
-        APICaller.getUserInfo { [weak self] result in
+        APICaller.getUserInfo() { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let userInfo):

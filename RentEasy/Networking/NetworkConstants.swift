@@ -77,5 +77,13 @@ class NetworkConstants {
             return "\(NetworkConstants.shared.serverAddress)/searchs/searchsPostAndUser"
         }
         
+        // MARK: - Message
+        public static var fetchAllMessage: String {
+            return "\(NetworkConstants.shared.serverAddress)/messages/get-all-messages"
+        }
+        public static var fetchAllUserMessages: String {
+            return "\(NetworkConstants.shared.serverAddress)/messages/get-all-user-message"
+        }
+        
    }
 }

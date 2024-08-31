@@ -70,6 +70,8 @@
 		18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */; };
 		18F787432C80998A00238B92 /* AddUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787422C80998A00238B92 /* AddUserViewController.swift */; };
 		18F787452C809B0200238B92 /* UserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787442C809B0200238B92 /* UserCollectionViewCell.swift */; };
+		18F787472C80A28B00238B92 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787462C80A28B00238B92 /* MessageCollectionViewCell.swift */; };
+		18F787492C80A5A900238B92 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787482C80A5A900238B92 /* MessageModel.swift */; };
 		18FC21B82C7F2BAE0037ACE6 /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC21B72C7F2BAE0037ACE6 /* APIHelper.swift */; };
 		18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC351B2C61E6C8000E95AA /* ProfileView.swift */; };
 		E7BC2590ED70625D4320E42D /* Pods_RentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07274123103DF5D216FDE2D /* Pods_RentEasy.framework */; };
@@ -141,6 +143,8 @@
 		18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRentCollectionViewCell.swift; sourceTree = "<group>"; };
 		18F787422C80998A00238B92 /* AddUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserViewController.swift; sourceTree = "<group>"; };
 		18F787442C809B0200238B92 /* UserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCollectionViewCell.swift; sourceTree = "<group>"; };
+		18F787462C80A28B00238B92 /* MessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCollectionViewCell.swift; sourceTree = "<group>"; };
+		18F787482C80A5A900238B92 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		18FC21B72C7F2BAE0037ACE6 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		18FC351B2C61E6C8000E95AA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		9A2278527EBBB75576F9A3CC /* Pods-RentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RentEasy.release.xcconfig"; path = "Target Support Files/Pods-RentEasy/Pods-RentEasy.release.xcconfig"; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 				186FDAF72C719D1800B45B63 /* PostDeatailCollectionViewCell.swift */,
 				18E46B8D2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift */,
 				18F787442C809B0200238B92 /* UserCollectionViewCell.swift */,
+				18F787462C80A28B00238B92 /* MessageCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				1881F84C2C6B2BFF0008E86B /* FavoriteModel.swift */,
 				1850AB452C6F449200F31BB8 /* PostsModel.swift */,
 				184CABAE2C75C7AA00700345 /* SearchModel.swift */,
+				18F787482C80A5A900238B92 /* MessageModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -557,6 +563,7 @@
 				1885CD2F2C6C61CD00C2FFA5 /* HeroCollectionView.swift in Sources */,
 				18C5E9712C739DB900879BD9 /* SeeMoreOptionsUtillize.swift in Sources */,
 				18E46B922C7737F5002A7D5E /* PhotoDetailPageViewController.swift in Sources */,
+				18F787492C80A5A900238B92 /* MessageModel.swift in Sources */,
 				18017D952C732C7900986D8A /* ErrorHandlingUtility.swift in Sources */,
 				18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */,
 				187A86A12C5E3A2E00F70783 /* AppDelegate.swift in Sources */,
@@ -568,6 +575,7 @@
 				18031BC92C612C1000B21678 /* AuthManager.swift in Sources */,
 				187A86A32C5E3A2E00F70783 /* SceneDelegate.swift in Sources */,
 				1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */,
+				18F787472C80A28B00238B92 /* MessageCollectionViewCell.swift in Sources */,
 				1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */,
 				1878D46C2C5F9245006B1FF9 /* LoginViewController.swift in Sources */,
 				1814DCAB2C6FA8FD00B1389B /* PostView.swift in Sources */,

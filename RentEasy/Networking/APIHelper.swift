@@ -133,7 +133,7 @@ struct APIHelper {
                 return
             }
             
-            print("HTTP Status Code: \(httpResponse.statusCode)")
+//            print("HTTP Status Code: \(httpResponse.statusCode)")
             
             switch httpResponse.statusCode {
             case 200...299:

@@ -364,17 +364,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
         
-        APICaller.getUserInfo { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let user):
-                    self?.userInfo = user
-//                    print("Fetched user info: \(user)") // Debugging line
-                case .failure(let error):
-                    print("Failed to fetch user info: \(error)")
-                }
-            }
-        }
+//        APICaller.getUserInfo(userId: userId) { [weak self] result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let user):
+//                    self?.userInfo = user
+//                    // print("Fetched user info: \(user)") // Debugging line
+//                case .failure(let error):
+//                    print("Failed to fetch user info: \(error)")
+//                }
+//            }
+//        }
     }
 
 
