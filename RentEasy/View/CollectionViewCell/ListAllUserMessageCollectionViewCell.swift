@@ -2,17 +2,17 @@ import UIKit
 import SnapKit
 import SDWebImage
 
-class MessageCollectionViewCell: UICollectionViewCell {
+class ListAllUserMessageCollectionViewCell: UICollectionViewCell {
 
     private let usernameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
 
-    private let contentLabel: UILabel = {
+    private let lastMessageLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = .gray
         return label
     }()
@@ -43,7 +43,7 @@ class MessageCollectionViewCell: UICollectionViewCell {
     private func setupSubviews() {
         contentView.addSubview(profileImageView)
         contentView.addSubview(usernameLabel)
-//        contentView.addSubview(contentLabel)
+        contentView.addSubview(lastMessageLabel)
     }
 
     private func setupConstraints() {
@@ -55,27 +55,36 @@ class MessageCollectionViewCell: UICollectionViewCell {
         
         usernameLabel.snp.makeConstraints { make in
             make.leading.equalTo(profileImageView.snp.trailing).offset(8)
-            make.top.equalTo(contentView).inset(8)
-            make.centerY.equalTo(contentView)
-            make.trailing.equalTo(contentView).inset(8)
+            make.top.equalTo(contentView).inset(10)
+            make.trailing.equalTo(contentView).inset(15)
         }
         
-//        contentLabel.snp.makeConstraints { make in
-//            make.leading.equalTo(profileImageView.snp.trailing).offset(8)
-//            make.top.equalTo(usernameLabel.snp.bottom).offset(4)
-//            make.trailing.equalTo(contentView).inset(8)
-//        }
+        lastMessageLabel.snp.makeConstraints { make in
+            make.leading.equalTo(profileImageView.snp.trailing).offset(8)
+            make.top.equalTo(usernameLabel.snp.bottom)
+            make.trailing.equalTo(contentView).inset(8)
+            make.bottom.equalTo(contentView).inset(15)
+        }
     }
-
-
-    func configure(with user: UserInfo) {
+    
+    func configure(with user: UserInfo, message: MessageModel) {
         usernameLabel.text = user.username
-
+        
+        let isCurrentUserMessage = message.receiverId == user.id
+               
+        if isCurrentUserMessage {
+            lastMessageLabel.text = "You: \(message.content)"
+        } else {
+            lastMessageLabel.text = message.content
+        }
+    
         if let url = URL(string: user.profilePhoto), !user.profilePhoto.isEmpty {
             profileImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "placeholder"))
         } else {
             profileImageView.image = UIImage(systemName: "person.circle.fill")
         }
     }
+
+
 
 }

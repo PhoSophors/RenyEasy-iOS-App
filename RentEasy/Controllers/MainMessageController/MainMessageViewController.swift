@@ -5,6 +5,7 @@ import SDWebImage
 class MainMessageViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     private var users: [UserInfo] = []
+    private var message: [MessageModel] = []
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -44,13 +45,38 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
                 switch result {
                 case .success(let response):
                     self?.users = response.data.users
-                    self?.updateUI()
-                    
+                    self?.fetchAllMessages()
+                    print("current User: \(response)")
                 case .failure(let error):
                     self?.showError(error)
                 }
             }
         }
+    }
+    
+    private func fetchAllMessages() {
+        APICaller.fetchAllMessages() { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    self?.message = response.data.messages
+                    self?.updateUI()
+                case .failure(let error):
+                    self?.showError(error)
+                }
+            }
+        }
+    }
+
+    private func fetchLastMessage(for user: UserInfo) -> MessageModel? {
+        
+        // Filter messages where receiverId matches user.id
+        let filteredMessages = message.filter { $0.receiverId == user.id || $0.senderId == user.id }
+        
+        // Sort messages by timestamp and get the most recent one
+        let lastMessage = filteredMessages.sorted { $0.timestamp > $1.timestamp }.first
+        
+        return lastMessage
     }
 
     private func updateUI() {
@@ -97,7 +123,7 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(MessageCollectionViewCell.self, forCellWithReuseIdentifier: "MessageCollectionViewCell")
+        collectionView.register(ListAllUserMessageCollectionViewCell.self, forCellWithReuseIdentifier: "ListAllUserMessageCollectionViewCell")
         
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
@@ -116,9 +142,15 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MessageCollectionViewCell", for: indexPath) as! MessageCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListAllUserMessageCollectionViewCell", for: indexPath) as! ListAllUserMessageCollectionViewCell
         let user = users[indexPath.item]
-        cell.configure(with: user)
+        
+        // Fetch the last message for the user
+        let lastMessage = fetchLastMessage(for: user) ?? MessageModel(id: "", senderId: "", receiverId: "", content: "No message", status: "", timestamp: "")
+
+        // Configure the cell with the user, message, senderId
+        cell.configure(with: user, message: lastMessage)
+        
         return cell
     }
 
@@ -137,3 +169,4 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         present(alert, animated: true, completion: nil)
     }
 }
+

@@ -556,7 +556,7 @@ public class APICaller {
                     return
                 }
                 
-                print("Raw Data: \(String(decoding: data, as: UTF8.self))")
+//                print("Raw Data: \(String(decoding: data, as: UTF8.self))")
                 
                 do {
                     let decoder = JSONDecoder()

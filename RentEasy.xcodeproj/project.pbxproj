@@ -70,7 +70,7 @@
 		18E6FA342C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */; };
 		18F787432C80998A00238B92 /* AddUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787422C80998A00238B92 /* AddUserViewController.swift */; };
 		18F787452C809B0200238B92 /* UserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787442C809B0200238B92 /* UserCollectionViewCell.swift */; };
-		18F787472C80A28B00238B92 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787462C80A28B00238B92 /* MessageCollectionViewCell.swift */; };
+		18F787472C80A28B00238B92 /* ListAllUserMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787462C80A28B00238B92 /* ListAllUserMessageCollectionViewCell.swift */; };
 		18F787492C80A5A900238B92 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F787482C80A5A900238B92 /* MessageModel.swift */; };
 		18FC21B82C7F2BAE0037ACE6 /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC21B72C7F2BAE0037ACE6 /* APIHelper.swift */; };
 		18FC351C2C61E6C8000E95AA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC351B2C61E6C8000E95AA /* ProfileView.swift */; };
@@ -143,7 +143,7 @@
 		18E6FA332C6CEF6E009D0E4D /* AllRentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRentCollectionViewCell.swift; sourceTree = "<group>"; };
 		18F787422C80998A00238B92 /* AddUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserViewController.swift; sourceTree = "<group>"; };
 		18F787442C809B0200238B92 /* UserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCollectionViewCell.swift; sourceTree = "<group>"; };
-		18F787462C80A28B00238B92 /* MessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCollectionViewCell.swift; sourceTree = "<group>"; };
+		18F787462C80A28B00238B92 /* ListAllUserMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAllUserMessageCollectionViewCell.swift; sourceTree = "<group>"; };
 		18F787482C80A5A900238B92 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		18FC21B72C7F2BAE0037ACE6 /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		18FC351B2C61E6C8000E95AA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -260,7 +260,7 @@
 				186FDAF72C719D1800B45B63 /* PostDeatailCollectionViewCell.swift */,
 				18E46B8D2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift */,
 				18F787442C809B0200238B92 /* UserCollectionViewCell.swift */,
-				18F787462C80A28B00238B92 /* MessageCollectionViewCell.swift */,
+				18F787462C80A28B00238B92 /* ListAllUserMessageCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -575,7 +575,7 @@
 				18031BC92C612C1000B21678 /* AuthManager.swift in Sources */,
 				187A86A32C5E3A2E00F70783 /* SceneDelegate.swift in Sources */,
 				1883ECD62C5F4285003861CA /* HomeViewController.swift in Sources */,
-				18F787472C80A28B00238B92 /* MessageCollectionViewCell.swift in Sources */,
+				18F787472C80A28B00238B92 /* ListAllUserMessageCollectionViewCell.swift in Sources */,
 				1883ECDE2C5F458F003861CA /* ProfileViewController.swift in Sources */,
 				1878D46C2C5F9245006B1FF9 /* LoginViewController.swift in Sources */,
 				1814DCAB2C6FA8FD00B1389B /* PostView.swift in Sources */,
