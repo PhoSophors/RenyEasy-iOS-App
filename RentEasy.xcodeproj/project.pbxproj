@@ -19,6 +19,7 @@
 		182643B22C607BDB0061D422 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B12C607BDB0061D422 /* NetworkConstants.swift */; };
 		182643B42C607C5A0061D422 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182643B32C607C5A0061D422 /* AuthModel.swift */; };
 		1830B48A2C723A72003AED1D /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1830B4892C723A72003AED1D /* DateUtility.swift */; };
+		183A25642C84A233005DA28F /* FavoriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A25632C84A233005DA28F /* FavoriteManager.swift */; };
 		184CABAD2C75BE4300700345 /* PullToRefreshHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184CABAC2C75BE4300700345 /* PullToRefreshHandler.swift */; };
 		184CABAF2C75C7AA00700345 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184CABAE2C75C7AA00700345 /* SearchModel.swift */; };
 		184CABB12C75EE3700700345 /* NavigationBarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184CABB02C75EE3700700345 /* NavigationBarHelper.swift */; };
@@ -37,7 +38,6 @@
 		187A86AD2C5E3A2F00F70783 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 187A86AC2C5E3A2F00F70783 /* Base */; };
 		187E0A8A2C8324FE008FADB6 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187E0A892C8324FE008FADB6 /* MessageViewController.swift */; };
 		187E0A8C2C83261C008FADB6 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187E0A8B2C83261C008FADB6 /* MessageCollectionViewCell.swift */; };
-		187E0A8E2C841781008FADB6 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187E0A8D2C841781008FADB6 /* KeyboardManager.swift */; };
 		188092772C5FA3BA00A72B80 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188092752C5FA3BA00A72B80 /* RegisterViewController.swift */; };
 		188092782C5FA3BA00A72B80 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188092762C5FA3BA00A72B80 /* RegisterViewController.xib */; };
 		1880927A2C5FA55F00A72B80 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188092792C5FA55F00A72B80 /* UIView+Extensions.swift */; };
@@ -93,6 +93,7 @@
 		182643B12C607BDB0061D422 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		182643B32C607C5A0061D422 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		1830B4892C723A72003AED1D /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
+		183A25632C84A233005DA28F /* FavoriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteManager.swift; sourceTree = "<group>"; };
 		184CABAC2C75BE4300700345 /* PullToRefreshHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefreshHandler.swift; sourceTree = "<group>"; };
 		184CABAE2C75C7AA00700345 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		184CABB02C75EE3700700345 /* NavigationBarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarHelper.swift; sourceTree = "<group>"; };
@@ -113,7 +114,6 @@
 		187A86AE2C5E3A2F00F70783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		187E0A892C8324FE008FADB6 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		187E0A8B2C83261C008FADB6 /* MessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCollectionViewCell.swift; sourceTree = "<group>"; };
-		187E0A8D2C841781008FADB6 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		188092752C5FA3BA00A72B80 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		188092762C5FA3BA00A72B80 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		188092792C5FA55F00A72B80 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -387,7 +387,7 @@
 				18E46B952C77437B002A7D5E /* PhotoPrivacyManager.swift */,
 				18031BC82C612C1000B21678 /* AuthManager.swift */,
 				18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */,
-				187E0A8D2C841781008FADB6 /* KeyboardManager.swift */,
+				183A25632C84A233005DA28F /* FavoriteManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -547,6 +547,7 @@
 				1808A8DD2C7050CF00164743 /* PostDetailViewController.swift in Sources */,
 				1881F8462C6B0DBB0008E86B /* UserViewMode.swift in Sources */,
 				18C5E9772C73B1A800879BD9 /* ColorManagerUtillze.swift in Sources */,
+				183A25642C84A233005DA28F /* FavoriteManager.swift in Sources */,
 				1881F84B2C6B20EB0008E86B /* FavoriteCollectionViewCell.swift in Sources */,
 				18E46B8E2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift in Sources */,
 				184CABB12C75EE3700700345 /* NavigationBarHelper.swift in Sources */,
@@ -565,7 +566,6 @@
 				1883ECD22C5F3FFC003861CA /* MainViewController.swift in Sources */,
 				18FC21B82C7F2BAE0037ACE6 /* APIHelper.swift in Sources */,
 				18560C812C660AF0008791AB /* VerifyForgotPasswordOTPViewController.swift in Sources */,
-				187E0A8E2C841781008FADB6 /* KeyboardManager.swift in Sources */,
 				181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */,
 				1883ECDC2C5F43AD003861CA /* PostViewController.swift in Sources */,
 				18507C9C2C74E42100ADD2B5 /* PostViewModel.swift in Sources */,

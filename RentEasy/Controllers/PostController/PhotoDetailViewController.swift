@@ -3,6 +3,8 @@ import UIKit
 
 class PhotoDetailViewController: UIViewController {
     
+    private var helper: Helper?
+    
     let imageView = UIImageView()
     var currentIndex: Int = 0
 
@@ -20,6 +22,9 @@ class PhotoDetailViewController: UIViewController {
         super.viewDidLoad()
         setupGradientBackground()
         setupImageView()
+        
+        // Initialize the helper
+        helper = Helper(viewController: self)
     
 //        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }

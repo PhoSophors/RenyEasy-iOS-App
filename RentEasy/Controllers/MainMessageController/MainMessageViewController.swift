@@ -54,6 +54,8 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         return container
     }()
 
+    private let refreshControl = UIRefreshControl()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Chats"
@@ -61,6 +63,16 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         view.backgroundColor = .white
         setupNavigationBar()
         setupCollectionView()
+        setupRefreshControl()
+        fetchAllUserMessages()
+    }
+    
+    private func setupRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc private func refreshData() {
         fetchAllUserMessages()
     }
     
@@ -68,6 +80,7 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         LoadingOverlay.shared.show(over: self.view)
         APICaller.fetchAllUserMessages() { [weak self] result in
             DispatchQueue.main.async {
+                self?.refreshControl.endRefreshing() // Stop the refresh control animation
                 switch result {
                 case .success(let response):
                     self?.users = response.data.users
@@ -84,6 +97,7 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         LoadingOverlay.shared.show(over: self.view)
         APICaller.fetchAllMessages() { [weak self] result in
             DispatchQueue.main.async {
+                self?.refreshControl.endRefreshing() // Stop the refresh control animation
                 switch result {
                 case .success(let response):
                     self?.message = response.data.messages

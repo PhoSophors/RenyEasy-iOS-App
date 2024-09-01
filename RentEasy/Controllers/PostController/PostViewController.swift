@@ -12,10 +12,12 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Create Post"
+        
         setupCollectionView()
         postView.addPhotoButton.addTarget(self, action: #selector(addPhotoTapped), for: .touchUpInside)
         postView.delegate = self
+        
+        setupNavigationBar()
         
         // Register for keyboard notifications
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -26,6 +28,64 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
    }
+    
+    // MARK: - setupNavigationBar
+    private func setupNavigationBar() {
+        // Set up the left label
+        let leftLabel = UILabel()
+        leftLabel.text = "Create"
+        leftLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        leftLabel.textColor = ColorManagerUtilize.shared.forestGreen
+        leftLabel.textAlignment = .center
+        
+        // Create a container view for the label
+        let leftContainerView = UIStackView(arrangedSubviews: [leftLabel])
+        leftContainerView.axis = .horizontal
+        leftContainerView.spacing = 8
+        leftContainerView.alignment = .center
+        leftContainerView.snp.makeConstraints { make in
+            make.height.equalTo(35)
+        }
+        
+        let leftBarButtonItem = UIBarButtonItem(customView: leftContainerView)
+        
+        // Set the left bar button item
+        self.navigationItem.leftBarButtonItem = leftBarButtonItem
+        
+        // Set up the message button
+        let messageImage = UIImage(systemName: "message.fill")?.withRenderingMode(.alwaysTemplate)
+        let messageButton = UIButton(type: .custom)
+        messageButton.setImage(messageImage, for: .normal)
+        messageButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
+        messageButton.layer.cornerRadius = 17.5
+        messageButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+        }
+        messageButton.addTarget(self, action: #selector(messageButtonTapped), for: .touchUpInside)
+        
+        // Set up the notification button
+        let notificationImage = UIImage(systemName: "bell.fill")?.withRenderingMode(.alwaysTemplate)
+        let notificationButton = UIButton(type: .custom)
+        notificationButton.setImage(notificationImage, for: .normal)
+        notificationButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
+        notificationButton.layer.cornerRadius = 17.5
+        notificationButton.snp.makeConstraints { make in
+            make.width.height.equalTo(35)
+        }
+        notificationButton.addTarget(self, action: #selector(notificationButtonTapped), for: .touchUpInside)
+        
+        // Create UIBarButtonItem instances
+        let messageBarButtonItem = UIBarButtonItem(customView: messageButton)
+        let notificationBarButtonItem = UIBarButtonItem(customView: notificationButton)
+        
+        // Set the right bar button items
+        self.navigationItem.rightBarButtonItems = [messageBarButtonItem, notificationBarButtonItem]
+        
+        // Customize navigation bar appearance
+        self.navigationController?.navigationBar.barTintColor = .white
+        self.navigationController?.navigationBar.tintColor = .darkGray
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
     
     private func setupCollectionView() {
         postView.photoCollectionView.delegate = self
@@ -262,6 +322,18 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         UIView.animate(withDuration: 0.3) {
             self.view.frame.origin.y = 0
         }
+    }
+    
+    // MARK: - Action
+    
+    @objc private func messageButtonTapped() {
+        let mainMessageViewController = MainMessageViewController()
+        navigationController?.pushViewController(mainMessageViewController, animated: true)
+    }
+    
+    @objc private func notificationButtonTapped() {
+        let notificationViewController = NotificationViewController()
+        navigationController?.pushViewController(notificationViewController, animated: true)
     }
 }
 

@@ -119,9 +119,8 @@ class SearchViewController: UIViewController {
             make.edges.equalToSuperview()
             make.width.equalTo(scrollView)
         }
+
     }
-
-
     private func setupSearchTextField() {
         searchTextField = UITextField()
         searchTextField.placeholder = "Search..."
