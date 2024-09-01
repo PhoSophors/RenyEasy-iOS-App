@@ -16,11 +16,78 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
     private let searchTextField = UITextField()
     private var collectionView: UICollectionView!
 
+    private let searchPromptLabel: UIView = {
+        let container = UIView()
+        
+        // Icon
+        let iconImageView = UIImageView(image: UIImage(systemName: "magnifyingglass")) // Adjust icon as needed
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
+        container.addSubview(iconImageView)
+        
+        // Text
+        let textLabel = UILabel()
+        textLabel.text = "Please search user to send a message."
+        textLabel.textAlignment = .center
+        textLabel.textColor = .gray
+        textLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        container.addSubview(textLabel)
+        
+        // Add constraints
+        iconImageView.snp.makeConstraints { make in
+            make.top.equalTo(container.snp.top)
+            make.centerX.equalTo(container.snp.centerX)
+            make.width.height.equalTo(100)
+        }
+        
+        textLabel.snp.makeConstraints { make in
+            make.top.equalTo(iconImageView.snp.bottom).offset(8)
+            make.centerX.equalTo(container.snp.centerX)
+            make.bottom.equalTo(container.snp.bottom)
+        }
+        
+        container.isHidden = true
+        return container
+    }()
+
+    private let noUsersLabel: UIView = {
+        let container = UIView()
+        
+        // Icon
+        let iconImageView = UIImageView(image: UIImage(systemName: "exclamationmark.circle"))
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
+        container.addSubview(iconImageView)
+        
+        // Text
+        let textLabel = UILabel()
+        textLabel.text = "No user found."
+        textLabel.textAlignment = .center
+        textLabel.textColor = .gray
+        textLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        container.addSubview(textLabel)
+        
+        // Add constraints
+        iconImageView.snp.makeConstraints { make in
+            make.top.equalTo(container.snp.top)
+            make.centerX.equalTo(container.snp.centerX)
+            make.width.height.equalTo(100)
+        }
+        
+        textLabel.snp.makeConstraints { make in
+            make.top.equalTo(iconImageView.snp.bottom).offset(8)
+            make.centerX.equalTo(container.snp.centerX)
+            make.bottom.equalTo(container.snp.bottom)
+        }
+        
+        container.isHidden = true
+        return container
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        title = "Add User for message"
 
         setupScrollView()
         setupSearchTextField()
@@ -29,8 +96,24 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
         collectionView.delegate = self
         searchTextField.delegate = self
         
+        // Add keyboard observers
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        let dismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+//        view.addGestureRecognizer(dismissKeyboard)
+        
         // Fetch initial data
         performSearch(query: "")
+    }
+
+//    @objc private func dismissKeyboard() {
+//        view.endEditing(true)
+//    }
+    
+    deinit {
+        // Remove keyboard observers
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     private func setupScrollView() {
@@ -50,20 +133,29 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
     private func setupSearchTextField() {
         contentView.addSubview(searchTextField)
         
-        searchTextField.borderStyle = .roundedRect
         searchTextField.placeholder = "Search users..."
-        searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged) // Add target for search text change
+        searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
         
+        searchTextField.backgroundColor = ColorManagerUtilize.shared.lightGray
+        searchTextField.layer.cornerRadius = 10
+        searchTextField.layer.borderWidth = 0
+        searchTextField.layer.borderColor = UIColor.clear.cgColor
+        
+        // Add padding to text
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 40))
+        searchTextField.leftView = paddingView
+        searchTextField.leftViewMode = .always
+
         searchTextField.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top).offset(20)
-            make.leading.equalTo(contentView.snp.leading).inset(16)
-            make.trailing.equalTo(contentView.snp.trailing).inset(16)
+            make.top.equalTo(contentView.snp.top).offset(0)
+            make.leading.equalTo(contentView.snp.leading).inset(8)
+            make.trailing.equalTo(contentView.snp.trailing).inset(8)
             make.height.equalTo(40)
         }
     }
 
+
     private func setupCollectionView() {
-        // Initialize the collection view with a layout
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 8
@@ -72,41 +164,71 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(UserCollectionViewCell.self, forCellWithReuseIdentifier: "UserCollectionViewCell")
         contentView.addSubview(collectionView)
+        contentView.addSubview(searchPromptLabel)
+        contentView.addSubview(noUsersLabel)
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(20)
-            make.leading.equalTo(contentView.snp.leading).inset(16)
-            make.trailing.equalTo(contentView.snp.trailing).inset(16)
-            make.bottom.equalTo(contentView.snp.bottom).inset(20)
-            make.height.equalTo(500)
+            make.leading.equalTo(contentView.snp.leading).inset(8)
+            make.trailing.equalTo(contentView.snp.trailing).inset(8)
+            make.bottom.equalTo(contentView.snp.bottom).inset(60)
+            make.height.equalTo(view.safeAreaLayoutGuide)
         }
 
-        collectionView.backgroundColor = .red
+        searchPromptLabel.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom).offset(100)
+            make.centerX.equalTo(contentView.snp.centerX)
+        }
+        
+        noUsersLabel.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom).offset(100)
+            make.centerX.equalTo(contentView.snp.centerX)
+        }
     }
-    
+
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        if let userInfo = notification.userInfo,
+           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardHeight = keyboardFrame.height
+            scrollView.contentInset.bottom = keyboardHeight
+            scrollView.scrollIndicatorInsets.bottom = keyboardHeight
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        scrollView.contentInset.bottom = 0
+        scrollView.scrollIndicatorInsets.bottom = 0
+    }
+
     private func performSearch(query: String) {
         guard !query.isEmpty else {
-            print("Query is empty. No search performed.")
             self.users = []
             self.filteredUsers = []
             self.collectionView.reloadData()
+            searchPromptLabel.isHidden = false // Show searchPromptLabel when query is empty
+            noUsersLabel.isHidden = true
             return
         }
+        
+        LoadingOverlay.shared.show(over: self.view)
 
         APICaller.searchPostsAndUsers(query: query) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    print("Search successful: \(response)")
                     self.users = response.data.users
                     self.filteredUsers = self.users
                     self.collectionView.reloadData()
+                    self.searchPromptLabel.isHidden = true
+                    self.noUsersLabel.isHidden = !self.filteredUsers.isEmpty
+                    LoadingOverlay.shared.hide()
                     
                 case .failure(let error):
-                    print("Failed to search: \(error.localizedDescription)")
                     self.users = []
                     self.filteredUsers = []
                     self.collectionView.reloadData()
+                    self.searchPromptLabel.isHidden = !self.filteredUsers.isEmpty
+                    self.noUsersLabel.isHidden = true
                 }
             }
         }
@@ -114,7 +236,6 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
 
     @objc private func searchTextChanged() {
         guard let searchText = searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchText.isEmpty else {
-            // Handle empty or whitespace-only search text
             filteredUsers = []
             collectionView.reloadData()
             return
@@ -145,8 +266,8 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
     // MARK: - UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let selectedUser = filteredUsers[indexPath.item]
-            delegate?.didSelectUser(selectedUser)
-            dismiss(animated: true, completion: nil)
-        }
+        let selectedUser = filteredUsers[indexPath.item]
+        delegate?.didSelectUser(selectedUser)
+        dismiss(animated: true, completion: nil)
+    }
 }

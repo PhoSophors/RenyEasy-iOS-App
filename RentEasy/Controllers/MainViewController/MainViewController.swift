@@ -79,10 +79,4 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         self.viewControllers = [homeNav, searchNav, createNav, favoriteNav, profileNav]
     }
     
-//    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-//        let profileViewController = ProfileViewController()
-//        navigationController?.pushViewController(profileViewController, animated: true)
-//        return true
-//    }
-//    
 }

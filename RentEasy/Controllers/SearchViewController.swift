@@ -204,7 +204,8 @@ class SearchViewController: UIViewController {
 
 
     private func performSearch(query: String) {
-        print("Performing search with query: \(query)") // Debugging statement
+        print("Performing search with query: \(query)")
+        LoadingOverlay.shared.show(over: self.view)
 
         APICaller.searchPostsAndUsers(query: query) { result in
             DispatchQueue.main.async {
@@ -216,6 +217,7 @@ class SearchViewController: UIViewController {
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
                     self.updateNoResultsLabelVisibility()
+                    LoadingOverlay.shared.hide()
                     
                 case .failure(let error):
                     print("Failed to search: \(error)") // Debugging statement

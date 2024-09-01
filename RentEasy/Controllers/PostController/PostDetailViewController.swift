@@ -54,16 +54,19 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             make.width.height.equalTo(40)
         }
 
+        LoadingOverlay.shared.show(over: self.view)
         if !postUser.profilePhoto.isEmpty {
             userImageView.loadImage(from: postUser.profilePhoto) { image in
                 if let image = image {
                     userImageView.image = image
+                    LoadingOverlay.shared.hide()
                 } else {
                     print("Failed to load image")
                 }
             }
         } else {
             print("No profile photo URL available")
+            LoadingOverlay.shared.hide()
         }
         
         let nameLabel = UILabel()
@@ -128,19 +131,13 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     private func propertyInfoView() -> UIView {
         var lastUpdateText = "N/A"
         var createdDateText = "N/A"
-        
+
         if let createdAtString = post?.createdAt {
-            print("createAt: \(createdAtString)")  // Debug: Check the createdAt string
             if let createdAtDate = DateUtility.dateFromISO8601String(createdAtString) {
-                // Debug: Print current date and createdAtDate for comparison
                 let currentDate = Date()
-                print("Current date: \(currentDate)")
-                print("Post created date: \(createdAtDate)")
-                
+
                 lastUpdateText = DateUtility.timeAgoSinceDate(createdAtDate, currentDate: currentDate)
                 createdDateText = DateUtility.formattedDateString(from: createdAtDate)
-                print("lastUpdateText: \(lastUpdateText)")
-                print("createdDateText: \(createdDateText)")
             } else {
                 print("Failed to convert date from string: \(createdAtString)")
             }
@@ -364,7 +361,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         propertyFeaturesView.snp.makeConstraints { make in
             make.top.equalTo(propertyFeatureLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalTo(descriptionView.snp.top).offset(-10) // Updated
+            make.bottom.equalTo(descriptionView.snp.top).offset(-10)
         }
         
         descriptionView.snp.makeConstraints { make in
@@ -409,6 +406,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         let imageView = UIImageView(frame: cell.contentView.bounds)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        
         if let imageUrl = post?.images[indexPath.item] {
             imageView.loadImage(from: imageUrl)
         }
@@ -432,7 +430,6 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         let imageView = UIImageView()
         imageView.loadImage(from: imageUrl) { image in
             if let image = image {
-                // Present PhotoDetailViewController modally
                 let photoDetailViewController = PhotoDetailViewController(image: image)
                 photoDetailViewController.modalPresentationStyle = .fullScreen 
                 self.present(photoDetailViewController, animated: true, completion: nil)
@@ -451,30 +448,32 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     @objc private func messageButtonTapped() {
-        print("Message button tapped")
-
-        // Ensure that the post and its user data are available
         guard let postUser = post?.user.first else {
             print("No user data found")
             return
         }
         
-        // Initialize MessageViewController and assign the UserInfo object
-        let messageVC = MessageViewController()
-        messageVC.user = postUser
+        let currentUserID = AuthManager.getUserIdFromToken()
 
-        // Hide the bottom tab bar when pushing the message view controller
-        messageVC.hidesBottomBarWhenPushed = true
-
-        // Push the view controller if a navigation controller is available
-        if let navigationController = self.navigationController {
-            navigationController.pushViewController(messageVC, animated: true)
-        } else {
-            // Otherwise, present a new navigation controller
-            let navController = UINavigationController(rootViewController: messageVC)
+        if postUser.id == currentUserID {
+        
+            let profileVC = ProfileViewController()
+            let navController = UINavigationController(rootViewController: profileVC)
             self.present(navController, animated: true, completion: nil)
+        } else {
+            let messageVC = MessageViewController()
+            messageVC.user = postUser
+            messageVC.hidesBottomBarWhenPushed = true
+            
+            if let navigationController = self.navigationController {
+                navigationController.pushViewController(messageVC, animated: true)
+            } else {
+                let navController = UINavigationController(rootViewController: messageVC)
+                self.present(navController, animated: true, completion: nil)
+            }
         }
     }
+
 
 
 

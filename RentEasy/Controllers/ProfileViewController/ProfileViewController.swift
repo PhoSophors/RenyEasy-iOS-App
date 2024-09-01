@@ -8,7 +8,7 @@ class ProfileViewController: UIViewController, ProfileViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         setupViews()
         setupNavigationBar()
         bindViewModel()

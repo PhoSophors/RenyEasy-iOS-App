@@ -1,13 +1,3 @@
-//
-//  AllPostViewController.swift
-//  RentEasy
-//
-//  Created by Apple on 17/8/24.
-//
-
-import UIKit
-import SnapKit
-
 import UIKit
 import SnapKit
 
@@ -15,7 +5,6 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
     
     private var collectionView: UICollectionView!
     private var viewModel: PostViewModel!
-//    private var noPostsLabel: UILabel!
     
     private var propertyType: String?
     
@@ -38,7 +27,7 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
         label.isHidden = true
         return label
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = propertyType?.capitalized ?? "All Posts"
@@ -47,6 +36,7 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
         setupNoPostsLabel()
         setupCollectionView()
         setupViewModelBindings()
+        showLoadingOverlay()
         viewModel.fetchPosts(by: propertyType)
     }
     
@@ -82,10 +72,12 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
     
     private func setupViewModelBindings() {
         viewModel.onPostsFetched = { [weak self] in
+            self?.hideLoadingOverlay()
             self?.updateUI()
         }
         
-        viewModel.onError = { error in
+        viewModel.onError = { [weak self] error in
+            self?.hideLoadingOverlay()
             print("Failed to fetch posts: \(error)")
         }
     }
@@ -99,6 +91,14 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
             collectionView.isHidden = false
             collectionView.reloadData()
         }
+    }
+    
+    private func showLoadingOverlay() {
+        LoadingOverlay.shared.show(over: self.view)
+    }
+    
+    private func hideLoadingOverlay() {
+        LoadingOverlay.shared.hide()
     }
     
     // MARK: - UICollectionViewDataSource

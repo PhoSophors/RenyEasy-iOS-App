@@ -322,31 +322,45 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     // MARK: - Fetch Post
+    // MARK: - Fetch Post
     private func fetchPosts() {
-        // Fetch posts by property type
+        LoadingOverlay.shared.show(over: self.view)
+        var pendingRequests = 3
+        
+        // Helper function to check if all requests are done
+        func checkAllRequestsCompleted() {
+            pendingRequests -= 1
+            if pendingRequests == 0 {
+                // Hide loading overlay only when all requests are completed
+                LoadingOverlay.shared.hide()
+            }
+        }
+
+        // Fetch posts by property type - Villa
         APICaller.fetchAllPostByProperty(propertytype: "villa") { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let allPostByProperty):
-                    // Ensure data.posts is of type [RentPost]
                     self?.vilaPosts = allPostByProperty.data.posts
                     self?.vilaCollectionView.reloadData()
                 case .failure(let error):
                     print("Failed to fetch villa posts: \(error)")
                 }
+                checkAllRequestsCompleted()
             }
         }
         
+        // Fetch posts by property type - Condo
         APICaller.fetchAllPostByProperty(propertytype: "condo") { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let allPostByProperty):
-                    // Ensure data.posts is of type [RentPost]
                     self?.condoPosts = allPostByProperty.data.posts
                     self?.condoCollectionView.reloadData()
                 case .failure(let error):
                     print("Failed to fetch condo posts: \(error)")
                 }
+                checkAllRequestsCompleted()
             }
         }
         
@@ -355,28 +369,15 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             DispatchQueue.main.async {
                 switch result {
                 case .success(let allPostsResponse):
-                    // Ensure data.posts is of type [RentPost]
                     self?.allPosts = allPostsResponse.data.posts
                     self?.allRentCollectionView.reloadData()
                 case .failure(let error):
                     print("Failed to fetch all posts: \(error)")
                 }
+                checkAllRequestsCompleted()
             }
         }
-        
-//        APICaller.getUserInfo(userId: userId) { [weak self] result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let user):
-//                    self?.userInfo = user
-//                    // print("Fetched user info: \(user)") // Debugging line
-//                case .failure(let error):
-//                    print("Failed to fetch user info: \(error)")
-//                }
-//            }
-//        }
     }
-
 
     // MARK: - UICollectionViewDataSource for Vila
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

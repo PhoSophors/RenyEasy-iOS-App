@@ -10,7 +10,7 @@ import Foundation
 class NetworkConstants {
     
     public static var shared: NetworkConstants = NetworkConstants()
-    let MainAPI = "http://localhost:3000"
+    let MainAPI = "https://renteasyserver.onrender.com"
     
     public var serverAddress: String {
         return MainAPI

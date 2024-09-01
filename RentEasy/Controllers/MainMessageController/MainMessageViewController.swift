@@ -19,14 +19,39 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         return collectionView
     }()
 
-    private let userMessageLabel: UILabel = {
-        let label = UILabel()
-        label.text = "No user messages yet."
-        label.textColor = .darkGray
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.numberOfLines = 0
-        return label
+    private let userMessageLabel: UIView = {
+        let container = UIView()
+        container.backgroundColor = .white // Ensure background color is set to be visible
+
+        // Icon
+        let iconImageView = UIImageView(image: UIImage(systemName: "bubble.left.and.bubble.right.fill"))
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
+        container.addSubview(iconImageView)
+
+        // Text
+        let textLabel = UILabel()
+        textLabel.text = "No user message yet."
+        textLabel.textAlignment = .center
+        textLabel.textColor = .gray
+        textLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        container.addSubview(textLabel)
+
+        // Add constraints
+        iconImageView.snp.makeConstraints { make in
+            make.top.equalTo(container.snp.top)
+            make.centerX.equalTo(container.snp.centerX)
+            make.width.height.equalTo(100)
+        }
+
+        textLabel.snp.makeConstraints { make in
+            make.top.equalTo(iconImageView.snp.bottom).offset(8)
+            make.centerX.equalTo(container.snp.centerX)
+            make.bottom.equalTo(container.snp.bottom)
+        }
+
+        container.isHidden = true // Set visibility to false initially
+        return container
     }()
 
     override func viewDidLoad() {
@@ -40,11 +65,13 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     private func fetchAllUserMessages() {
+        LoadingOverlay.shared.show(over: self.view)
         APICaller.fetchAllUserMessages() { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
                     self?.users = response.data.users
+                    LoadingOverlay.shared.hide()
                     self?.fetchAllMessages()
                 case .failure(let error):
                     self?.showError(error)
@@ -54,12 +81,14 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     private func fetchAllMessages() {
+        LoadingOverlay.shared.show(over: self.view)
         APICaller.fetchAllMessages() { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
                     self?.message = response.data.messages
                     self?.updateUI()
+                    LoadingOverlay.shared.hide()
                 case .failure(let error):
                     self?.showError(error)
                 }
@@ -77,7 +106,10 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     private func updateUI() {
+        print("Updating UI: Users count is \(users.count)")
         if users.isEmpty {
+            print("Showing userMessageLabel")
+            userMessageLabel.isHidden = false
             view.addSubview(userMessageLabel)
             userMessageLabel.snp.makeConstraints { make in
                 make.center.equalTo(view)
@@ -85,14 +117,16 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
             }
             collectionView.isHidden = true
         } else {
+            print("Hiding userMessageLabel")
+            userMessageLabel.isHidden = true
             userMessageLabel.removeFromSuperview()
             collectionView.isHidden = false
             collectionView.reloadData()
         }
     }
-
+    
     private func setupNavigationBar() {
-        let addUserImage = UIImage(systemName: "plus")?.withRenderingMode(.alwaysTemplate)
+        let addUserImage = UIImage(systemName: "person.crop.circle.fill.badge.plus")?.withRenderingMode(.alwaysTemplate)
         let addUserButton = UIButton(type: .custom)
         addUserButton.setImage(addUserImage, for: .normal)
         addUserButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
@@ -197,4 +231,3 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         present(alert, animated: true, completion: nil)
     }
 }
-
