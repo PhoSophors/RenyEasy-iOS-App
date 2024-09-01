@@ -1,8 +1,9 @@
 import UIKit
 import SDWebImage
 
+
 class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+
     private let profileUpdateView = ProfileUpdateView()
     private var selectedImage: UIImage?
     private var isCoverImage = false
@@ -10,9 +11,17 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
     private var profilePhotosData: [Data] = []
     private var userInfo: UserInfo?
 
+    // Default images
+    private let defaultProfileImage =  UIImage(systemName: "person.crop.circle.fill")
+    private let defaultCoverImage = UIImage(named: "defaultCoverImage")
+
+    // Gray background color for cover image
+    private let grayBackgroundColor = UIColor.gray
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Update Profile"
+        
         setupView()
         populateUserData()
     }
@@ -45,17 +54,29 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
         profileUpdateView.bioTextField.text = userInfo.bio
         profileUpdateView.locationTextField.text = userInfo.location
         
-        // Assuming profilePhoto and coverPhoto are non-optional
+        // Set profile image and icon color
         if !userInfo.profilePhoto.isEmpty {
             let profilePhotoURL = URL(string: userInfo.profilePhoto)
             profileUpdateView.profileImageView.sd_setImage(with: profilePhotoURL, completed: nil)
+        } else {
+            profileUpdateView.profileImageView.image = defaultProfileImage
+            profileUpdateView.profileImageView.backgroundColor = ColorManagerUtilize.shared.lightGray
         }
-        
+
+        // Set cover image and icon color
         if !userInfo.coverPhoto.isEmpty {
             let coverPhotoURL = URL(string: userInfo.coverPhoto)
             profileUpdateView.coverImageView.sd_setImage(with: coverPhotoURL, completed: nil)
+            profileUpdateView.coverImageView.backgroundColor = .clear
+        } else {
+            profileUpdateView.coverImageView.image = defaultCoverImage
+            profileUpdateView.coverImageView.backgroundColor = ColorManagerUtilize.shared.lightGray
         }
+
+        // Set icon color
+        profileUpdateView.profileImageView.tintColor = ColorManagerUtilize.shared.deepCharcoal
     }
+
 
     private func checkPhotoLibraryPermission(forCoverImage: Bool) {
         PhotoPrivacyManager.checkPhotoLibraryPermission { [weak self] granted in
@@ -87,6 +108,7 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
                 profileUpdateView.coverImageView.image = image
                 profileUpdateView.addCoverLabel.isHidden = true
                 profileUpdateView.photoIconImageView.isHidden = false
+                profileUpdateView.coverImageView.backgroundColor = .clear
             } else {
                 profileUpdateView.profileImageView.image = image
                 profileUpdateView.photoIconImageView.isHidden = false
@@ -125,12 +147,12 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
 extension ProfileUpdateViewController: UpdateProfileViewDelegate {
     
     func didTapUpdatePicture() {
-         checkPhotoLibraryPermission(forCoverImage: false) // For profile image
-     }
+        checkPhotoLibraryPermission(forCoverImage: false) // For profile image
+    }
 
-     func didTapUpdateCoverPicture() {
-         checkPhotoLibraryPermission(forCoverImage: true) // For cover image
-     }
+    func didTapUpdateCoverPicture() {
+        checkPhotoLibraryPermission(forCoverImage: true) // For cover image
+    }
     
     func didTapSaveButton() {
         guard let profileInfo = getUpdatedProfileInfo() else {
@@ -159,11 +181,12 @@ extension ProfileUpdateViewController: UpdateProfileViewDelegate {
             }
         }
     }
+
     private func getUpdatedProfileInfo() -> UpdateProfile? {
         let username = profileUpdateView.usernameTextField.text ?? ""
         let email = profileUpdateView.emailTextField.text ?? ""
         let bio = profileUpdateView.bioTextField.text
-        let location = profileUpdateView.locationTextField.text 
+        let location = profileUpdateView.locationTextField.text
         
         return UpdateProfile(username: username, email: email, bio: bio, location: location)
     }
@@ -171,9 +194,10 @@ extension ProfileUpdateViewController: UpdateProfileViewDelegate {
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-//            self?.dismiss(animated: true, completion: nil)
             self?.navigationController?.popViewController(animated: true)
         })
         present(alert, animated: true)
     }
+    
 }
+
