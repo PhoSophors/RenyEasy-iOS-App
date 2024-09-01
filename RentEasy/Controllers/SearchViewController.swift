@@ -44,7 +44,7 @@ class SearchViewController: UIViewController {
         setupCollectionView()
         setupNoResultsLabel()
         
-        noResultsLabel.isHidden = false
+        noResultsLabel.isHidden = true
         view.layoutIfNeeded()
         
         collectionView.delegate = self
@@ -120,6 +120,7 @@ class SearchViewController: UIViewController {
             make.width.equalTo(scrollView)
         }
     }
+
 
     private func setupSearchTextField() {
         searchTextField = UITextField()
@@ -197,11 +198,10 @@ class SearchViewController: UIViewController {
     }
 
     private func updateNoResultsLabelVisibility() {
-        let shouldHideLabel = (!posts.isEmpty && users.isEmpty)
+        let shouldHideLabel = !(posts.isEmpty && users.isEmpty)
         noResultsLabel.isHidden = shouldHideLabel
         print("NoResultsLabel is hidden: \(shouldHideLabel)")
     }
-
 
     private func performSearch(query: String) {
         print("Performing search with query: \(query)")
@@ -216,23 +216,25 @@ class SearchViewController: UIViewController {
                     self.users = response.data.users
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
-                    self.updateNoResultsLabelVisibility()
+                    self.updateNoResultsLabelVisibility() // Update visibility here
                     LoadingOverlay.shared.hide()
-                    
+
                 case .failure(let error):
                     print("Failed to search: \(error)") // Debugging statement
                     self.posts = []
                     self.users = []
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
-                    self.updateNoResultsLabelVisibility()
-                    
+                    self.updateNoResultsLabelVisibility() // Update visibility here
+                    LoadingOverlay.shared.hide()
+
                     // Correct print statement
                     print("Posts after failure: \(self.posts)")
                 }
             }
         }
     }
+
 
     
     @objc private func messageButtonTapped() {

@@ -18,14 +18,38 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
         super.init(coder: coder)
     }
     
-    private let noPostsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "No posts found."
-        label.textAlignment = .center
-        label.textColor = .gray
-        label.font = .systemFont(ofSize: 18, weight: .medium)
-        label.isHidden = true
-        return label
+    private let noPostsLabel: UIView = {
+        let container = UIView()
+        
+        // Icon
+        let iconImageView = UIImageView(image: UIImage(systemName: "exclamationmark.circle"))
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
+        container.addSubview(iconImageView)
+        
+        // Text
+        let textLabel = UILabel()
+        textLabel.text = "No post found."
+        textLabel.textAlignment = .center
+        textLabel.textColor = .gray
+        textLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        container.addSubview(textLabel)
+        
+        // Add constraints
+        iconImageView.snp.makeConstraints { make in
+            make.top.equalTo(container.snp.top)
+            make.centerX.equalTo(container.snp.centerX)
+            make.width.height.equalTo(100)
+        }
+        
+        textLabel.snp.makeConstraints { make in
+            make.top.equalTo(iconImageView.snp.bottom).offset(8)
+            make.centerX.equalTo(container.snp.centerX)
+            make.bottom.equalTo(container.snp.bottom)
+        }
+        
+        container.isHidden = true
+        return container
     }()
     
     override func viewDidLoad() {
@@ -79,8 +103,13 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
         viewModel.onError = { [weak self] error in
             self?.hideLoadingOverlay()
             print("Failed to fetch posts: \(error)")
+            
+            // Update the UI to show noPostsLabel and hide collectionView
+            self?.noPostsLabel.isHidden = false
+            self?.collectionView.isHidden = true
         }
     }
+
     
     private func updateUI() {
         if viewModel.allPosts.isEmpty {
