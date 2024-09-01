@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import SDWebImage
 
-class MainMessageViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class MainMessageViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AddUserViewControllerDelegate {
     
     private var users: [UserInfo] = []
     private var message: [MessageModel] = []
@@ -68,10 +68,8 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     private func fetchLastMessage(for user: UserInfo) -> MessageModel? {
-        
         // Filter messages where receiverId matches user.id
         let filteredMessages = message.filter { $0.receiverId == user.id || $0.senderId == user.id }
-        
         // Sort messages by timestamp and get the most recent one
         let lastMessage = filteredMessages.sorted { $0.timestamp > $1.timestamp }.first
         
@@ -98,7 +96,7 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         let addUserButton = UIButton(type: .custom)
         addUserButton.setImage(addUserImage, for: .normal)
         addUserButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-        addUserButton.layer.cornerRadius = 20
+        addUserButton.layer.cornerRadius = 17.5
         addUserButton.snp.makeConstraints { make in
             make.width.height.equalTo(35)
         }
@@ -129,9 +127,23 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     @objc private func addUserButtonTapped() {
-        let addUserVC = AddUserViewController()
-        let navController = UINavigationController(rootViewController: addUserVC)
-        present(navController, animated: true, completion: nil)
+       let addUserVC = AddUserViewController()
+       // Set the delegate to self
+       addUserVC.delegate = self
+       let navController = UINavigationController(rootViewController: addUserVC)
+       present(navController, animated: true, completion: nil)
+    }
+
+    // MARK: - AddUserViewControllerDelegate
+
+    func didSelectUser(_ user: UserInfo) {
+       let messageViewController = MessageViewController()
+       messageViewController.user = user
+
+       // Hide the tab bar when pushing the message view controller
+       messageViewController.hidesBottomBarWhenPushed = true
+
+       navigationController?.pushViewController(messageViewController, animated: true)
     }
     
     // MARK: - UICollectionViewDataSource
@@ -143,13 +155,9 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListAllUserMessageCollectionViewCell", for: indexPath) as! ListAllUserMessageCollectionViewCell
         let user = users[indexPath.item]
-        
-        // Fetch the last message for the user
         let lastMessage = fetchLastMessage(for: user) ?? MessageModel(id: "", senderId: "", receiverId: "", content: "No message", status: "", timestamp: "")
-
-        // Configure the cell with the user, message, senderId
-        cell.configure(with: user, message: lastMessage)
         
+        cell.configure(with: user, message: lastMessage)
         return cell
     }
 
@@ -163,17 +171,21 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
     // MARK: - UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // Retrieve the selected user based on the clicked item
         let selectedUser = users[indexPath.item]
-        
-        // Create an instance of MessageViewController
         let messageVC = MessageViewController()
-        
-        // Pass the selected user to the message view controller
         messageVC.user = selectedUser
-        
-        // Push the message view controller onto the navigation stack
-        navigationController?.pushViewController(messageVC, animated: true)
+
+        // Hide the bottom tab bar when pushing the message view controller
+        messageVC.hidesBottomBarWhenPushed = true
+
+        // Push the view controller
+        if let navigationController = self.navigationController {
+            navigationController.pushViewController(messageVC, animated: true)
+        } else {
+            // If not embedded in UINavigationController, handle appropriately
+            let navController = UINavigationController(rootViewController: messageVC)
+            self.present(navController, animated: true, completion: nil)
+        }
     }
 
     

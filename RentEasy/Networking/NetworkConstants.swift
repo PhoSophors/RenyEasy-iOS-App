@@ -84,6 +84,9 @@ class NetworkConstants {
         public static var fetchAllUserMessages: String {
             return "\(NetworkConstants.shared.serverAddress)/messages/get-all-user-message"
         }
+        public static var sendMessage: String {
+            return "\(NetworkConstants.shared.serverAddress)/messages/create"
+        }
         
    }
 }

@@ -73,7 +73,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let messageButton = UIButton(type: .custom)
         messageButton.setImage(messageImage, for: .normal)
         messageButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-        messageButton.layer.cornerRadius = 20
+        messageButton.layer.cornerRadius = 17.5
         messageButton.snp.makeConstraints { make in
             make.width.height.equalTo(35)
         }
@@ -84,7 +84,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let notificationButton = UIButton(type: .custom)
         notificationButton.setImage(notificationImage, for: .normal)
         notificationButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-        notificationButton.layer.cornerRadius = 20
+        notificationButton.layer.cornerRadius = 17.5
         notificationButton.snp.makeConstraints { make in
             make.width.height.equalTo(35)
         }

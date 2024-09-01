@@ -9,11 +9,11 @@ class MessageCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 15
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = ColorManagerUtilize.shared.lightGray
         imageView.tintColor = ColorManagerUtilize.shared.deepCharcoal
         imageView.layer.borderColor = UIColor.gray.cgColor
         imageView.layer.borderWidth = 1.0
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -40,11 +40,11 @@ class MessageCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 15
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = ColorManagerUtilize.shared.lightGray
         imageView.tintColor = ColorManagerUtilize.shared.deepCharcoal
         imageView.layer.borderColor = UIColor.gray.cgColor
         imageView.layer.borderWidth = 1.0
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -89,48 +89,51 @@ class MessageCollectionViewCell: UICollectionViewCell {
         // Constraints for receiver profile image and message container view
         receiverProfileImageView.snp.makeConstraints { make in
             make.width.height.equalTo(30)
-            make.leading.equalTo(contentView).inset(8)
+            make.trailing.equalTo(contentView).inset(8)
             make.centerY.equalTo(contentView)
         }
-
 
         receiverMessageContainerView.snp.makeConstraints { make in
-            make.leading.equalTo(receiverProfileImageView.snp.trailing).offset(8)
-            make.trailing.equalTo(contentView).inset(40)
+            make.leading.equalTo(contentView).inset(60)
+            make.trailing.equalTo(receiverProfileImageView.snp.leading).offset(-8)
             make.centerY.equalTo(contentView)
-            make.width.lessThanOrEqualTo(contentView).multipliedBy(0)
         }
-        
+
         receiverMessageLabel.snp.makeConstraints { make in
-            make.edges.equalTo(receiverMessageContainerView).inset(10) 
+            make.edges.equalTo(receiverMessageContainerView).inset(10)
         }
 
         // Constraints for sender profile image and message container view
         senderProfileImageView.snp.makeConstraints { make in
             make.width.height.equalTo(30)
-            make.trailing.equalTo(contentView).inset(8)
+            make.leading.equalTo(contentView).inset(8)
             make.centerY.equalTo(contentView)
         }
 
         senderMessageContainerView.snp.makeConstraints { make in
-            make.leading.equalTo(contentView).inset(40)
-            make.trailing.equalTo(senderProfileImageView.snp.leading).offset(-8)
+            make.leading.equalTo(senderProfileImageView.snp.trailing).offset(8)
+            make.trailing.equalTo(contentView).inset(60)
             make.centerY.equalTo(contentView)
-            make.width.lessThanOrEqualTo(contentView).multipliedBy(0)
         }
 
         senderMessageLabel.snp.makeConstraints { make in
             make.edges.equalTo(senderMessageContainerView).inset(10)
         }
+
+        // Hide sender components initially
+        senderProfileImageView.isHidden = true
+        senderMessageContainerView.isHidden = true
+        
+        senderMessageContainerView.backgroundColor = .red
     }
 
     func configure(with user: UserInfo, message: MessageModel) {
-        let isCurrentUserMessage = message.senderId == user.id
+        let isReceiverUserMessage = message.receiverId == user.id
 
-        if isCurrentUserMessage {
+        if isReceiverUserMessage {
             receiverMessageLabel.text = message.content
-            receiverMessageContainerView.backgroundColor = ColorManagerUtilize.shared.lightGray
-            receiverMessageLabel.textColor = ColorManagerUtilize.shared.deepCharcoal
+            receiverMessageContainerView.backgroundColor = ColorManagerUtilize.shared.deepGreen
+            receiverMessageLabel.textColor = ColorManagerUtilize.shared.white
             receiverMessageLabel.textAlignment = .left
 
             if let url = URL(string: user.profilePhoto), !user.profilePhoto.isEmpty {
@@ -142,11 +145,13 @@ class MessageCollectionViewCell: UICollectionViewCell {
             // Hide sender components
             senderProfileImageView.isHidden = true
             senderMessageContainerView.isHidden = true
+            receiverProfileImageView.isHidden = false
+            receiverMessageContainerView.isHidden = false
 
         } else {
             senderMessageLabel.text = message.content
-            senderMessageContainerView.backgroundColor = ColorManagerUtilize.shared.forestGreen
-            senderMessageLabel.textColor = ColorManagerUtilize.shared.white
+            senderMessageContainerView.backgroundColor = ColorManagerUtilize.shared.lightGray
+            senderMessageLabel.textColor = ColorManagerUtilize.shared.deepCharcoal
             senderMessageLabel.textAlignment = .left
 
             if let url = URL(string: user.profilePhoto), !user.profilePhoto.isEmpty {
@@ -158,6 +163,10 @@ class MessageCollectionViewCell: UICollectionViewCell {
             // Hide receiver components
             receiverProfileImageView.isHidden = true
             receiverMessageContainerView.isHidden = true
+            senderProfileImageView.isHidden = false
+            senderMessageContainerView.isHidden = false
         }
     }
+    
+    
 }

@@ -85,7 +85,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
         let seeAllButton = UIButton(type: .custom)
         seeAllButton.setImage(seeAllImage, for: .normal)
         seeAllButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-        seeAllButton.layer.cornerRadius = 20
+        seeAllButton.layer.cornerRadius = 17.5
         seeAllButton.snp.makeConstraints { make in
             make.width.height.equalTo(35)
         }
@@ -96,7 +96,7 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
         let notificationButton = UIButton(type: .custom)
         notificationButton.setImage(notificationImage, for: .normal)
         notificationButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-        notificationButton.layer.cornerRadius = 20
+        notificationButton.layer.cornerRadius = 17.5
         notificationButton.snp.makeConstraints { make in
             make.width.height.equalTo(35)
         }

@@ -1,7 +1,12 @@
 import UIKit
 import SnapKit
 
+protocol AddUserViewControllerDelegate: AnyObject {
+    func didSelectUser(_ user: UserInfo)
+}
+
 class AddUserViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
+    weak var delegate: AddUserViewControllerDelegate?
 
     private var users: [UserInfo] = []
     private var filteredUsers: [UserInfo] = []
@@ -9,7 +14,7 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let searchTextField = UITextField()
-    private var collectionView: UICollectionView! 
+    private var collectionView: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,5 +141,12 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.frame.width - 32) / 2, height: 80)
     }
-}
+    
+    // MARK: - UICollectionViewDelegate
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let selectedUser = filteredUsers[indexPath.item]
+            delegate?.didSelectUser(selectedUser)
+            dismiss(animated: true, completion: nil)
+        }
+}

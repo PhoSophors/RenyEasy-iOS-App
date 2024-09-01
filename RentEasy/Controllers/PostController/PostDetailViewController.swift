@@ -4,6 +4,7 @@ import SnapKit
 class PostDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     var postID: String?
+    private var user: UserInfo?
     
     private var post: RentPost?
     private let pageControl = UIPageControl()
@@ -36,11 +37,9 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     }()
     
     private func configureUserInfoStackView() {
-        // Clear any existing arranged subviews from userInfoStackView
         userInfoStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
-        guard let firstUser = post?.user.first else {
-            // Handle case where user array is empty or nil
+        guard let postUser = post?.user.first else {
             return
         }
         
@@ -55,14 +54,11 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
             make.width.height.equalTo(40)
         }
 
-        // Use the profile photo URL directly
-        if !firstUser.profilePhoto.isEmpty {
-            userImageView.loadImage(from: firstUser.profilePhoto) { image in
+        if !postUser.profilePhoto.isEmpty {
+            userImageView.loadImage(from: postUser.profilePhoto) { image in
                 if let image = image {
-                    // Successfully loaded image
                     userImageView.image = image
                 } else {
-                    // Handle image loading failure
                     print("Failed to load image")
                 }
             }
@@ -71,14 +67,14 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         }
         
         let nameLabel = UILabel()
-        nameLabel.text = firstUser.username
+        nameLabel.text = postUser.username
         nameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         nameLabel.textColor = ColorManagerUtilize.shared.deepCharcoal
 
         // Display role information
         let roleLabel = UILabel()
-        if let firstRole = firstUser.roles.first {
-            roleLabel.text = firstRole.name // Assuming 'name' is the field you want to display
+        if let postUserRole = postUser.roles.first {
+            roleLabel.text = postUserRole.name
         } else {
             roleLabel.text = "No role assigned"
         }
@@ -107,6 +103,7 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
         messageButton.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
+        messageButton.addTarget(self, action: #selector(messageButtonTapped), for: .touchUpInside)
 
         let stackView = UIStackView(arrangedSubviews: [userImageView, labelStackView, messageButton, phoneButton])
         stackView.axis = .horizontal
@@ -450,8 +447,36 @@ class PostDetailViewController: UIViewController, UICollectionViewDataSource, UI
     
     @objc private func shareBarButtonTapped() {
         let sharePostViewController = SharePostViewController()
-//        sharePostViewController.modalPresentationStyle = .fullScreen
         self.present(sharePostViewController, animated: true, completion: nil)
     }
+    
+    @objc private func messageButtonTapped() {
+        print("Message button tapped")
+
+        // Ensure that the post and its user data are available
+        guard let postUser = post?.user.first else {
+            print("No user data found")
+            return
+        }
+        
+        // Initialize MessageViewController and assign the UserInfo object
+        let messageVC = MessageViewController()
+        messageVC.user = postUser
+
+        // Hide the bottom tab bar when pushing the message view controller
+        messageVC.hidesBottomBarWhenPushed = true
+
+        // Push the view controller if a navigation controller is available
+        if let navigationController = self.navigationController {
+            navigationController.pushViewController(messageVC, animated: true)
+        } else {
+            // Otherwise, present a new navigation controller
+            let navController = UINavigationController(rootViewController: messageVC)
+            self.present(navController, animated: true, completion: nil)
+        }
+    }
+
+
+
 }
 

@@ -489,7 +489,7 @@ public class APICaller {
             }
         }
     }
-
+    
     /**
      * @Mesage:
      *
@@ -502,15 +502,15 @@ public class APICaller {
     // MARK: - Fetch all user message
     static func fetchAllUserMessages(completion: @escaping (Result<AllUserMessageResponse, Error>) -> Void) {
         let urlString = "\(NetworkConstants.Endpoints.fetchAllUserMessages)"
-    
+        
         APIHelper.makeRequest(urlString: urlString, method: "GET") { result in
             switch result {
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
-                       decoder.keyDecodingStrategy = .convertFromSnakeCase
-                       let response = try decoder.decode(AllUserMessageResponse.self, from: data)
-                       completion(.success(response))
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let response = try decoder.decode(AllUserMessageResponse.self, from: data)
+                    completion(.success(response))
                 } catch {
                     completion(.failure(error))
                 }
@@ -519,61 +519,109 @@ public class APICaller {
             }
         }
     }
-
+    
     // MARK: - Fetch all message
     static func fetchAllMessages(completion: @escaping (Result<MessageResponse, Error>) -> Void) {
         let urlString = "\(NetworkConstants.Endpoints.fetchAllMessage)"
         
-        guard let url = URL(string: urlString) else {
-            completion(.failure(URLError(.badURL)))
+        APIHelper.makeRequest(urlString: urlString, method: "GET") { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let response = try decoder.decode(MessageResponse.self, from: data)
+                    completion(.success(response))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    static func sendMessage(messageContent: String, receiverId: String, completion: @escaping (Result<SendMessageModel, Error>) -> Void) {
+        // Retrieve sender ID from token
+        guard let senderId = AuthManager.getUserIdFromToken() else {
+            print("Failed to retrieve sender ID from token")
+            completion(.failure(NSError(domain: "Failed to retrieve sender ID", code: 3, userInfo: nil)))
+            return
+        }
+        
+        print("sendMessage called with senderId: \(senderId) and receiverId: \(receiverId)")
+        
+        guard let url = URL(string: NetworkConstants.Endpoints.sendMessage) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
             return
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         if let token = AuthManager.getToken() {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         
+        // Ensure receiverId is a valid ObjectId string
+        guard receiverId.count == 24 else {
+            print("Invalid ID format. receiverId: \(receiverId)")
+            completion(.failure(NSError(domain: "Invalid ID format", code: 1, userInfo: nil)))
+            return
+        }
+
+        // Check for self-messaging
+        if senderId == receiverId {
+            print("Cannot send a message to yourself. senderId: \(senderId), receiverId: \(receiverId)")
+            completion(.failure(NSError(domain: "Cannot send a message to yourself", code: 2, userInfo: nil)))
+            return
+        }
+        
+        // Construct your request body
+        let requestBody: [String: Any] = [
+            "senderId": senderId,
+            "receiverId": receiverId,
+            "content": messageContent
+        ]
+        
+        print("Request Body: \(requestBody)")
+        
+        // Encode the request body to JSON
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+        } catch {
+            print("Failed to encode request body: \(error)")
+            completion(.failure(error))
+            return
+        }
+        
+        // Perform the network request
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
+                print("Network error: \(error)")
                 completion(.failure(error))
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(URLError(.badServerResponse)))
+            guard let data = data else {
+                print("No data received")
+                completion(.failure(NSError(domain: "No data", code: 0, userInfo: nil)))
                 return
             }
             
-            // Check for different status codes
-            switch httpResponse.statusCode {
-            case 200...299:
-                guard let data = data, !data.isEmpty else {
-                    print("No data received or data is empty")
-                    completion(.failure(URLError(.zeroByteResource)))
-                    return
-                }
-                
-//                print("Raw Data: \(String(decoding: data, as: UTF8.self))")
-                
-                do {
-                    let decoder = JSONDecoder()
-                    let messageResponse = try decoder.decode(MessageResponse.self, from: data)
-                    completion(.success(messageResponse))
-                } catch {
-                    print("Decoding Error: \(error.localizedDescription)")
-                    completion(.failure(error))
-                }
-                
-            case 404:
-                print("HTTP Status Code 404: Resource not found")
-                completion(.failure(URLError(.fileDoesNotExist)))
-                
-            default:
-                print("HTTP Status Code \(httpResponse.statusCode)")
-                completion(.failure(URLError(.badServerResponse)))
+            // Log the raw data for debugging
+            print("Response data: \(String(data: data, encoding: .utf8) ?? "No data")")
+            
+            // Decode the response
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let response = try decoder.decode(SendMessageModel.self, from: data)
+                completion(.success(response))
+            } catch {
+                print("Failed to decode response: \(error)")
+                completion(.failure(error))
             }
         }
         
