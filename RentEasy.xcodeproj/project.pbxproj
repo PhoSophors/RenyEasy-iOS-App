@@ -64,6 +64,7 @@
 		18C5E9752C73A9AC00879BD9 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C5E9742C73A9AC00879BD9 /* EditPostViewController.swift */; };
 		18C5E9772C73B1A800879BD9 /* ColorManagerUtillze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */; };
 		18C980DB2C64D04E001AA8A7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C980DA2C64D04E001AA8A7 /* Helper.swift */; };
+		18CAD4E32C871A940087DD56 /* NotificationStatusCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CAD4E22C871A940087DD56 /* NotificationStatusCheck.swift */; };
 		18E34D8C2C5F6BDD00158FFC /* MainMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */; };
 		18E46B8E2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B8D2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift */; };
 		18E46B902C7736E5002A7D5E /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E46B8F2C7736E5002A7D5E /* PhotoDetailViewController.swift */; };
@@ -140,6 +141,7 @@
 		18C5E9742C73A9AC00879BD9 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		18C5E9762C73B1A800879BD9 /* ColorManagerUtillze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManagerUtillze.swift; sourceTree = "<group>"; };
 		18C980DA2C64D04E001AA8A7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		18CAD4E22C871A940087DD56 /* NotificationStatusCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStatusCheck.swift; sourceTree = "<group>"; };
 		18E34D8B2C5F6BDD00158FFC /* MainMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessageViewController.swift; sourceTree = "<group>"; };
 		18E46B8D2C7735EF002A7D5E /* PhotoGalaryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		18E46B8F2C7736E5002A7D5E /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				18C5E9702C739DB900879BD9 /* SeeMoreOptionsUtillize.swift */,
 				184CABAC2C75BE4300700345 /* PullToRefreshHandler.swift */,
 				184CABB02C75EE3700700345 /* NavigationBarHelper.swift */,
+				18CAD4E22C871A940087DD56 /* NotificationStatusCheck.swift */,
 			);
 			path = utilize;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				181680DD2C6507240066B751 /* ForgotPasswordViewController.swift in Sources */,
 				1883ECDC2C5F43AD003861CA /* PostViewController.swift in Sources */,
 				18507C9C2C74E42100ADD2B5 /* PostViewModel.swift in Sources */,
+				18CAD4E32C871A940087DD56 /* NotificationStatusCheck.swift in Sources */,
 				1881F8482C6B14FD0008E86B /* ProfileUpdateViewController.swift in Sources */,
 				1885CD2F2C6C61CD00C2FFA5 /* HeroCollectionView.swift in Sources */,
 				18C5E9712C739DB900879BD9 /* SeeMoreOptionsUtillize.swift in Sources */,

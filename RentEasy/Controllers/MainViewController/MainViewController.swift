@@ -6,6 +6,8 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .white
+        
+        NotificationStatusCheck.shared.setCurrentViewController(self)
 
         self.tabBar.backgroundColor = .white
         self.tabBar.unselectedItemTintColor = .gray
