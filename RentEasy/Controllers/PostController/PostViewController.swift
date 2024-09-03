@@ -236,29 +236,6 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
 
-    // MARK: - UICollectionView DataSource
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedImages.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoGalaryCell", for: indexPath) as! PhotoGalaryCollectionViewCell
-        cell.delegate = self
-        
-        let image = selectedImages[indexPath.item]
-        let isRemovable = selectedImages.count > 0
-        
-        cell.configure(with: image, isRemovable: isRemovable)
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(photoTapped(_:)))
-        cell.getImageView().tag = indexPath.item
-        cell.getImageView().addGestureRecognizer(tapGestureRecognizer)
-        cell.getImageView().isUserInteractionEnabled = true
-
-        return cell
-    }
-
     // MARK: - Photo Detail Handling
     @objc private func photoTapped(_ sender: UITapGestureRecognizer) {
         guard let tappedImageView = sender.view as? UIImageView else { return }
@@ -381,4 +358,28 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
             postView.photoCollectionView.reloadData()
         }
     }
+    
+    // MARK: - UICollectionView DataSource
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return selectedImages.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoGalaryCell", for: indexPath) as! PhotoGalaryCollectionViewCell
+        cell.delegate = self
+        
+        let image = selectedImages[indexPath.item]
+        let isRemovable = selectedImages.count > 0
+        
+        cell.configure(with: image, isRemovable: isRemovable)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(photoTapped(_:)))
+        cell.getImageView().tag = indexPath.item
+        cell.getImageView().addGestureRecognizer(tapGestureRecognizer)
+        cell.getImageView().isUserInteractionEnabled = true
+
+        return cell
+    }
+
 }

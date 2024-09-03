@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import SDWebImage
 
-class MainMessageViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AddUserViewControllerDelegate {
+class MainMessageViewController: UIViewController, AddUserViewControllerDelegate {
     
     private var users: [UserInfo] = []
     private var message: [MessageModel] = []
@@ -50,7 +50,7 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
             make.bottom.equalTo(container.snp.bottom)
         }
 
-        container.isHidden = true // Set visibility to false initially
+        container.isHidden = true
         return container
     }()
 
@@ -80,7 +80,7 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         LoadingOverlay.shared.show(over: self.view)
         APICaller.fetchAllUserMessages() { [weak self] result in
             DispatchQueue.main.async {
-                self?.refreshControl.endRefreshing() // Stop the refresh control animation
+                self?.refreshControl.endRefreshing()
                 switch result {
                 case .success(let response):
                     self?.users = response.data.users
@@ -97,7 +97,7 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         LoadingOverlay.shared.show(over: self.view)
         APICaller.fetchAllMessages() { [weak self] result in
             DispatchQueue.main.async {
-                self?.refreshControl.endRefreshing() // Stop the refresh control animation
+                self?.refreshControl.endRefreshing()
                 switch result {
                 case .success(let response):
                     self?.message = response.data.messages
@@ -194,6 +194,17 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
        navigationController?.pushViewController(messageViewController, animated: true)
     }
     
+    // MARK: - Error Handling
+
+    private func showError(_ error: Error) {
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true, completion: nil)
+    }
+}
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+extension MainMessageViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     // MARK: - UICollectionViewDataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -236,12 +247,4 @@ class MainMessageViewController: UIViewController, UICollectionViewDataSource, U
         }
     }
 
-    
-    // MARK: - Error Handling
-
-    private func showError(_ error: Error) {
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true, completion: nil)
-    }
 }

@@ -22,15 +22,6 @@ class SearchViewController: UIViewController {
         return collectionView
     }()
     
-    private let noResultsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "No results found"
-        label.textAlignment = .center
-        label.textColor = .gray
-        label.backgroundColor = .yellow
-        return label
-    }()
-    
     private var posts: [RentPost] = []
     private var users: [UserInfo] = []
 
@@ -42,9 +33,7 @@ class SearchViewController: UIViewController {
         setupScrollView()
         setupSearchTextField()
         setupCollectionView()
-        setupNoResultsLabel()
         
-        noResultsLabel.isHidden = true
         view.layoutIfNeeded()
         
         collectionView.delegate = self
@@ -178,16 +167,6 @@ class SearchViewController: UIViewController {
         collectionView.delegate = self
         collectionView.isScrollEnabled = false
     }
-    
-    private func setupNoResultsLabel() {
-        containerView.addSubview(noResultsLabel)
-        noResultsLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(containerView.snp.centerX)
-            make.top.equalTo(searchTextField.snp.bottom).offset(20)
-            make.bottom.equalTo(containerView.snp.bottom).offset(-20)
-        }
-        noResultsLabel.isHidden = true
-    }
 
     private func updateCollectionViewHeight() {
         collectionView.snp.updateConstraints { make in
@@ -196,35 +175,25 @@ class SearchViewController: UIViewController {
         view.layoutIfNeeded()
     }
 
-    private func updateNoResultsLabelVisibility() {
-        let shouldHideLabel = !(posts.isEmpty && users.isEmpty)
-        noResultsLabel.isHidden = shouldHideLabel
-        print("NoResultsLabel is hidden: \(shouldHideLabel)")
-    }
-
     private func performSearch(query: String) {
-        print("Performing search with query: \(query)")
         LoadingOverlay.shared.show(over: self.view)
 
         APICaller.searchPostsAndUsers(query: query) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    print("Search successful: \(response)") // Debugging statement
                     self.posts = response.data.posts
                     self.users = response.data.users
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
-                    self.updateNoResultsLabelVisibility() // Update visibility here
                     LoadingOverlay.shared.hide()
 
                 case .failure(let error):
-                    print("Failed to search: \(error)") // Debugging statement
                     self.posts = []
                     self.users = []
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
-                    self.updateNoResultsLabelVisibility() // Update visibility here
+
                     LoadingOverlay.shared.hide()
 
                     // Correct print statement
@@ -234,8 +203,7 @@ class SearchViewController: UIViewController {
         }
     }
 
-
-    
+    // MARK: - Ation
     @objc private func messageButtonTapped() {
         let mainMessageViewController = MainMessageViewController()
         navigationController?.pushViewController(mainMessageViewController, animated: true)
@@ -247,8 +215,8 @@ class SearchViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource
-extension SearchViewController: UICollectionViewDataSource {
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, AllRentCollectionViewCellDelegate
+extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, AllRentCollectionViewCellDelegate, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }
@@ -266,18 +234,14 @@ extension SearchViewController: UICollectionViewDataSource {
         
         return cell
     }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension SearchViewController: UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.frame.width - 10) / 2
         return CGSize(width: width, height: width * 1.5)
     }
-}
-
-// MARK: - UITextFieldDelegate
-extension SearchViewController: UITextFieldDelegate {
+    
+    // MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let query = textField.text, !query.isEmpty else {
             return true
@@ -288,20 +252,16 @@ extension SearchViewController: UITextFieldDelegate {
         
         return true
     }
-}
-
-// MARK: - AllRentCollectionViewCellDelegate
-extension SearchViewController: AllRentCollectionViewCellDelegate {
+    
+    // MARK: - AllRentCollectionViewCellDelegate
     func didTapHeartButton(on cell: AllRentCollectionViewCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         var post = posts[indexPath.item]
         post.isFavorite.toggle()
         cell.isFavorite = post.isFavorite
     }
-}
-
-// MARK: - UICollectionViewDelegate
-extension SearchViewController: UICollectionViewDelegate {
+    
+    // MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Get the selected post
         let selectedPost = posts[indexPath.item]

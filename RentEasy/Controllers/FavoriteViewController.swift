@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class FavoriteViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class FavoriteViewController: UIViewController {
     
     private var collectionView: UICollectionView?
     private var viewModel = FavoriteViewModel()
@@ -119,41 +119,10 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
         viewModel.fetchFavorites()
     }
     
-    // MARK: - Collection View Data Source
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.favorites.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCollectionViewCell.identifier, for: indexPath) as? FavoriteCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        let favorite = viewModel.favorites[indexPath.row]
-        cell.configure(with: favorite)
-        
-        // Initialize SeeMoreOptionsUtilize with the current view controller
-        cell.seeMoreOptionsUtilize = SeeMoreOptionsUtilize(viewController: self)
-        
-        cell.heartIcon.addTarget(self, action: #selector(heartButtonTapped(_:)), for: .touchUpInside)
-        cell.moreIcon.addTarget(self, action: #selector(moreIconTapped(_:)), for: .touchUpInside)
-        
-        return cell
-    }
-    
     @objc private func moreIconTapped(_ sender: UIButton) {
-        // Handle the "more" button tap in the FavoriteViewController
-        // This method will be called when the "more" button is tapped
+        print("More button tapped..!")
     }
     
-    // MARK: - Collection View Delegate
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedPost = viewModel.favorites[indexPath.row].post
-        let detailViewController = PostDetailViewController()
-        detailViewController.configure(with: selectedPost)
-        navigationController?.pushViewController(detailViewController, animated: true)
-    }
     
     @objc private func heartButtonTapped(_ sender: UIButton) {
         // Safely unwrap the indexPath
@@ -254,3 +223,37 @@ class FavoriteViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
 }
 
+extension FavoriteViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - Collection View Data Source
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.favorites.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCollectionViewCell.identifier, for: indexPath) as? FavoriteCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        let favorite = viewModel.favorites[indexPath.row]
+        cell.configure(with: favorite)
+        
+        // Initialize SeeMoreOptionsUtilize with the current view controller
+        cell.seeMoreOptionsUtilize = SeeMoreOptionsUtilize(viewController: self)
+        
+        cell.heartIcon.addTarget(self, action: #selector(heartButtonTapped(_:)), for: .touchUpInside)
+        cell.moreIcon.addTarget(self, action: #selector(moreIconTapped(_:)), for: .touchUpInside)
+        
+        return cell
+    }
+    
+    // MARK: - Collection View Delegate
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedPost = viewModel.favorites[indexPath.row].post
+        let detailViewController = PostDetailViewController()
+        detailViewController.configure(with: selectedPost)
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+}

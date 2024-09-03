@@ -15,7 +15,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     private var vilaPosts: [RentPost] = []
     private var condoPosts: [RentPost] = []
     private var allPosts: [RentPost] = []
-    private var favoriteViewModel = FavoriteViewModel()
+
     var userInfo: UserInfo?
 
     override func viewDidLoad() {
@@ -28,7 +28,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setupCondoCollectionView()
        setupAllRentCollectionView()
        fetchPosts()
-       favoriteViewModel.fetchFavorites()
        
        setupNavigationBar()
    }
@@ -322,61 +321,43 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     // MARK: - Fetch Post
-    // MARK: - Fetch Post
     private func fetchPosts() {
         LoadingOverlay.shared.show(over: self.view)
-        var pendingRequests = 3
         
-        // Helper function to check if all requests are done
+        let postViewModel = PostViewModel()
+
+        var pendingRequests = 3
         func checkAllRequestsCompleted() {
             pendingRequests -= 1
             if pendingRequests == 0 {
-                // Hide loading overlay only when all requests are completed
                 LoadingOverlay.shared.hide()
             }
         }
+        
+        postViewModel.onPostsFetched = { [weak self] in
+            guard let self = self else { return }
+            // Separate posts into different categories
+            self.vilaPosts = postViewModel.allPosts.filter { $0.propertyType == "villa" }
+            self.condoPosts = postViewModel.allPosts.filter { $0.propertyType == "condo" }
+            self.allPosts = postViewModel.allPosts
 
-        // Fetch posts by property type - Villa
-        APICaller.fetchAllPostByProperty(propertytype: "villa") { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let allPostByProperty):
-                    self?.vilaPosts = allPostByProperty.data.posts
-                    self?.vilaCollectionView.reloadData()
-                case .failure(let error):
-                    print("Failed to fetch villa posts: \(error)")
-                }
-                checkAllRequestsCompleted()
-            }
+            // Reload data for each collection view
+            self.vilaCollectionView.reloadData()
+            self.condoCollectionView.reloadData()
+            self.allRentCollectionView.reloadData()
+            
+            checkAllRequestsCompleted()
         }
-        
-        // Fetch posts by property type - Condo
-        APICaller.fetchAllPostByProperty(propertytype: "condo") { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let allPostByProperty):
-                    self?.condoPosts = allPostByProperty.data.posts
-                    self?.condoCollectionView.reloadData()
-                case .failure(let error):
-                    print("Failed to fetch condo posts: \(error)")
-                }
-                checkAllRequestsCompleted()
-            }
+
+        postViewModel.onError = { error in
+            // Handle error
+            print("Failed to fetch posts: \(error)")
+            checkAllRequestsCompleted()
         }
-        
-        // Fetch all posts
-        APICaller.fetchAllPosts { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let allPostsResponse):
-                    self?.allPosts = allPostsResponse.data.posts
-                    self?.allRentCollectionView.reloadData()
-                case .failure(let error):
-                    print("Failed to fetch all posts: \(error)")
-                }
-                checkAllRequestsCompleted()
-            }
-        }
+
+        postViewModel.fetchPosts(by: "villa")
+        postViewModel.fetchPosts(by: "condo")
+        postViewModel.fetchPosts(by: nil)
     }
 
     // MARK: - UICollectionViewDataSource for Vila
@@ -392,49 +373,29 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     // MARK: - UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == vilaCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllRentCollectionViewCell.identifier, for: indexPath) as? AllRentCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-
-            let post = vilaPosts[indexPath.item]
-            let imageUrl = post.images.first
-            let isFavorite = favoriteViewModel.isFavorite(postId: post.id)
-
-            cell.configure(with: imageUrl, title: post.title, location: post.location, property: post.propertyType, price: post.price)
-            cell.isFavorite = isFavorite
-            cell.delegate = self
-
-            return cell
-        } else if collectionView == condoCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllRentCollectionViewCell.identifier, for: indexPath) as? AllRentCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-
-            let post = condoPosts[indexPath.item]
-            let imageUrl = post.images.first
-            let isFavorite = favoriteViewModel.isFavorite(postId: post.id)
-
-            cell.configure(with: imageUrl, title: post.title, location: post.location, property: post.propertyType, price: post.price)
-            cell.isFavorite = isFavorite
-            cell.delegate = self
-
-            return cell
-        } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllRentCollectionViewCell.identifier, for: indexPath) as? AllRentCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-
-            let post = allPosts[indexPath.item]
-            let imageUrl = post.images.first
-            let isFavorite = favoriteViewModel.isFavorite(postId: post.id)
-
-            cell.configure(with: imageUrl, title: post.title, location: post.location, property: post.propertyType, price: post.price)
-            cell.isFavorite = isFavorite
-            cell.delegate = self
-
-            return cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllRentCollectionViewCell.identifier, for: indexPath) as? AllRentCollectionViewCell else {
+            return UICollectionViewCell()
         }
+        
+        let post: RentPost
+        let imageUrlString: String?
+        
+        switch collectionView {
+        case vilaCollectionView:
+            post = vilaPosts[indexPath.item]
+        case condoCollectionView:
+            post = condoPosts[indexPath.item]
+        default:
+            post = allPosts[indexPath.item]
+        }
+        
+        // Use the image URL string directly
+        imageUrlString = post.images.first
+        
+        cell.configure(with: imageUrlString, title: post.title, location: post.location, property: post.propertyType, price: post.price)
+        cell.delegate = self
+        
+        return cell
     }
     
     // MARK: - UICollectionViewDelegate
@@ -466,50 +427,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     func didTapHeartButton(on cell: AllRentCollectionViewCell) {
-        guard let indexPath = findIndexPath(for: cell) else {
-            print("Error: Unable to determine indexPath for cell")
-            return
-        }
-
-        guard let userInfo = userInfo else {
-            print("Error: userInfo is not available")
-            return
-        }
-
-        let (postId, collectionView) = postIdAndCollectionView(for: cell, indexPath: indexPath)
-        
-        let isCurrentlyFavorite = userInfo.favorites.contains(postId)
-        let newFavoriteStatus = !isCurrentlyFavorite
-
-        if newFavoriteStatus {
-            favoriteViewModel.addFavorite(postId: postId) { [weak self] result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let message):
-                        print("Added Post to Favorites successfully: \(message)")
-                        cell.isFavorite = true
-                        self?.updatePosts(postId: postId, isFavorite: true)
-                        collectionView.reloadItems(at: [indexPath])
-                    case .failure(let error):
-                        print("Failed to add favorite: \(error)")
-                    }
-                }
-            }
-        } else {
-            favoriteViewModel.removeFavorite(postId: postId) { [weak self] result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let message):
-                        print("Removed Post from Favorites successfully: \(message)")
-                        cell.isFavorite = false
-                        self?.updatePosts(postId: postId, isFavorite: false)
-                        collectionView.reloadItems(at: [indexPath])
-                    case .failure(let error):
-                        print("Failed to remove favorite: \(error)")
-                    }
-                }
-            }
-        }
+       
     }
 
     private func findIndexPath(for cell: AllRentCollectionViewCell) -> IndexPath? {

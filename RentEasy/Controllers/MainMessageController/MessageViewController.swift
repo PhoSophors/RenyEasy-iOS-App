@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class MessageViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class MessageViewController: UIViewController {
 
     var user: UserInfo?
     private var messages: [MessageModel] = []
@@ -218,33 +218,6 @@ class MessageViewController: UIViewController, UICollectionViewDataSource, UICol
         view.layoutIfNeeded()
     }
 
-
-    // MARK: - UICollectionViewDataSource
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messages.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MessageCollectionViewCell", for: indexPath) as! MessageCollectionViewCell
-        let message = messages[indexPath.item]
-
-        if let user = self.user {
-            cell.configure(with: user, message: message)
-        }
-
-        return cell
-    }
-
-    // MARK: - UICollectionViewDelegateFlowLayout
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width
-        return CGSize(width: width, height: 50)
-    }
-
-   
-
     // MARK: - Message Sending
 
     @objc private func sendMessage() {
@@ -316,4 +289,33 @@ class MessageViewController: UIViewController, UICollectionViewDataSource, UICol
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+}
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+extension MessageViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - UICollectionViewDataSource
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return messages.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MessageCollectionViewCell", for: indexPath) as! MessageCollectionViewCell
+        let message = messages[indexPath.item]
+
+        if let user = self.user {
+            cell.configure(with: user, message: message)
+        }
+
+        return cell
+    }
+
+    // MARK: - UICollectionViewDelegateFlowLayout
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width
+        return CGSize(width: width, height: 50)
+    }
+    
 }
