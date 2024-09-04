@@ -16,6 +16,8 @@ class AddUserViewController: UIViewController {
     private let searchTextField = UITextField()
     private var collectionView: UICollectionView!
 
+    // MARK: - UI Element
+    
     private let searchPromptLabel: UIView = {
         let container = UIView()
         
@@ -92,31 +94,36 @@ class AddUserViewController: UIViewController {
         setupScrollView()
         setupSearchTextField()
         setupCollectionView()
+        scrollView.delegate = self
         collectionView.dataSource = self
         collectionView.delegate = self
         searchTextField.delegate = self
         
-        // Add keyboard observers
+        // Keyboard observers
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-//        let dismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-//        view.addGestureRecognizer(dismissKeyboard)
+    
+        // Gesture to dismiss keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
         
         // Fetch initial data
         performSearch(query: "")
     }
 
-//    @objc private func dismissKeyboard() {
-//        view.endEditing(true)
-//    }
     
-    deinit {
-        // Remove keyboard observers
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 
+    // MARK: - Private Helper Methods
+    
     private func setupScrollView() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -132,27 +139,43 @@ class AddUserViewController: UIViewController {
     }
 
     private func setupSearchTextField() {
-        contentView.addSubview(searchTextField)
-        
         searchTextField.placeholder = "Search users..."
-        searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
+        searchTextField.borderStyle = .none
+        searchTextField.clearButtonMode = .whileEditing
+        searchTextField.returnKeyType = .search
+        searchTextField.autocorrectionType = .no
+        searchTextField.autocapitalizationType = .none
+        searchTextField.backgroundColor = ColorManagerUtilize.shared.white
+        searchTextField.delegate = self
         
         searchTextField.backgroundColor = ColorManagerUtilize.shared.lightGray
         searchTextField.layer.cornerRadius = 10
         searchTextField.layer.borderWidth = 0
         searchTextField.layer.borderColor = UIColor.clear.cgColor
         
-        // Add padding to text
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 40))
+        let searchIcon = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        searchIcon.tintColor = .gray
+        searchIcon.contentMode = .scaleAspectFit
+
+        let padding: CGFloat = 20
+        let iconWidth: CGFloat = 20.0
+        searchIcon.frame = CGRect(x: 0, y: 0, width: iconWidth, height: iconWidth)
+
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: iconWidth + padding, height: iconWidth))
+        paddingView.addSubview(searchIcon)
+        searchIcon.center = CGPoint(x: paddingView.frame.size.width / 2, y: paddingView.frame.size.height / 2)
+        
         searchTextField.leftView = paddingView
         searchTextField.leftViewMode = .always
 
+        contentView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top).offset(0)
             make.leading.equalTo(contentView.snp.leading).inset(8)
             make.trailing.equalTo(contentView.snp.trailing).inset(8)
             make.height.equalTo(40)
         }
+        searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
     }
 
     private func setupCollectionView() {
@@ -184,20 +207,6 @@ class AddUserViewController: UIViewController {
             make.top.equalTo(searchTextField.snp.bottom).offset(100)
             make.centerX.equalTo(contentView.snp.centerX)
         }
-    }
-
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        if let userInfo = notification.userInfo,
-           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-            let keyboardHeight = keyboardFrame.height
-            scrollView.contentInset.bottom = keyboardHeight
-            scrollView.scrollIndicatorInsets.bottom = keyboardHeight
-        }
-    }
-
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        scrollView.contentInset.bottom = 0
-        scrollView.scrollIndicatorInsets.bottom = 0
     }
 
     private func performSearch(query: String) {
@@ -233,6 +242,8 @@ class AddUserViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Action Methods
 
     @objc private func searchTextChanged() {
         guard let searchText = searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchText.isEmpty else {
@@ -243,8 +254,37 @@ class AddUserViewController: UIViewController {
         
         performSearch(query: searchText)
     }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        if let userInfo = notification.userInfo,
+           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardHeight = keyboardFrame.height
+            scrollView.contentInset.bottom = keyboardHeight
+            scrollView.scrollIndicatorInsets.bottom = keyboardHeight
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        scrollView.contentInset.bottom = 0
+        scrollView.scrollIndicatorInsets.bottom = 0
+    }
+    
+    @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: view)
+        if !searchTextField.frame.contains(location) {
+            view.endEditing(true)
+        }
+    }
+    
+    deinit {
+        // Remove keyboard observers
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
    
 }
+
+// MARK: - Extensions for Delegates
 
 extension AddUserViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
     // MARK: - UICollectionViewDataSource

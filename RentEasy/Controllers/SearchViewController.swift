@@ -3,11 +3,14 @@ import SnapKit
 
 class SearchViewController: UIViewController {
 
+    // MARK: - Properties
     private var posts: [RentPost] = []
     private var filteredPost: [RentPost] = []
     private var users: [UserInfo] = []
     
     private var searchTextField: UITextField!
+    
+    // MARK: - UI Element
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -98,6 +101,7 @@ class SearchViewController: UIViewController {
         return container
     }()
 
+    // MARK: - Lifecycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -107,11 +111,30 @@ class SearchViewController: UIViewController {
         setupCollectionView()
         
         searchTextField.delegate = self
+        scrollView.delegate = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.isScrollEnabled = false
         
         performSearch(query: "")
+        
+        // Gesture to dismiss keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
-    // MARK: - setupNavigationBar
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
+        
+    // MARK: - Private Helper Methods
+    
     private func setupNavigationBar() {
         // Set up the left label
         let leftLabel = UILabel()
@@ -184,14 +207,17 @@ class SearchViewController: UIViewController {
     
     private func setupSearchTextField() {
         searchTextField = UITextField()
+        
         searchTextField.placeholder = "Search..."
         searchTextField.borderStyle = .none
         searchTextField.clearButtonMode = .whileEditing
         searchTextField.returnKeyType = .search
         searchTextField.autocorrectionType = .no
         searchTextField.autocapitalizationType = .none
-        searchTextField.backgroundColor = ColorManagerUtilize.shared.white
-        searchTextField.delegate = self
+        searchTextField.backgroundColor = ColorManagerUtilize.shared.lightGray
+        searchTextField.layer.cornerRadius = 10
+        searchTextField.layer.borderWidth = 0
+        searchTextField.layer.borderColor = UIColor.clear.cgColor
         
         let searchIcon = UIImageView(image: UIImage(systemName: "magnifyingglass"))
         searchIcon.tintColor = .gray
@@ -207,11 +233,6 @@ class SearchViewController: UIViewController {
         
         searchTextField.leftView = paddingView
         searchTextField.leftViewMode = .always
-
-        searchTextField.layer.cornerRadius = 20
-        searchTextField.layer.borderWidth = 1
-        searchTextField.backgroundColor = nil
-        searchTextField.layer.borderColor = ColorManagerUtilize.shared.deepCharcoal.cgColor
 
         containerView.addSubview(searchTextField)
 
@@ -229,10 +250,6 @@ class SearchViewController: UIViewController {
         containerView.addSubview(collectionView)
         containerView.addSubview(searchPromptLabel)
         containerView.addSubview(noPostLabel)
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.isScrollEnabled = false
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(20)
@@ -253,7 +270,6 @@ class SearchViewController: UIViewController {
         }
     }
 
-
     private func updateCollectionViewHeight() {
         collectionView.snp.updateConstraints { make in
             make.height.equalTo(collectionView.collectionViewLayout.collectionViewContentSize.height)
@@ -261,6 +277,7 @@ class SearchViewController: UIViewController {
         view.layoutIfNeeded()
     }
 
+    // MARK: - Search Handling Methods
     private func performSearch(query: String) {
         guard !query.isEmpty else {
             self.posts = []
@@ -298,6 +315,8 @@ class SearchViewController: UIViewController {
         }
     }
     
+    // MARK: - Action Methods
+    
     @objc private func searchTextChanged() {
         guard let searchText = searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchText.isEmpty else {
             filteredPost = []
@@ -307,8 +326,7 @@ class SearchViewController: UIViewController {
         
         performSearch(query: searchText)
     }
-
-    // MARK: - Ation
+   
     @objc private func messageButtonTapped() {
         let mainMessageViewController = MainMessageViewController()
         navigationController?.pushViewController(mainMessageViewController, animated: true)
@@ -318,9 +336,17 @@ class SearchViewController: UIViewController {
         let notificationViewController = NotificationViewController()
         navigationController?.pushViewController(notificationViewController, animated: true)
     }
+    
+    @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: view)
+        if !searchTextField.frame.contains(location) {
+            view.endEditing(true)
+        }
+    }
+    
 }
 
-// MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, AllRentCollectionViewCellDelegate
+// MARK: - Extensions for Delegates
 
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, AllRentCollectionViewCellDelegate, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
