@@ -3,16 +3,23 @@ import SnapKit
 
 class SearchViewController: UIViewController {
 
+    private var posts: [RentPost] = []
+    private var filteredPost: [RentPost] = []
+    private var users: [UserInfo] = []
+    
     private var searchTextField: UITextField!
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .clear
         return scrollView
     }()
+    
     private let containerView: UIView = {
         let view = UIView()
         return view
     }()
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -22,21 +29,86 @@ class SearchViewController: UIViewController {
         return collectionView
     }()
     
-    private var posts: [RentPost] = []
-    private var users: [UserInfo] = []
+    private let searchPromptLabel: UIView = {
+        let container = UIView()
+        
+        // Icon
+        let iconImageView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
+        container.addSubview(iconImageView)
+        
+        // Text
+        let textLabel = UILabel()
+        textLabel.text = "Find post by title, description, \nlocation, and property."
+        textLabel.textAlignment = .center
+        textLabel.textColor = .gray
+        textLabel.numberOfLines = 0
+        textLabel.font = UIFont.systemFont(ofSize: 18)
+        container.addSubview(textLabel)
+        
+        // Add constraints
+        iconImageView.snp.makeConstraints { make in
+            make.top.equalTo(container.snp.top)
+            make.centerX.equalTo(container.snp.centerX)
+            make.width.height.equalTo(100)
+        }
+        
+        textLabel.snp.makeConstraints { make in
+            make.top.equalTo(iconImageView.snp.bottom).offset(8)
+            make.centerX.equalTo(container.snp.centerX)
+            make.bottom.equalTo(container.snp.bottom)
+        }
+        
+        container.isHidden = true
+        return container
+    }()
+
+    private let noPostLabel: UIView = {
+        let container = UIView()
+        
+        // Icon
+        let iconImageView = UIImageView(image: UIImage(systemName: "exclamationmark.circle"))
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
+        container.addSubview(iconImageView)
+        
+        // Text
+        let textLabel = UILabel()
+        textLabel.text = "No post found."
+        textLabel.textAlignment = .center
+        textLabel.textColor = .gray
+        textLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        container.addSubview(textLabel)
+        
+        // Add constraints
+        iconImageView.snp.makeConstraints { make in
+            make.top.equalTo(container.snp.top)
+            make.centerX.equalTo(container.snp.centerX)
+            make.width.height.equalTo(100)
+        }
+        
+        textLabel.snp.makeConstraints { make in
+            make.top.equalTo(iconImageView.snp.bottom).offset(8)
+            make.centerX.equalTo(container.snp.centerX)
+            make.bottom.equalTo(container.snp.bottom)
+        }
+        
+        container.isHidden = true
+        return container
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = ColorManagerUtilize.shared.white
-        setupNavigationBar()
         
+        setupNavigationBar()
         setupScrollView()
         setupSearchTextField()
         setupCollectionView()
         
-        view.layoutIfNeeded()
+        searchTextField.delegate = self
         
-        collectionView.delegate = self
+        performSearch(query: "")
     }
     
     // MARK: - setupNavigationBar
@@ -108,8 +180,8 @@ class SearchViewController: UIViewController {
             make.edges.equalToSuperview()
             make.width.equalTo(scrollView)
         }
-
     }
+    
     private func setupSearchTextField() {
         searchTextField = UITextField()
         searchTextField.placeholder = "Search..."
@@ -121,12 +193,10 @@ class SearchViewController: UIViewController {
         searchTextField.backgroundColor = ColorManagerUtilize.shared.white
         searchTextField.delegate = self
         
-        // Create a search icon
         let searchIcon = UIImageView(image: UIImage(systemName: "magnifyingglass"))
-        searchIcon.tintColor = .gray // Set color for the icon
+        searchIcon.tintColor = .gray
         searchIcon.contentMode = .scaleAspectFit
 
-        // Set padding
         let padding: CGFloat = 20
         let iconWidth: CGFloat = 20.0
         searchIcon.frame = CGRect(x: 0, y: 0, width: iconWidth, height: iconWidth)
@@ -138,7 +208,6 @@ class SearchViewController: UIViewController {
         searchTextField.leftView = paddingView
         searchTextField.leftViewMode = .always
 
-        // Set corner radius
         searchTextField.layer.cornerRadius = 20
         searchTextField.layer.borderWidth = 1
         searchTextField.backgroundColor = nil
@@ -152,10 +221,19 @@ class SearchViewController: UIViewController {
             make.right.equalTo(containerView).offset(-10)
             make.height.equalTo(40)
         }
+
+        searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
     }
 
     private func setupCollectionView() {
         containerView.addSubview(collectionView)
+        containerView.addSubview(searchPromptLabel)
+        containerView.addSubview(noPostLabel)
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.isScrollEnabled = false
+        
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(20)
             make.left.equalTo(containerView).offset(10)
@@ -163,10 +241,18 @@ class SearchViewController: UIViewController {
             make.bottom.equalTo(containerView).offset(-10)
             make.height.equalTo(0)
         }
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.isScrollEnabled = false
+       
+        searchPromptLabel.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom).offset(150)
+            make.centerX.equalTo(containerView.snp.centerX)
+        }
+        
+        noPostLabel.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom).offset(150)
+            make.centerX.equalTo(containerView.snp.centerX)
+        }
     }
+
 
     private func updateCollectionViewHeight() {
         collectionView.snp.updateConstraints { make in
@@ -176,6 +262,15 @@ class SearchViewController: UIViewController {
     }
 
     private func performSearch(query: String) {
+        guard !query.isEmpty else {
+            self.posts = []
+            self.filteredPost = []
+            self.collectionView.reloadData()
+            searchPromptLabel.isHidden = false
+            noPostLabel.isHidden = true
+            return
+        }
+        
         LoadingOverlay.shared.show(over: self.view)
 
         APICaller.searchPostsAndUsers(query: query) { result in
@@ -183,24 +278,34 @@ class SearchViewController: UIViewController {
                 switch result {
                 case .success(let response):
                     self.posts = response.data.posts
-                    self.users = response.data.users
+                    self.filteredPost = self.posts
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
+                    self.searchPromptLabel.isHidden = true
+                    self.noPostLabel.isHidden = !self.filteredPost.isEmpty
                     LoadingOverlay.shared.hide()
 
-                case .failure(let error):
+                case .failure(_):
                     self.posts = []
-                    self.users = []
+                    self.filteredPost = []
                     self.collectionView.reloadData()
                     self.updateCollectionViewHeight()
+                    self.searchPromptLabel.isHidden = !self.filteredPost.isEmpty
+                    self.noPostLabel.isHidden = true
 
-                    LoadingOverlay.shared.hide()
-
-                    // Correct print statement
-                    print("Posts after failure: \(self.posts)")
                 }
             }
         }
+    }
+    
+    @objc private func searchTextChanged() {
+        guard let searchText = searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchText.isEmpty else {
+            filteredPost = []
+            collectionView.reloadData()
+            return
+        }
+        
+        performSearch(query: searchText)
     }
 
     // MARK: - Ation
@@ -216,9 +321,10 @@ class SearchViewController: UIViewController {
 }
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, AllRentCollectionViewCellDelegate
+
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, AllRentCollectionViewCellDelegate, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return filteredPost.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -226,10 +332,9 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
             fatalError("Cannot dequeue AllRentCollectionViewCell")
         }
         
-        let post = posts[indexPath.item]
+        let post = filteredPost[indexPath.item]
         let firstImageURL = post.images.first
         cell.configure(with: firstImageURL, title: post.title, location: post.location, property: post.propertyType, price: post.price)
-        cell.isFavorite = post.isFavorite
         cell.delegate = self
         
         return cell
@@ -241,38 +346,18 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         return CGSize(width: width, height: width * 1.5)
     }
     
-    // MARK: - UITextFieldDelegate
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        guard let query = textField.text, !query.isEmpty else {
-            return true
-        }
-        
-        textField.resignFirstResponder()
-        performSearch(query: query)
-        
-        return true
-    }
-    
     // MARK: - AllRentCollectionViewCellDelegate
     func didTapHeartButton(on cell: AllRentCollectionViewCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        var post = posts[indexPath.item]
-        post.isFavorite.toggle()
-        cell.isFavorite = post.isFavorite
+        var post = filteredPost[indexPath.item]
     }
     
     // MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // Get the selected post
-        let selectedPost = posts[indexPath.item]
-
-        // Initialize the PostDetailViewController
+        let selectedPost = filteredPost[indexPath.item]
         let detailViewController = PostDetailViewController()
 
-        // Configure the detailViewController with the selected post data
         detailViewController.configure(with: selectedPost)
-
-        // Push the detailViewController onto the navigation stack
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

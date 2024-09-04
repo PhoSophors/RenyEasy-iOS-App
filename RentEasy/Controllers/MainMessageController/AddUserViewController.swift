@@ -5,7 +5,7 @@ protocol AddUserViewControllerDelegate: AnyObject {
     func didSelectUser(_ user: UserInfo)
 }
 
-class AddUserViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
+class AddUserViewController: UIViewController {
     weak var delegate: AddUserViewControllerDelegate?
 
     private var users: [UserInfo] = []
@@ -20,7 +20,7 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
         let container = UIView()
         
         // Icon
-        let iconImageView = UIImageView(image: UIImage(systemName: "magnifyingglass")) // Adjust icon as needed
+        let iconImageView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
         container.addSubview(iconImageView)
@@ -30,7 +30,7 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
         textLabel.text = "Please search user to send a message."
         textLabel.textAlignment = .center
         textLabel.textColor = .gray
-        textLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        textLabel.font = UIFont.systemFont(ofSize: 18)
         container.addSubview(textLabel)
         
         // Add constraints
@@ -99,6 +99,7 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
         // Add keyboard observers
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
 //        let dismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
 //        view.addGestureRecognizer(dismissKeyboard)
         
@@ -154,7 +155,6 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
         }
     }
 
-
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -205,7 +205,7 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
             self.users = []
             self.filteredUsers = []
             self.collectionView.reloadData()
-            searchPromptLabel.isHidden = false // Show searchPromptLabel when query is empty
+            searchPromptLabel.isHidden = false
             noUsersLabel.isHidden = true
             return
         }
@@ -223,7 +223,7 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
                     self.noUsersLabel.isHidden = !self.filteredUsers.isEmpty
                     LoadingOverlay.shared.hide()
                     
-                case .failure(let error):
+                case .failure(_):
                     self.users = []
                     self.filteredUsers = []
                     self.collectionView.reloadData()
@@ -243,7 +243,10 @@ class AddUserViewController: UIViewController, UICollectionViewDataSource, UICol
         
         performSearch(query: searchText)
     }
+   
+}
 
+extension AddUserViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
     // MARK: - UICollectionViewDataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
