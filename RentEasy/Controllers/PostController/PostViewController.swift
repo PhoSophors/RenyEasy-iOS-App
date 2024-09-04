@@ -32,7 +32,6 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         view.endEditing(true)
     }
     
-    
     // MARK: - setupNavigationBar
     private func setupNavigationBar() {
         // Set up the left label

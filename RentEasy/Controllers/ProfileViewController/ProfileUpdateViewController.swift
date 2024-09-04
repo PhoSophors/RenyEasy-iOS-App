@@ -13,7 +13,7 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
 
     // Default images
     private let defaultProfileImage =  UIImage(systemName: "person.crop.circle.fill")
-    private let defaultCoverImage = UIImage(named: "defaultCoverImage")
+    private let defaultCoverImage = UIImage(named: "photo.badge.plus.fill")
 
     // Gray background color for cover image
     private let grayBackgroundColor = UIColor.gray
@@ -24,6 +24,18 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
         
         setupView()
         populateUserData()
+        
+        // Register for keyboard notifications
+       NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        // Dismiss keybaord
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     // Initialize with user data
@@ -51,7 +63,7 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
         
         profileUpdateView.usernameTextField.text = userInfo.username
         profileUpdateView.emailTextField.text = userInfo.email
-        profileUpdateView.bioTextField.text = userInfo.bio
+        profileUpdateView.bioTextView.text = userInfo.bio
         profileUpdateView.locationTextField.text = userInfo.location
         
         // Set profile image and icon color
@@ -106,12 +118,9 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
             selectedImage = image
             if isCoverImage {
                 profileUpdateView.coverImageView.image = image
-                profileUpdateView.addCoverLabel.isHidden = true
-                profileUpdateView.photoIconImageView.isHidden = false
                 profileUpdateView.coverImageView.backgroundColor = .clear
             } else {
                 profileUpdateView.profileImageView.image = image
-                profileUpdateView.photoIconImageView.isHidden = false
             }
             updateImageData()
         }
@@ -141,6 +150,40 @@ class ProfileUpdateViewController: UIViewController, UIImagePickerControllerDele
     private func convertImageToData(_ image: UIImage) -> Data? {
         return image.jpegData(compressionQuality: 0.8)
     }
+    
+    // MARK: - Keyboard Notifications
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.height
+        
+        profileUpdateView.saveButton.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(-keyboardHeight - 0)
+        }
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        profileUpdateView.saveButton.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(-0)
+        }
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    deinit {
+       NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+       NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+   }
 }
 
 // MARK: - ProfileUpdateViewDelegate
@@ -185,7 +228,7 @@ extension ProfileUpdateViewController: UpdateProfileViewDelegate {
     private func getUpdatedProfileInfo() -> UpdateProfile? {
         let username = profileUpdateView.usernameTextField.text ?? ""
         let email = profileUpdateView.emailTextField.text ?? ""
-        let bio = profileUpdateView.bioTextField.text
+        let bio = profileUpdateView.bioTextView.text
         let location = profileUpdateView.locationTextField.text
         
         return UpdateProfile(username: username, email: email, bio: bio, location: location)

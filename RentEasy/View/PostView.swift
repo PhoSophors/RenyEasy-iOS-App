@@ -265,6 +265,8 @@ class PostView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewD
         textField.layer.borderColor = UIColor.clear.cgColor
     }
 
+    // MARK: - UITextViewDelegate methods
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.layer.borderColor = ColorManagerUtilize.shared.deepGreen.cgColor
     }
