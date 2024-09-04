@@ -71,17 +71,18 @@ class SearchViewController: UIViewController {
         let container = UIView()
         
         // Icon
-        let iconImageView = UIImageView(image: UIImage(systemName: "exclamationmark.circle"))
+        let iconImageView = UIImageView(image: UIImage(systemName: "building.2.fill"))
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
         container.addSubview(iconImageView)
         
         // Text
         let textLabel = UILabel()
-        textLabel.text = "No post found."
+        textLabel.text = "No posts found. Try adjusting your search \nfilters or check back later!"
+        textLabel.numberOfLines = 0
         textLabel.textAlignment = .center
         textLabel.textColor = .gray
-        textLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        textLabel.font = UIFont.systemFont(ofSize: 18)
         container.addSubview(textLabel)
         
         // Add constraints
@@ -276,7 +277,7 @@ class SearchViewController: UIViewController {
         }
         view.layoutIfNeeded()
     }
-
+    
     // MARK: - Search Handling Methods
     private func performSearch(query: String) {
         guard !query.isEmpty else {
@@ -285,6 +286,7 @@ class SearchViewController: UIViewController {
             self.collectionView.reloadData()
             searchPromptLabel.isHidden = false
             noPostLabel.isHidden = true
+            LoadingOverlay.shared.hide()
             return
         }
         
@@ -309,7 +311,7 @@ class SearchViewController: UIViewController {
                     self.updateCollectionViewHeight()
                     self.searchPromptLabel.isHidden = !self.filteredPost.isEmpty
                     self.noPostLabel.isHidden = true
-
+                    LoadingOverlay.shared.hide()
                 }
             }
         }

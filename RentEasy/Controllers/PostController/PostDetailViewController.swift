@@ -3,10 +3,10 @@ import SnapKit
 
 class PostDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    var postID: String?
+//    var postID: String?
     private var user: UserInfo?
     
-    private var post: RentPost?
+     var post: RentPost?
     private let pageControl = UIPageControl()
     private let scrollView = UIScrollView()
     private let contentView = UIView()

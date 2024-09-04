@@ -323,36 +323,34 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // MARK: - Fetch Post
     private func fetchPosts() {
         LoadingOverlay.shared.show(over: self.view)
-        
+
         let postViewModel = PostViewModel()
 
-        var pendingRequests = 3
-        func checkAllRequestsCompleted() {
-            pendingRequests -= 1
-            if pendingRequests == 0 {
+        var fetchCompletionCount = 0
+        let totalFetches = 3
+
+        func handleCompletion() {
+            fetchCompletionCount += 1
+            if fetchCompletionCount == totalFetches {
                 LoadingOverlay.shared.hide()
+                // Update UI after all fetches are completed
+                self.vilaPosts = postViewModel.allPosts.filter { $0.propertyType == "villa" }
+                self.condoPosts = postViewModel.allPosts.filter { $0.propertyType == "condo" }
+                self.allPosts = postViewModel.allPosts
+
+                self.vilaCollectionView.reloadData()
+                self.condoCollectionView.reloadData()
+                self.allRentCollectionView.reloadData()
             }
         }
-        
-        postViewModel.onPostsFetched = { [weak self] in
-            guard let self = self else { return }
-            // Separate posts into different categories
-            self.vilaPosts = postViewModel.allPosts.filter { $0.propertyType == "villa" }
-            self.condoPosts = postViewModel.allPosts.filter { $0.propertyType == "condo" }
-            self.allPosts = postViewModel.allPosts
 
-            // Reload data for each collection view
-            self.vilaCollectionView.reloadData()
-            self.condoCollectionView.reloadData()
-            self.allRentCollectionView.reloadData()
-            
-            checkAllRequestsCompleted()
+        postViewModel.onPostsFetched = {
+            handleCompletion()
         }
 
         postViewModel.onError = { error in
-            // Handle error
             print("Failed to fetch posts: \(error)")
-            checkAllRequestsCompleted()
+            handleCompletion()
         }
 
         postViewModel.fetchPosts(by: "villa")

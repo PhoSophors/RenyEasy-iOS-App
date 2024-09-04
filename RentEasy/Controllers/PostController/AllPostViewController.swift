@@ -22,17 +22,18 @@ class AllPostViewController: UIViewController, UICollectionViewDataSource, UICol
         let container = UIView()
         
         // Icon
-        let iconImageView = UIImageView(image: UIImage(systemName: "exclamationmark.circle"))
+        let iconImageView = UIImageView(image: UIImage(systemName: "building.2.fill"))
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
         container.addSubview(iconImageView)
         
         // Text
         let textLabel = UILabel()
-        textLabel.text = "No post found."
+        textLabel.text = "No posts found for the selected property \ntype. Try adjusting your filters or check \nout other categories!"
+        textLabel.numberOfLines = 0
         textLabel.textAlignment = .center
         textLabel.textColor = .gray
-        textLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        textLabel.font = UIFont.systemFont(ofSize: 18)
         container.addSubview(textLabel)
         
         // Add constraints

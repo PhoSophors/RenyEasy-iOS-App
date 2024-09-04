@@ -56,7 +56,7 @@ class AddUserViewController: UIViewController {
         let container = UIView()
         
         // Icon
-        let iconImageView = UIImageView(image: UIImage(systemName: "exclamationmark.circle"))
+        let iconImageView = UIImageView(image: UIImage(systemName: "person.crop.circle.badge.xmark"))
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.tintColor = ColorManagerUtilize.shared.forestGreen
         container.addSubview(iconImageView)

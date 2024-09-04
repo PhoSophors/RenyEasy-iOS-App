@@ -26,8 +26,7 @@ class PostViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let allPostByProperty):
-                    self?.allPosts = allPostByProperty.data.posts
-                    self?.onPostsFetched?()
+                    self?.updatePosts(with: allPostByProperty.data.posts)
                 case .failure(let error):
                     self?.onError?(error)
                 }
@@ -40,12 +39,16 @@ class PostViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let allPostsResponse):
-                    self?.allPosts = allPostsResponse.data.posts
-                    self?.onPostsFetched?()
+                    self?.updatePosts(with: allPostsResponse.data.posts)
                 case .failure(let error):
                     self?.onError?(error)
                 }
             }
         }
+    }
+
+    private func updatePosts(with posts: [RentPost]) {
+        self.allPosts = posts
+        self.onPostsFetched?()
     }
 }
